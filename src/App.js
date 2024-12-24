@@ -8,6 +8,7 @@ import LaunchingSection from './components/LaunchingSection';
 import Footer from './components/Footer';
 import Navbar from './components/navigation/Navbar';
 import BusinessPage from './components/BusinessPage'; // Import the BusinessPage component
+import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage component
 
 function App() {
   return (
@@ -15,16 +16,25 @@ function App() {
       <div className="App">
         <Navbar /> {/* Render the Navbar */}
         <Routes>
-          <Route path="/" element={
-            <>
-              <LandingPage />
-              <ProblemSection />
-              <SolutionPage />
-              <LaunchingSection />
-              <Footer />
-            </>
-          } />
+          {/* Main Landing Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                <LandingPage />
+                <ProblemSection />
+                <SolutionPage />
+                <LaunchingSection />
+                <Footer />
+              </>
+            }
+          />
+
+          {/* Business Page */}
           <Route path="/business" element={<BusinessPage />} />
+
+          {/* Waitlist Page */}
+          <Route path="/waitlist" element={<WaitlistPage />} />
         </Routes>
       </div>
     </Router>

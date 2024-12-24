@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 const IndustriesOfBenefit = () => {
   const industries = [
@@ -19,7 +18,7 @@ const IndustriesOfBenefit = () => {
 
   return (
     <section className="industries-of-benefit bg-[#dff6f0] pt-16 pb-6 px-8 relative overflow-hidden">
-      {/* Mint Wave - Adjusted position */}
+      {/* Mint Wave */}
       <div className="absolute -top-1 left-0 w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,44 +34,39 @@ const IndustriesOfBenefit = () => {
         </svg>
       </div>
 
-      {/* Header - Adjusted margin */}
-      <motion.div
-        className="text-center mb-8 relative z-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
+      {/* Header */}
+      <div className="text-center mb-8 relative z-10">
         <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
           Industries of <span className="text-green-500">Benefit</span>
         </h2>
         <p className="text-lg text-gray-600 mt-3 leading-relaxed">
-          Unlock new potential with HouseTabz by supporting shared households across multiple industries.
+          Unlock new potential with HouseTabz by supporting shared households.
         </p>
-      </motion.div>
+      </div>
 
       {/* Moving Banner */}
       <div className="marquee-container mt-4 relative z-10">
-        <div className="marquee-content flex gap-6">
-          {industries.map((industry, index) => (
-            <motion.div
-              key={index}
-              className="text-lg md:text-xl font-semibold bg-white py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 w-40 flex justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              {industry}
-            </motion.div>
-          ))}
-          {industries.map((industry, index) => (
-            <div
-              key={`repeat-${index}`}
-              className="text-lg md:text-xl font-semibold bg-white py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 w-40 flex justify-center items-center"
-            >
-              {industry}
-            </div>
-          ))}
+        <div className="marquee-track">
+          <div className="marquee-content">
+            {[...industries, ...industries].map((industry, index) => (
+              <div
+                key={index}
+                className="text-lg md:text-xl font-semibold bg-white py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 whitespace-nowrap mx-3"
+              >
+                {industry}
+              </div>
+            ))}
+          </div>
+          <div className="marquee-content" aria-hidden="true">
+            {[...industries, ...industries].map((industry, index) => (
+              <div
+                key={`duplicate-${index}`}
+                className="text-lg md:text-xl font-semibold bg-white py-3 px-6 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 whitespace-nowrap mx-3"
+              >
+                {industry}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -81,20 +75,40 @@ const IndustriesOfBenefit = () => {
         .marquee-container {
           overflow: hidden;
           position: relative;
-          padding: 1rem 0;
+          width: 100%;
+        }
+
+        .marquee-track {
+          display: flex;
+          width: fit-content;
         }
 
         .marquee-content {
           display: flex;
-          animation: scroll 12s linear infinite;
+          animation: scroll 40s linear infinite; /* Slowed down from 30s to 40s */
+          padding-right: 1rem;
         }
 
         @keyframes scroll {
-          0% {
-            transform: translateX(0%);
+          from {
+            transform: translateX(0);
           }
-          100% {
-            transform: translateX(-50%);
+          to {
+            transform: translateX(-100%);
+          }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+          .marquee-content {
+            animation-duration: 30s; /* Slowed down from 15s to 20s */
+          }
+        }
+
+        /* Pause animation when user prefers reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-content {
+            animation-play-state: paused;
           }
         }
       `}</style>

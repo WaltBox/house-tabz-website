@@ -8,7 +8,7 @@ const ProblemSection = () => {
   return (
     <section className="problem-section bg-white py-12 px-8 relative overflow-hidden">
       {/* Inverted Wave */}
-      <div className="absolute -top-[5vh] w-full h-[10vh]">
+      <div className="absolute -top-[10vh] w-full h-[20vh] overflow-hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
@@ -16,8 +16,8 @@ const ProblemSection = () => {
           preserveAspectRatio="none"
         >
           <path
-            fill="#34d399" /* Same green as the wave in the landing page */
-            d="M0,64L60,96C120,128,240,192,360,213.3C480,235,600,213,720,186.7C840,160,960,128,1080,149.3C1200,171,1320,245,1380,277.3L1440,320L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+            fill="#dff6f0"
+            d="M0,128L80,192C160,256,320,320,480,288C640,256,800,160,960,128C1120,96,1280,160,1360,192L1440,224L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
           ></path>
         </svg>
       </div>
@@ -35,7 +35,7 @@ const ProblemSection = () => {
             No one wants to be like <span className="text-green-500">Teddy</span>
           </h2>
           <p className="text-lg text-gray-600 mt-4">
-            Shared expenses shouldn’t involve endless texts and awkward reminders. 
+            Shared expenses shouldn’t involve endless texts and awkward reminders.
           </p>
         </motion.div>
 
@@ -63,6 +63,21 @@ const ProblemSection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Inline Styles */}
+      <style jsx>{`
+        .problem-section {
+          overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .grid {
+          width: 100%; /* Ensure grid doesn't exceed container width */
+        }
+
+        .grid div {
+          width: 100%; /* Ensure no individual image causes overflow */
+        }
+      `}</style>
     </section>
   );
 };

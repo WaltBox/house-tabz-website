@@ -24,16 +24,16 @@ const BusinessBenefits = () => {
   ];
 
   return (
-    <section className="business-benefits relative min-h-screen w-screen bg-[#dff6f0] overflow-hidden pt-20">
+    <section className="business-benefits relative min-h-screen w-screen bg-[#dff6f0] overflow-hidden pt-40 sm:pt-32">
       {/* Animated Dashed Circle */}
       <motion.div
-        className="relative flex justify-center items-center mb-12"
+        className="relative flex justify-center items-center mb-16 sm:mb-12"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <div className="circle-dashed relative flex justify-center items-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-800 text-center">
             Partnering with{" "}
             <span className="text-green-500 shiny-text">HouseTabz</span>
           </h2>
@@ -42,7 +42,7 @@ const BusinessBenefits = () => {
       </motion.div>
 
       {/* Benefits Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 md:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 sm:px-6 md:px-16">
         {benefits.map((benefit, index) => (
           <motion.div
             key={index}
@@ -52,9 +52,9 @@ const BusinessBenefits = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
           >
-            <div className="text-4xl mb-4">{benefit.icon}</div>
-            <h3 className="text-xl font-bold text-gray-800">{benefit.title}</h3>
-            <p className="text-gray-600 mt-2">{benefit.description}</p>
+            <div className="text-3xl sm:text-4xl mb-4">{benefit.icon}</div>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-800">{benefit.title}</h3>
+            <p className="text-sm sm:text-base text-gray-600 mt-2">{benefit.description}</p>
           </motion.div>
         ))}
       </div>
@@ -78,9 +78,23 @@ const BusinessBenefits = () => {
       {/* Styles for Dashed Circle */}
       <style jsx>{`
         .circle-dashed {
-          width: 30rem; /* Increased size of circle */
-          height: 30rem; /* Increased size of circle */
+          width: 20rem;
+          height: 20rem;
           position: relative;
+        }
+
+        @media (min-width: 640px) {
+          .circle-dashed {
+            width: 25rem;
+            height: 25rem;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .circle-dashed {
+            width: 30rem; /* Larger for tablets and desktops */
+            height: 30rem;
+          }
         }
 
         .dashes-container {
@@ -98,7 +112,7 @@ const BusinessBenefits = () => {
           position: absolute;
           width: 100%;
           height: 100%;
-          border: 6px dashed #d1d5db; /* Grey dashed border */
+          border: 4px dashed #d1d5db; /* Grey dashed border */
           border-radius: 50%;
         }
 
@@ -109,7 +123,7 @@ const BusinessBenefits = () => {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          border: 6px dashed transparent;
+          border: 4px dashed transparent;
           animation: dash-animation 3s infinite linear;
         }
 

@@ -1,31 +1,32 @@
 import React from 'react';
-import logo from '../assets/housetabzlogo.png'; // Adjust the path to your logo
+import logo from '../assets/housetabzlogo.png';
 
 const LandingPage = () => (
-  <div className="landing-page min-h-screen flex flex-col justify-center items-center px-6 md:px-16 relative overflow-hidden bg-[#dff6f0]">
-    {/* Mint Hill Background */}
-    <div className="absolute inset-0 w-full h-full pointer-events-none">
+  <div className="landing-page min-h-screen flex flex-col justify-center items-center relative bg-[#34d399]">
+    {/* Mint Diagonal Wave */}
+    <div className="absolute inset-x-0 bottom-0 w-full overflow-hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
+        className="wave-svg"
         viewBox="0 0 1440 320"
-        className="absolute bottom-0 w-full h-[90vh]" /* Dramatic hill height */
         preserveAspectRatio="none"
       >
         <path
-          fill="#34d399" /* Green hill */
-          d="M0,256L60,224C120,192,240,128,360,96C480,64,600,32,720,64C840,96,960,192,1080,256C1200,320,1320,320,1380,320L1440,320L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+          className="wave-path"
+          fill="#dff6f0"
+          d="M0,224L120,208C240,192,480,160,720,176C960,192,1200,256,1320,288L1440,304L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"
         ></path>
       </svg>
     </div>
 
     {/* Content */}
-    <div className="content w-full max-w-6xl flex flex-col md:flex-row items-center justify-between relative z-10">
+    <div className="content w-full max-w-6xl flex flex-col md:flex-row items-center justify-between relative z-10 px-4 md:px-12">
       {/* Text Section */}
-      <div className="text md:w-1/2 text-left">
-        <h1 className="text-5xl font-extrabold text-gray-800 leading-snug md:text-6xl mb-4">
+      <div className="text w-full md:w-1/2 mb-8 md:mb-0">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-black leading-snug mb-4">
           Say goodbye to fighting with your roommates over your...
         </h1>
-        <div className="text-4xl font-bold relative inline-block">
+        <div className="text-3xl md:text-4xl font-bold relative inline-block">
           <span className="static-text text-white">Shared </span>
           <div className="carousel-wrapper relative inline-block">
             <div className="carousel-container">
@@ -34,7 +35,6 @@ const LandingPage = () => (
                 <span className="carousel-word pencil-text">Energy</span>
                 <span className="carousel-word pencil-text">Cleaning</span>
                 <span className="carousel-word pencil-text">Streaming</span>
-                {/* Seamless Loop (Fix: Allow full scroll before repeating) */}
                 <span className="carousel-word pencil-text">Internet</span>
               </div>
             </div>
@@ -45,27 +45,53 @@ const LandingPage = () => (
       </div>
 
       {/* Logo Section */}
-      <div className="logo md:w-1/2 flex justify-center">
+      <div className="logo w-full md:w-1/2 flex justify-center md:justify-end">
         <img
           src={logo}
           alt="HouseTabz Logo"
-          className="w-100 md:w-[40rem] transform hover:scale-110 transition-transform duration-300"
+          className="w-64 max-w-[80%] md:w-[40rem] transform hover:scale-110 transition-transform duration-300"
         />
       </div>
     </div>
 
-    {/* Styles */}
+    {/* Global and Section-Specific Styles */}
     <style jsx>{`
+      /* Prevent Horizontal Scrolling */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Ensure no horizontal scrolling on the entire page */
+      }
+
       .landing-page {
+        width: 100vw; /* Restrict width to viewport */
+        overflow-x: hidden; /* Prevent horizontal scrolling in this section */
         position: relative;
-        background-color: #dff6f0; /* Mint background */
+        background-color: #34d399;
+      }
+
+      .wave-svg {
+        width: 100%; /* Match section width */
+        height: 60vh;
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .wave-svg {
+          height: 70vh;
+        }
+      }
+
+      .content {
+        max-width: 100%; /* Restrict content to viewport width */
       }
 
       .static-text {
         font-family: 'Roboto', sans-serif;
         font-weight: bold;
-        font-size: 1.5em;
-        color: white; /* Static text in white */
+        font-size: 1.7em;
+        color: white;
       }
 
       .carousel-wrapper {
@@ -76,7 +102,7 @@ const LandingPage = () => (
       .carousel-container {
         display: inline-block;
         position: relative;
-        height: 1.5em;
+        height: 1.8em;
         overflow: hidden;
         width: 12rem;
       }
@@ -88,19 +114,19 @@ const LandingPage = () => (
       }
 
       .carousel-word {
-        height: 1.5em;
-        line-height: 1.5em;
+        height: 1.8em;
+        line-height: 1.8em;
         text-align: left;
         white-space: nowrap;
-        color: black; /* Black for carousel words */
+        color: black;
         font-weight: 700;
-        filter: url(#pencil-effect); /* Pencil effect */
+        filter: url(#pencil-effect);
       }
 
       .underline {
-        background-color: white; /* White underline */
+        background-color: white; /* White Underline */
         border-radius: 2px;
-        filter: url(#pencil-effect); /* White pencil-drawn underline */
+        filter: url(#pencil-effect);
       }
 
       @keyframes rollCarousel {
@@ -108,13 +134,12 @@ const LandingPage = () => (
           transform: translateY(0%);
         }
         100% {
-          transform: translateY(-83.33%); /* Adjusted for full scroll */
+          transform: translateY(-83.33%);
         }
       }
 
-      /* Hover Effects for Logo */
       .logo img {
-        filter: none; /* Removes any visible container effects */
+        filter: none;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 

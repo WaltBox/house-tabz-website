@@ -1,0 +1,57 @@
+
+
+/* Problem Section */
+.problem-section {
+  background-color: white; /* Mint background */
+  padding: 3rem 2rem; /* Adjust padding */
+}
+
+.text-section h2 {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #2d3748; /* Dark gray */
+}
+
+.text-section h2 span {
+  color: #34d399; /* Highlight "Teddy" in green */
+}
+
+.text-section p {
+  font-size: 1.25rem;
+  color: #718096; /* Medium gray */
+  margin-top: 1rem;
+}
+
+/* Screenshot Container */
+.screenshot-container {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.screenshot-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.screenshot-container::-webkit-scrollbar-thumb {
+  background: #34d399; /* Green scrollbar thumb */
+  border-radius: 3px;
+}
+
+.screenshot-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.bubble {
+  background: #d1fae5; /* Light green */
+  color: #065f46; /* Darker green text */
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

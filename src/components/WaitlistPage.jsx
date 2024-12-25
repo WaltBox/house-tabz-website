@@ -1,8 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import Footer from './Footer'; // Import Footer component
 
 const WaitlistPage = () => {
+  // State for form data and feedback
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    city: '',
+  });
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle form field changes
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFeedbackMessage('');
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        'https://83f1-50-26-8-187.ngrok-free.app/api/waitlist',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setFeedbackMessage(response.data.message || 'Successfully joined the waitlist!');
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
+      });
+    } catch (error) {
+      if (error.response) {
+        setFeedbackMessage(error.response.data.message || 'Failed to join the waitlist.');
+      } else {
+        setFeedbackMessage('An error occurred. Please try again later.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="waitlist-page min-h-screen w-screen bg-[#dff6f0] flex flex-col justify-between pt-20">
       {/* Mint Wave */}
@@ -38,7 +92,7 @@ const WaitlistPage = () => {
         </motion.div>
 
         {/* Form */}
-        <form className="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 mt-10">
+        <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 mt-10">
           <div className="mb-4">
             <label className="block text-gray-800 font-semibold mb-2" htmlFor="name">
               Name
@@ -46,8 +100,11 @@ const WaitlistPage = () => {
             <input
               type="text"
               id="name"
+              value={formData.name}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
               placeholder="Enter your full name"
+              required
             />
           </div>
           <div className="mb-4">
@@ -57,8 +114,11 @@ const WaitlistPage = () => {
             <input
               type="tel"
               id="phone"
+              value={formData.phone}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
               placeholder="Enter your phone number"
+              required
             />
           </div>
           <div className="mb-4">
@@ -68,8 +128,11 @@ const WaitlistPage = () => {
             <input
               type="email"
               id="email"
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
               placeholder="Enter your email address"
+              required
             />
           </div>
           <div className="mb-4">
@@ -79,17 +142,28 @@ const WaitlistPage = () => {
             <input
               type="text"
               id="city"
+              value={formData.city}
+              onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
               placeholder="Enter your city"
+              required
             />
           </div>
           <button
             type="submit"
             className="w-full bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300"
+            disabled={isSubmitting}
           >
-            Join Waitlist
+            {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
           </button>
         </form>
+
+        {/* Feedback Message */}
+        {feedbackMessage && (
+          <div className="mt-6 text-center">
+            <p className="text-green-600 font-semibold">{feedbackMessage}</p>
+          </div>
+        )}
       </div>
 
       {/* Footer */}

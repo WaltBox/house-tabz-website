@@ -1,7 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const PartnerForm = () => {
+  const [formData, setFormData] = useState({
+    businessEmail: '',
+    phoneNumber: '',
+    businessWebsite: '',
+    city: '',
+    state: '',
+    country: '',
+  });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      // Replace with your backend API endpoint
+      const response = await axios.post('https://83f1-50-26-8-187.ngrok-free.app/api/partner-forms', formData);
+      setSuccessMessage('Thank you! A member of the HouseTabz team will reach out to you shortly.');
+      setFormData({
+        businessEmail: '',
+        phoneNumber: '',
+        businessWebsite: '',
+        city: '',
+        state: '',
+        country: '',
+      });
+    } catch (error) {
+      setErrorMessage('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="partner-form bg-white py-16 px-8 relative overflow-hidden">
       {/* Mint Wave */}
@@ -38,112 +80,54 @@ const PartnerForm = () => {
       {/* Form Section */}
       <form
         className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8 space-y-6 relative z-10"
-        onSubmit={(e) => e.preventDefault()} // Prevent actual form submission for now
+        onSubmit={handleSubmit}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col">
-            <label
-              htmlFor="businessEmail"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              Business Email
-            </label>
-            <input
-              type="email"
-              id="businessEmail"
-              placeholder="example@business.com"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              htmlFor="phoneNumber"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              placeholder="+1 234 567 890"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              htmlFor="businessWebsite"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              Business Website
-            </label>
-            <input
-              type="url"
-              id="businessWebsite"
-              placeholder="https://yourbusiness.com"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              htmlFor="city"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              placeholder="City"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              htmlFor="state"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              State
-            </label>
-            <input
-              type="text"
-              id="state"
-              placeholder="State"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              htmlFor="country"
-              className="text-sm font-semibold text-gray-700 mb-2"
-            >
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              placeholder="Country"
-              className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
-              required
-            />
-          </div>
+          {[
+            { id: 'businessEmail', label: 'Business Email', type: 'email', placeholder: 'example@business.com' },
+            { id: 'phoneNumber', label: 'Phone Number', type: 'tel', placeholder: '+1 234 567 890' },
+            { id: 'businessWebsite', label: 'Business Website', type: 'url', placeholder: 'https://yourbusiness.com' },
+            { id: 'city', label: 'City', type: 'text', placeholder: 'City' },
+            { id: 'state', label: 'State', type: 'text', placeholder: 'State' },
+            { id: 'country', label: 'Country', type: 'text', placeholder: 'Country' },
+          ].map(({ id, label, type, placeholder }) => (
+            <div className="flex flex-col" key={id}>
+              <label htmlFor={id} className="text-sm font-semibold text-gray-700 mb-2">
+                {label}
+              </label>
+              <input
+                type={type}
+                id={id}
+                value={formData[id]}
+                onChange={handleInputChange}
+                placeholder={placeholder}
+                className="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+                required
+              />
+            </div>
+          ))}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-600 hover:shadow-md transition duration-300"
+          disabled={isSubmitting}
+          className={`w-full bg-green-500 text-white py-3 px-6 rounded-lg font-medium transition duration-300 ${
+            isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 hover:shadow-md'
+          }`}
         >
-          Submit
+          {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
+
+        {successMessage && (
+          <div className="mt-4 text-center text-green-600 font-semibold">
+            {successMessage}
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mt-4 text-center text-red-600 font-semibold">
+            {errorMessage}
+          </div>
+        )}
       </form>
 
       {/* Subtle Background Element */}

@@ -37,7 +37,7 @@ const IndustriesOfBenefit = () => {
       {/* Header */}
       <div className="text-center mb-8 relative z-10">
         <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
-          Industries of <span className="text-green-500">Benefit</span>
+          Industries to <span className="text-green-500">Benefit</span>
         </h2>
         <p className="text-lg text-gray-600 mt-3 leading-relaxed">
           Unlock new potential with HouseTabz by supporting shared households.

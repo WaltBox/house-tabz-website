@@ -27,7 +27,7 @@ const PartnerForm = () => {
 
     try {
       // Replace with your backend API endpoint
-      const response = await axios.post('https://83f1-50-26-8-187.ngrok-free.app/api/partner-forms', formData);
+      const response = await axios.post('http://housetabz-back-env.eba-k7z4g8fa.us-east-1.elasticbeanstalk.com/api/partner-forms', formData);
       setSuccessMessage('Thank you! A member of the HouseTabz team will reach out to you shortly.');
       setFormData({
         businessEmail: '',

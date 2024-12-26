@@ -9,7 +9,8 @@ import Footer from './components/Footer';
 import Navbar from './components/navigation/Navbar';
 import BusinessPage from './components/BusinessPage'; // Import the BusinessPage component
 import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage component
-
+import AboutUs from './components/AboutUs'; // Import the About Us page
+import HowItWorks from './components/HowItWorks'; // Import the How It Works page
 function App() {
   return (
     <Router>
@@ -35,6 +36,10 @@ function App() {
 
           {/* Waitlist Page */}
           <Route path="/waitlist" element={<WaitlistPage />} />
+
+          {/* About Us Page */}
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
         </Routes>
       </div>
     </Router>

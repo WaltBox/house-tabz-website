@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const Footer = () => {
 
     try {
       const response = await axios.post(
-        'https://83f1-50-26-8-187.ngrok-free.app/api/contact', // Replace with your API endpoint
+        'http://housetabz-back-env.eba-k7z4g8fa.us-east-1.elasticbeanstalk.com/api/contact', // Replace with your API endpoint
         formData
       );
       setStatusMessage(response.data.message || 'Your message has been sent successfully!');
@@ -53,30 +54,21 @@ const Footer = () => {
 
         {/* Center: Quick Links */}
         <div className="links md:w-1/3">
-          <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
-          <ul className="mt-4 space-y-2">
-            <li>
-              <a href="#about" className="text-sm hover:text-green-400 transition">
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="#services" className="text-sm hover:text-green-400 transition">
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="#waitlist" className="text-sm hover:text-green-400 transition">
-                Join Waitlist
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="text-sm hover:text-green-400 transition">
-                Contact Us
-              </a>
-            </li>
-          </ul>
-        </div>
+  <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
+  <ul className="mt-4 space-y-2">
+    <li>
+      <Link to="/about" className="text-sm hover:text-green-400 transition">
+        About Us
+      </Link>
+    </li>
+    <li>
+      <Link to="/how-it-works" className="text-sm hover:text-green-400 transition">
+        How It Works
+      </Link>
+    </li>
+
+  </ul>
+</div>
 
         {/* Right: Contact Form */}
         <div className="contact md:w-1/3">

@@ -1,9 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
-import waltImage from '../assets/waltboxwellheadshot.jpeg'; // Import Walt's image
-import gusImage from '../assets/gusheadshot.avif'; // Import Gus's image
-// import introVideo from '../assets/housetabzintro.mp4.icloud'; // Import the intro video
+
 import Footer from './Footer'; // Import the Footer component
 
 const AboutUs = () => {
@@ -81,12 +79,12 @@ const AboutUs = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <div className="relative w-full h-64">
-              <video
-                ref={videoRef}
-                // src={introVideo}
-                className="w-full h-full object-cover rounded-lg"
-                controls={false}
-              />
+            <video
+  ref={videoRef}
+  src="/assets/housetabzintro.mp4"
+  className="w-full h-full object-cover rounded-lg"
+  controls={false}
+/>
               <div className="absolute bottom-4 left-4 flex items-center space-x-3">
                 <button
                   onClick={togglePlayPause}
@@ -125,11 +123,11 @@ const AboutUs = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <img
-                src={waltImage}
-                alt="Walt Boxwell"
-                className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
-              />
+           <img
+  src="/assets/waltboxwellheadshot.jpeg"
+  alt="Walt Boxwell"
+  className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
+/>
               <h3 className="text-xl font-semibold text-gray-800">Walt Boxwell</h3>
               <p className="text-gray-600 text-sm">Founder & CEO</p>
               <p className="mt-4 text-gray-600 text-sm leading-relaxed">
@@ -145,11 +143,11 @@ const AboutUs = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <img
-                src={gusImage}
-                alt="Second Team Member"
-                className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
-              />
+            <img
+  src="/assets/gusheadshot.avif"
+  alt="Gus Walsh"
+  className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
+/>
               <h3 className="text-xl font-semibold text-gray-800">Augustine (Gus) Walsh</h3>
               <p className="text-gray-600 text-sm">Advisor</p>
               <p className="mt-4 text-gray-600 text-sm leading-relaxed">

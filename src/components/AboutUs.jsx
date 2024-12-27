@@ -81,7 +81,7 @@ const AboutUs = () => {
             <div className="relative w-full h-64">
             <video
   ref={videoRef}
-  src="/assets/housetabzintro.mp4"
+  src="https://housetabz-assets.s3.amazonaws.com/housetabzintro.mp4"
   className="w-full h-full object-cover rounded-lg"
   controls={false}
 />
@@ -123,8 +123,8 @@ const AboutUs = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-           <img
-  src="/assets/waltboxwellheadshot.jpeg"
+        <img
+  src="https://housetabz-assets.s3.amazonaws.com/waltboxwellheadshot.jpeg"
   alt="Walt Boxwell"
   className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
 />
@@ -143,11 +143,12 @@ const AboutUs = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-            <img
-  src="/assets/gusheadshot.avif"
+<img
+  src="https://housetabz-assets.s3.amazonaws.com/gusheadshot.avif"
   alt="Gus Walsh"
   className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
 />
+
               <h3 className="text-xl font-semibold text-gray-800">Augustine (Gus) Walsh</h3>
               <p className="text-gray-600 text-sm">Advisor</p>
               <p className="mt-4 text-gray-600 text-sm leading-relaxed">

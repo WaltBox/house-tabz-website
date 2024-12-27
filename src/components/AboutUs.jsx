@@ -84,7 +84,12 @@ const AboutUs = () => {
   src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzintro.mp4"
   className="w-full h-full object-cover rounded-lg"
   controls={false}
+  playsInline // Ensures inline playback
+  webkit-playsinline="true" // For iOS Safari compatibility
+  muted={isMuted} // Use the current muted state
+  preload="metadata" // Optimizes video loading
 />
+
               <div className="absolute bottom-4 left-4 flex items-center space-x-3">
                 <button
                   onClick={togglePlayPause}

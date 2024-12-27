@@ -31,7 +31,7 @@ const WaitlistPage = () => {
 
     try {
       const response = await axios.post(
-        'http://housetabz-back-env.eba-k7z4g8fa.us-east-1.elasticbeanstalk.com/api/waitlist',
+        'https://housetabz-back-env.eba-k7z4g8fa.us-east-1.elasticbeanstalk.com/api/contact/api/waitlist',
         formData,
         {
           headers: {

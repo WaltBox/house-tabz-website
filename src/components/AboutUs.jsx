@@ -81,7 +81,7 @@ const AboutUs = () => {
             <div className="relative w-full h-64">
             <video
   ref={videoRef}
-  src="https://housetabz-assets.s3.amazonaws.com/housetabzintro.mp4"
+  src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzintro.mp4"
   className="w-full h-full object-cover rounded-lg"
   controls={false}
 />
@@ -124,7 +124,7 @@ const AboutUs = () => {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
         <img
-  src="https://housetabz-assets.s3.amazonaws.com/waltboxwellheadshot.jpeg"
+  src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/waltboxwellheadshot.jpeg"
   alt="Walt Boxwell"
   className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
 />
@@ -144,7 +144,7 @@ const AboutUs = () => {
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
 <img
-  src="https://housetabz-assets.s3.amazonaws.com/gusheadshot.avif"
+  src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/gusheadshot.avif"
   alt="Gus Walsh"
   className="w-32 h-32 mx-auto rounded-full mb-4 border-4 border-green-500 shadow-lg"
 />

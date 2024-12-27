@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import waltImage from '../assets/waltboxwellheadshot.jpeg'; // Import Walt's image
 import gusImage from '../assets/gusheadshot.avif'; // Import Gus's image
-import introVideo from '../assets/housetabzintro.mp4'; // Import the intro video
+// import introVideo from '../assets/housetabzintro.mp4.icloud'; // Import the intro video
 import Footer from './Footer'; // Import the Footer component
 
 const AboutUs = () => {
@@ -83,7 +83,7 @@ const AboutUs = () => {
             <div className="relative w-full h-64">
               <video
                 ref={videoRef}
-                src={introVideo}
+                // src={introVideo}
                 className="w-full h-full object-cover rounded-lg"
                 controls={false}
               />

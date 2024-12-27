@@ -1,161 +1,145 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/housetabzlogo.png';
 
 const LandingPage = () => (
-  <div className="landing-page min-h-screen flex flex-col justify-center items-center relative bg-[#34d399]">
-    {/* Mint Diagonal Wave */}
-    <div className="absolute inset-x-0 bottom-0 w-full overflow-hidden">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="wave-svg"
-        viewBox="0 0 1440 320"
-        preserveAspectRatio="none"
+  <div className="landing-page min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-[#34d399] via-[#6ee7b7] to-white relative">
+    {/* Left Section */}
+    <div className="text-section w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-8 md:px-16">
+      <h1 className="text-4xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-wrap items-center gap-y-4 md:gap-y-6 text-center md:text-left">
+        <span className="w-full">Stop fighting over your</span>
+        <div className="flex items-center gap-4 md:gap-6">
+          <span className="text-white bg-[#34d399] px-2 py-1 rounded-md whitespace-nowrap">
+            Shared
+          </span>
+          <span className="word-carousel">
+            <span>Energy</span>
+            <span>Internet</span>
+            <span>Streaming</span>
+            <span>Cleaning</span>
+          </span>
+          <span className="text-[#065f46] whitespace-nowrap">Bill</span>
+        </div>
+      </h1>
+      <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">
+        Say goodbye to awkward conversations and tracking down payments.
+        HouseTabz allows your house to operate as a single financial entity.
+      </p>
+      <Link
+        to="/how-it-works"
+        className="bg-[#065f46] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#034c39] transition-all duration-300"
       >
-        <path
-          className="wave-path"
-          fill="#dff6f0"
-          d="M0,224L120,208C240,192,480,160,720,176C960,192,1200,256,1320,288L1440,304L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"
-        ></path>
-      </svg>
+        How It Works
+      </Link>
     </div>
 
-    {/* Content */}
-    <div className="content w-full max-w-6xl flex flex-col md:flex-row items-center justify-between relative z-10 px-4 md:px-12">
-      {/* Text Section */}
-      <div className="text w-full md:w-1/2 mb-8 md:mb-0">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-black leading-snug mb-4">
-          Say goodbye to fighting with your roommates over your...
-        </h1>
-        <div className="text-3xl md:text-4xl font-bold relative inline-block">
-          <span className="static-text text-white">Shared </span>
-          <div className="carousel-wrapper relative inline-block">
-            <div className="carousel-container">
-              <div className="carousel-track">
-                <span className="carousel-word pencil-text">Internet</span>
-                <span className="carousel-word pencil-text">Energy</span>
-                <span className="carousel-word pencil-text">Cleaning</span>
-                <span className="carousel-word pencil-text">Streaming</span>
-                <span className="carousel-word pencil-text">Internet</span>
-              </div>
-            </div>
-            <div className="underline absolute bottom-[-5px] left-0 w-full h-1"></div>
-          </div>
-          <span className="static-text text-white"> Bill</span>
-        </div>
-      </div>
-
-      {/* Logo Section */}
-      <div className="logo w-full md:w-1/2 flex justify-center md:justify-end">
+    {/* Right Section */}
+    <div className="logo-section w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
+      <div className="relative">
         <img
           src={logo}
           alt="HouseTabz Logo"
-          className="w-64 max-w-[80%] md:w-[40rem] transform hover:scale-110 transition-transform duration-300"
+          className="w-48 md:w-64 transform hover:scale-110 transition-transform duration-500"
         />
       </div>
     </div>
 
-    {/* Global and Section-Specific Styles */}
-    <style jsx>{`
-      /* Prevent Horizontal Scrolling */
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden; /* Ensure no horizontal scrolling on the entire page */
-      }
+    {/* Background Wave */}
+    <div className="absolute bottom-0 w-full overflow-hidden">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+        className="wave-svg"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#d1fae5"
+          d="M0,128L60,160C120,192,240,256,360,240C480,224,600,128,720,112C840,96,960,160,1080,192C1200,224,1320,224,1380,224L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+        ></path>
+      </svg>
+    </div>
 
+    {/* Styling */}
+    <style jsx>{`
       .landing-page {
-        width: 100vw; /* Restrict width to viewport */
-        overflow-x: hidden; /* Prevent horizontal scrolling in this section */
-        position: relative;
-        background-color: #34d399;
+        font-family: 'Inter', sans-serif;
+        color: #2d3748;
       }
 
       .wave-svg {
-        width: 100%; /* Match section width */
-        height: 60vh;
+        width: 100%;
+        height: 10vh;
         display: block;
       }
 
-      @media (max-width: 768px) {
-        .wave-svg {
-          height: 70vh;
-        }
-      }
-
-      .content {
-        max-width: 100%; /* Restrict content to viewport width */
-      }
-
-      .static-text {
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        font-size: 1.7em;
-        color: white;
-      }
-
-      .carousel-wrapper {
-        vertical-align: middle;
-        padding-bottom: 10px;
-      }
-
-      .carousel-container {
+      .word-carousel {
         display: inline-block;
         position: relative;
-        height: 1.8em;
+        min-width: 18.1rem;
+        height: 1.5em;
         overflow: hidden;
-        width: 12rem;
+        text-align: center;
       }
 
-      .carousel-track {
-        display: flex;
-        flex-direction: column;
-        animation: rollCarousel 10s linear infinite;
-      }
-
-      .carousel-word {
-        height: 1.8em;
-        line-height: 1.8em;
-        text-align: left;
-        white-space: nowrap;
-        color: black;
+      .word-carousel span {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        color: #065f46;
         font-weight: 700;
-        filter: url(#pencil-effect);
+        animation: rotateWord 8s linear infinite;
+        line-height: 1.5;
+        width: 100%;
       }
 
-      .underline {
-        background-color: white; /* White Underline */
-        border-radius: 2px;
-        filter: url(#pencil-effect);
+      .word-carousel span:nth-child(2) {
+        animation-delay: 2s;
       }
 
-      @keyframes rollCarousel {
-        0% {
-          transform: translateY(0%);
+      .word-carousel span:nth-child(3) {
+        animation-delay: 4s;
+      }
+
+      .word-carousel span:nth-child(4) {
+        animation-delay: 6s;
+      }
+
+      @keyframes rotateWord {
+        0%, 100% {
+          opacity: 0;
+          transform: translateY(100%);
         }
-        100% {
-          transform: translateY(-83.33%);
+        3%, 22% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        25%, 97% {
+          opacity: 0;
+          transform: translateY(-100%);
         }
       }
 
-      .logo img {
-        filter: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .logo img:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      @media (max-width: 768px) {
+        .text-section {
+          text-align: center;
+          align-items: center;
+        }
+        .text-section h1 {
+          font-size: 2rem;
+          line-height: 1.3;
+        }
+        .text-section p {
+          font-size: 1rem;
+        }
+        .logo-section img {
+        margin-top: 2rem;
+          width: 15rem; /* Smaller logo on mobile */
+        }
+        .word-carousel {
+          min-width: 10rem; /* Ensure word visibility on mobile */
+        }
       }
     `}</style>
-
-    {/* SVG Filters for Pencil Effects */}
-    <svg xmlns="http://www.w3.org/2000/svg" className="hidden">
-      <filter id="pencil-effect">
-        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
-      </filter>
-    </svg>
   </div>
 );
 

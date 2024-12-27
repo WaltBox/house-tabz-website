@@ -60,12 +60,14 @@ const Navbar = () => {
         >
           Join Waitlist
         </Link>
-        <Link
-          to="/"
+        <a
+          href="https://housetabz-3e8153557d3a.herokuapp.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="bg-green-500 text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
         >
           Current Users
-        </Link>
+        </a>
       </div>
 
       {/* Right: Mobile Menu */}
@@ -107,13 +109,15 @@ const Navbar = () => {
           >
             For Business
           </Link>
-          <Link
-            to="/"
+          <a
+            href="https://housetabz-3e8153557d3a.herokuapp.com/"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={closeMenu}
             className="bg-green-500 text-white py-2 px-4 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
           >
             Current Users
-          </Link>
+          </a>
         </div>
       )}
     </nav>

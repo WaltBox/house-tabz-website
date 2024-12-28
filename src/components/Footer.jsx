@@ -23,7 +23,7 @@ const Footer = () => {
 
     try {
       const response = await axios.post(
-        'http://housetabz-back-env.eba-k7z4g8fa.us-east-1.elasticbeanstalk.com/api/contact', // Replace with your API endpoint
+        'https://api.housetabz.com/api/contact', // Replace with your API endpoint
         formData
       );
       setStatusMessage(response.data.message || 'Your message has been sent successfully!');

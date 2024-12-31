@@ -87,8 +87,11 @@ const AboutUs = () => {
   playsInline // Ensures inline playback
   webkit-playsinline="true" // For iOS Safari compatibility
   muted={isMuted} // Use the current muted state
-  preload="metadata" // Optimizes video loading
+  preload="auto" // Preload enough data to render the first frame
+  poster="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/video-placeholder.jpg" // Fallback placeholder image
 />
+
+
 
               <div className="absolute bottom-4 left-4 flex items-center space-x-3">
                 <button

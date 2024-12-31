@@ -107,34 +107,62 @@ const BusinessBenefits = () => {
           align-items: center;
         }
 
+        /* Updated Animation */
         .dashes-container::before {
           content: "";
           position: absolute;
           width: 100%;
           height: 100%;
-          border: 4px dashed #d1d5db; /* Grey dashed border */
+          border: 4px solid transparent;
           border-radius: 50%;
+          border-top: 4px solid rgba(52, 211, 153, 0.8); /* Glowing green */
+          animation: spin 3s infinite linear, glow-pulse 2s infinite ease-in-out;
         }
 
-        /* Dashes and Animation */
+        /* Radiating pulse effect */
         .dashes-container::after {
           content: "";
           position: absolute;
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          border: 4px dashed transparent;
-          animation: dash-animation 3s infinite linear;
+          border: 4px solid rgba(52, 211, 153, 0.3);
+          animation: pulse 2.5s infinite ease-in-out;
         }
 
-        @keyframes dash-animation {
+        @keyframes spin {
           0% {
-            border-color: #34d399; /* Start with green on one dash */
             transform: rotate(0deg);
           }
           100% {
-            border-color: #d1d5db; /* Complete rotation */
             transform: rotate(360deg);
+          }
+        }
+
+        @keyframes glow-pulse {
+          0% {
+            border-top-color: rgba(52, 211, 153, 0.8);
+          }
+          50% {
+            border-top-color: rgba(52, 211, 153, 1);
+          }
+          100% {
+            border-top-color: rgba(52, 211, 153, 0.8);
+          }
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: scale(1);
+            opacity: 0.6;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 0.3;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 0.6;
           }
         }
 

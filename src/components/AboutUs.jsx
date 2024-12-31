@@ -88,7 +88,7 @@ const AboutUs = () => {
   webkit-playsinline="true" // For iOS Safari compatibility
   muted={isMuted} // Use the current muted state
   preload="auto" // Preload enough data to render the first frame
-  poster="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/video-placeholder.jpg" // Fallback placeholder image
+  poster="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/video-placeholder3.png" // Fallback placeholder image
 />
 
 

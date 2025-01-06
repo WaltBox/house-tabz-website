@@ -91,14 +91,14 @@ const HowItWorks = () => {
                   Ready to Simplify Your Shared Expenses?
                 </h3>
                 <p className="text-gray-600 mb-6 text-center text-sm md:text-base">
-                  Join the waitlist today and be among the first to experience a revolutionary way to manage your house’s
+                  Join the V.I.P list today and be among the first to experience a revolutionary way to manage your house’s
                   finances.
                 </p>
                 <a
                   href="/waitlist"
                   className="bg-green-500 text-white py-2 px-6 md:py-3 md:px-8 rounded-lg font-medium hover:bg-green-600 transition duration-300"
                 >
-                  Join the Waitlist
+                  Join the VIP list
                 </a>
               </motion.div>
             </div>

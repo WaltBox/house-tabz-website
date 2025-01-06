@@ -98,7 +98,7 @@ const HowItWorks = () => {
                   href="/waitlist"
                   className="bg-green-500 text-white py-2 px-6 md:py-3 md:px-8 rounded-lg font-medium hover:bg-green-600 transition duration-300"
                 >
-                  Join the VIP list
+                  Become a VIP
                 </a>
               </motion.div>
             </div>

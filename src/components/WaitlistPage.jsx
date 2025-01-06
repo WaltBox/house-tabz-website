@@ -84,7 +84,7 @@ const WaitlistPage = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
-            Join the <span className="text-green-500">Waitlist</span>
+            Join the <span className="text-green-500">VIP list</span>
           </h2>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
             Be the first to know when HouseTabz is available in your area!

@@ -54,7 +54,7 @@ const LaunchingSection = () => {
             manage their expenses forever.
           </p>
           <div className="note bg-green-100 text-green-700 mt-8 p-4 rounded-lg shadow-lg text-lg">
-            <strong>Join the waitlist</strong> and receive a{' '}
+            <strong>Join the VIP list</strong> and receive a{' '}
             <strong>$50 credit</strong> to Sparkly Maids when you sign up for Rhythm Energy!
           </div>
         </motion.div>

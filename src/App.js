@@ -12,9 +12,49 @@ import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage
 import AboutUs from './components/AboutUs'; // Import the About Us page
 import HowItWorks from './components/HowItWorks'; // Import the How It Works page
 
-const App = () => {
+const AppContent = () => {
   const location = useLocation();
 
+  useEffect(() => {
+    // Track page views for single-page applications
+    if (window.gtag) {
+      window.gtag('config', 'G-CYDC85KMX7', { page_path: location.pathname });
+    }
+  }, [location]);
+
+  return (
+    <>
+      <Navbar /> {/* Render the Navbar */}
+      <Routes>
+        {/* Main Landing Page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <LandingPage />
+              <ProblemSection />
+              <SolutionPage />
+              <LaunchingSection />
+              <Footer />
+            </>
+          }
+        />
+
+        {/* Business Page */}
+        <Route path="/business" element={<BusinessPage />} />
+
+        {/* Waitlist Page */}
+        <Route path="/waitlist" element={<WaitlistPage />} />
+
+        {/* About Us Page */}
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+      </Routes>
+    </>
+  );
+};
+
+const App = () => {
   useEffect(() => {
     // Add Google Analytics script dynamically
     const script = document.createElement('script');
@@ -37,42 +77,10 @@ const App = () => {
     };
   }, []);
 
-  useEffect(() => {
-    // Track page views for single-page applications
-    if (window.gtag) {
-      window.gtag('config', 'G-CYDC85KMX7', { page_path: location.pathname });
-    }
-  }, [location]);
-
   return (
     <Router>
       <div className="App">
-        <Navbar /> {/* Render the Navbar */}
-        <Routes>
-          {/* Main Landing Page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <LandingPage />
-                <ProblemSection />
-                <SolutionPage />
-                <LaunchingSection />
-                <Footer />
-              </>
-            }
-          />
-
-          {/* Business Page */}
-          <Route path="/business" element={<BusinessPage />} />
-
-          {/* Waitlist Page */}
-          <Route path="/waitlist" element={<WaitlistPage />} />
-
-          {/* About Us Page */}
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-        </Routes>
+        <AppContent />
       </div>
     </Router>
   );

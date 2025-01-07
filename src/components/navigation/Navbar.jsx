@@ -76,7 +76,7 @@ const Navbar = () => {
           to="/waitlist"
           className="bg-green-500 text-white py-2 px-4 rounded-full font-semibold mr-4 hover:bg-green-600 hover:shadow-md transition duration-300"
         >
-          Join Waitlist
+          Join VIP list
         </Link>
         <button
           onClick={toggleMenu}

@@ -95,7 +95,7 @@ const HowItWorks = () => {
                   finances.
                 </p>
                 <a
-                  href="/waitlist"
+                  href="/vip"
                   className="bg-green-500 text-white py-2 px-6 md:py-3 md:px-8 rounded-lg font-medium hover:bg-green-600 transition duration-300"
                 >
                   Become a VIP

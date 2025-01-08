@@ -44,7 +44,7 @@ const AppContent = () => {
         <Route path="/business" element={<BusinessPage />} />
 
         {/* Waitlist Page */}
-        <Route path="/waitlist" element={<WaitlistPage />} />
+        <Route path="/vip" element={<WaitlistPage />} />
 
         {/* About Us Page */}
         <Route path="/about" element={<AboutUs />} />

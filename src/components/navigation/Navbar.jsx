@@ -55,7 +55,7 @@ const Navbar = () => {
       {/* Right: Desktop Buttons */}
       <div className="hidden md:flex gap-4 items-center">
         <Link
-          to="/waitlist"
+          to="/vip"
           className="bg-green-500 text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
         >
           Join VIP list
@@ -73,7 +73,7 @@ const Navbar = () => {
       {/* Right: Mobile Menu */}
       <div className="md:hidden flex items-center">
         <Link
-          to="/waitlist"
+          to="/vip"
           className="bg-green-500 text-white py-2 px-4 rounded-full font-semibold mr-4 hover:bg-green-600 hover:shadow-md transition duration-300"
         >
           Join VIP list

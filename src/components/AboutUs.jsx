@@ -185,7 +185,7 @@ const AboutUs = () => {
             Whether you’re a renter, homeowner, or service provider, HouseTabz is here to make your life easier.
           </motion.p>
           <motion.a
-            href="/waitlist"
+            href="/vip"
             className="inline-block bg-green-500 text-white py-3 px-6 rounded-lg text-lg font-medium hover:bg-green-600 transition duration-300"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

@@ -39,7 +39,7 @@ const WaitlistPage = () => {
           },
         }
       );
-      setFeedbackMessage(response.data.message || 'Successfully joined the waitlist!');
+      setFeedbackMessage(response.data.message || 'Congrats! You are officially on the HouseTabz VIP list.');
       setFormData({
         name: '',
         phone: '',
@@ -154,7 +154,7 @@ const WaitlistPage = () => {
             className="w-full bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
+            {isSubmitting ? 'Submitting...' : 'Become VIP'}
           </button>
         </form>
 

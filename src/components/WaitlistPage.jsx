@@ -39,7 +39,8 @@ const WaitlistPage = () => {
           },
         }
       );
-      setFeedbackMessage(response.data.message || 'Congrats! You are officially on the HouseTabz VIP list.');
+      // setFeedbackMessage(response.data.message || 'Congrats! You are officially on the HouseTabz VIP list.');
+      setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
       setFormData({
         name: '',
         phone: '',

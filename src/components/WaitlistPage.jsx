@@ -48,7 +48,7 @@ const WaitlistPage = () => {
       });
     } catch (error) {
       if (error.response) {
-        setFeedbackMessage(error.response.data.message || 'Failed to join the waitlist.');
+        setFeedbackMessage(error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesnt work.');
       } else {
         setFeedbackMessage('An error occurred. Please try again later.');
       }

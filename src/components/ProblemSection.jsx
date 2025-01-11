@@ -22,7 +22,7 @@ const ProblemSection = () => {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
         {/* Text Section */}
         <motion.div
           className="text-section md:w-1/2 text-center md:text-left"
@@ -63,6 +63,9 @@ const ProblemSection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Bottom Mint Wave */}
+      
 
       {/* Inline Styles */}
       <style jsx>{`

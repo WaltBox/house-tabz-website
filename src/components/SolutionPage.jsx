@@ -11,17 +11,17 @@ const SolutionPage = () => {
     house: {
       image: house,
       description:
-        "View all past and current bills for your house. Track roommates who haven't paid and find out who's the most responsible roommate.",
+        "Track and manage all your household expenses with ease. Stay on top of who has paid and enjoy complete transparency.",
     },
     marketplace: {
       image: marketplace,
       description:
-        "Explore all the services available at your address. Compare options and make informed choices for your household.",
+        "Discover services tailored to your address. Compare options, and pick the best providers for your household needs.",
     },
     company: {
       image: company,
       description:
-        "Shop specific service details and access their site through our in-app browser for a seamless shopping experience.",
+        "Dive into detailed service plans and connect to providers through an intuitive in-app experience.",
     },
   };
 
@@ -54,13 +54,13 @@ const SolutionPage = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
-            What is <span className="text-green-500">HouseTabz</span>?
+            Mobile App <span className="text-green-500">Coming Soon</span>
           </h2>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            HouseTabz is the very first platform that allows shared households to operate as a single financial entity, removing the need for one roommate to front expenses.
+            The HouseTabz mobile app will bring all the features you need to manage shared expenses right to your fingertips.
           </p>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            With HouseTabz, all roommates contribute their share of household expenses into a unified account, ensuring bills are paid on time and no one is left chasing reimbursements.
+            From tracking bills to discovering services and making payments, everything will be just a tap away. Stay tuned for the launch!
           </p>
 
           {/* Tabs */}
@@ -89,7 +89,7 @@ const SolutionPage = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="relative overflow-hidden shadow-lg w-[300px] h-[600px]">
+          <div className="relative w-[300px] h-[600px] rounded-lg overflow-hidden">
             <img
               src={tabs[activeTab].image}
               alt={`${activeTab} preview`}

@@ -11,6 +11,7 @@ import BusinessPage from './components/BusinessPage'; // Import the BusinessPage
 import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage component
 import AboutUs from './components/AboutUs'; // Import the About Us page
 import HowItWorks from './components/HowItWorks'; // Import the How It Works page
+import SharedPaymentSection from './components/SharedPaymentSection';
 
 const AppContent = () => {
   const location = useLocation();
@@ -32,6 +33,9 @@ const AppContent = () => {
           element={
             <>
               <LandingPage />
+              <SharedPaymentSection />
+            
+            
               <ProblemSection />
               <SolutionPage />
               <LaunchingSection />

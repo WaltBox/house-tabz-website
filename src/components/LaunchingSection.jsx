@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import launchTexas from '../assets/launchtexas.png';
+import launchTexas from '../assets/launchtexas1.png';
+import MiniForm from './MiniForm'; // Import the MiniForm component
 
 const LaunchingSection = () => {
   // Animation Variants
@@ -54,6 +55,11 @@ const LaunchingSection = () => {
           </p>
           <div className="note bg-green-100 text-green-700 mt-8 p-4 rounded-lg shadow-lg text-lg">
             <strong>Join the VIP list</strong> to be the first to hear about our upcoming giveaways and exclusive offers!
+          </div>
+
+          {/* Mini Form */}
+          <div className="mt-8">
+            <MiniForm />
           </div>
         </motion.div>
 

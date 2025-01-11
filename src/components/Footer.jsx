@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { FaInstagram, FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'; // Import social icons
 
 const Footer = () => {
   const [formData, setFormData] = useState({
@@ -10,24 +11,22 @@ const Footer = () => {
   });
   const [statusMessage, setStatusMessage] = useState('');
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatusMessage(''); // Reset the status message
+    setStatusMessage('');
 
     try {
       const response = await axios.post(
-        'https://api.housetabz.com/api/contact', // Replace with your API endpoint
+        'https://api.housetabz.com/api/contact',
         formData
       );
       setStatusMessage(response.data.message || 'Your message has been sent successfully!');
-      setFormData({ name: '', email: '', message: '' }); // Clear form
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Error submitting contact form:', error);
       setStatusMessage('Failed to send your message. Please try again later.');
@@ -54,21 +53,38 @@ const Footer = () => {
 
         {/* Center: Quick Links */}
         <div className="links md:w-1/3">
-  <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
-  <ul className="mt-4 space-y-2">
-    <li>
-      <Link to="/about" className="text-sm hover:text-green-400 transition">
-        About Us
-      </Link>
-    </li>
-    <li>
-      <Link to="/how-it-works" className="text-sm hover:text-green-400 transition">
-        How It Works
-      </Link>
-    </li>
-
-  </ul>
-</div>
+          <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
+          <ul className="mt-4 space-y-2">
+            <li>
+              <Link to="/about" className="text-sm hover:text-green-400 transition">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/how-it-works" className="text-sm hover:text-green-400 transition">
+                How It Works
+              </Link>
+            </li>
+          </ul>
+          {/* Socials */}
+          <div className="mt-8">
+            <h3 className="text-xl font-bold text-green-400">Follow Our Socials</h3>
+            <div className="flex space-x-4 mt-4">
+              <a href="https://www.instagram.com/housetabz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
+                <FaInstagram className="text-2xl hover:text-green-400 transition" />
+              </a>
+              <a href="https://www.facebook.com/profile.php?id=61571984092500" target="_blank" rel="noopener noreferrer">
+                <FaFacebook className="text-2xl hover:text-green-400 transition" />
+              </a>
+              <a href="https://x.com/housetabz?s=11" target="_blank" rel="noopener noreferrer">
+                <FaTwitter className="text-2xl hover:text-green-400 transition" />
+              </a>
+              <a href="https://www.linkedin.com/company/104392401/" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin className="text-2xl hover:text-green-400 transition" />
+              </a>
+            </div>
+          </div>
+        </div>
 
         {/* Right: Contact Form */}
         <div className="contact md:w-1/3">

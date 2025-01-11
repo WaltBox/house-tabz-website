@@ -34,15 +34,18 @@ const LandingPage = () => (
     </div>
 
     {/* Right Section */}
-    <div className="logo-section w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
-      <div className="relative">
-        <img
-          src={logo}
-          alt="HouseTabz Logo"
-          className="w-48 md:w-64 transform hover:scale-110 transition-transform duration-500"
-        />
-      </div>
-    </div>
+   {/* Right Section */}
+   <div className="logo-section w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
+  <div className="relative">
+    <img
+      src={logo}
+      alt="HouseTabz Logo"
+      className="w-40 sm:w-48 md:w-64 lg:w-80 xl:w-96 max-w-full h-auto transform hover:scale-110 transition-transform duration-500"
+    />
+  </div>
+</div>
+
+
 
     {/* Background Wave */}
     <div className="absolute bottom-0 w-full overflow-hidden">
@@ -132,13 +135,20 @@ const LandingPage = () => (
           font-size: 1rem;
         }
         .logo-section img {
-        margin-top: 2rem;
-          width: 15rem; /* Smaller logo on mobile */
-        }
+    margin-top: 2rem;
+    width: 12rem; /* Smaller logo on mobile */
+    height: auto; /* Maintain aspect ratio */
+  }
         .word-carousel {
           min-width: 10rem; /* Ensure word visibility on mobile */
         }
       }
+        @media (min-width: 1600px) {
+  .logo-section img {
+    width: 30rem; /* Scale up for ultra-wide screens */
+  }
+}
+
     `}</style>
   </div>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion'; // Import framer-motion
+import { motion } from 'framer-motion';
 import launchTexas from '../assets/launchtexas.png';
 
 const LaunchingSection = () => {
@@ -44,18 +44,16 @@ const LaunchingSection = () => {
           variants={textVariants}
         >
           <h2 className="text-5xl md:text-6xl font-extrabold text-gray-800 leading-tight">
-            HouseTabz is coming to
+            HouseTabz is anticipating availability in
           </h2>
           <h3 className="text-4xl md:text-5xl font-bold text-green-500 mt-2">
-            Dallas, Texas!
+            Dallas, Houston, and Lubbock!
           </h3>
           <p className="text-xl text-gray-600 mt-6 leading-relaxed">
-            Mark your calendars! Fall 2025 will change how shared households
-            manage their expenses forever.
+            Exciting times are ahead! Stay tuned as we bring our revolutionary shared expense platform to select Texas cities.
           </p>
           <div className="note bg-green-100 text-green-700 mt-8 p-4 rounded-lg shadow-lg text-lg">
-            <strong>Join the VIP list</strong> and receive a{' '}
-            <strong>$50 credit</strong> to Sparkly Maids when you sign up for Rhythm Energy!
+            <strong>Join the VIP list</strong> to be the first to hear about our upcoming giveaways and exclusive offers!
           </div>
         </motion.div>
 
@@ -70,7 +68,7 @@ const LaunchingSection = () => {
         >
           <img
             src={launchTexas}
-            alt="Dallas Launch"
+            alt="Texas Launch"
             className="w-full h-auto object-contain drop-shadow-lg transform hover:scale-105 transition-transform duration-300"
           />
         </motion.div>

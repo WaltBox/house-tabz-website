@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // Import framer-motion
 import houseCard from '../assets/housecard.png'; // Import the card image
 import Footer from './Footer';
 
@@ -38,12 +38,13 @@ const HowItWorks = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <div className="card-wrapper">
+              <div className="card-wrapper relative">
                 <img
                   src={houseCard}
                   alt="HouseTabz Card"
                   className="house-card"
                 />
+                <div className="orb"></div>
               </div>
             </motion.div>
           </div>
@@ -110,16 +111,14 @@ const HowItWorks = () => {
       {/* Styles */}
       <style jsx>{`
         .house-card {
-          width: 80%; /* Scale down card size */
-          max-width: 300px;
-          transform: rotate(-10deg); /* Rotate for aesthetic display */
-       
-       
+          width: 90%; /* Bigger card size */
+          max-width: 400px;
+          animation: rockingCard 3s ease-in-out infinite;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .house-card:hover {
-          transform: rotate(0deg) scale(1.05);
+          transform: scale(1.05);
           box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
 
@@ -127,18 +126,50 @@ const HowItWorks = () => {
           position: relative;
           display: flex;
           justify-content: center;
-          margin-top: 2rem; /* For mobile spacing */
+        }
+
+        .orb {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 50px;
+          height: 50px;
+          background-color: rgba(72, 187, 120, 0.8);
+          border-radius: 50%;
+          animation: orbit 5s linear infinite;
+          transform-origin: -150px -150px;
+        }
+
+        @keyframes rockingCard {
+          0% {
+            transform: rotate(-10deg);
+          }
+          50% {
+            transform: rotate(10deg);
+          }
+          100% {
+            transform: rotate(-10deg);
+          }
+        }
+
+        @keyframes orbit {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
 
         @media (max-width: 768px) {
-          .card-wrapper {
-            margin-top: 2rem;
+          .house-card {
+            width: 80%; /* Adjust size for mobile */
+            max-width: 300px;
           }
 
-          .house-card {
-            width: 70%; /* Smaller size for mobile */
-            max-width: 240px;
-            transform: rotate(-5deg); /* Subtle rotation on mobile */
+          .orb {
+            width: 40px;
+            height: 40px;
           }
         }
       `}</style>

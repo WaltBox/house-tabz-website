@@ -16,17 +16,15 @@ const WaitlistPage = () => {
 
   // Extract referrerId from URL
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const ref = searchParams.get('ref'); // Extracts `ref` parameter from URL
-    console.log('Referrer ID from URL:', ref); // Debugging: Log the referrer ID
-    if (ref) {
+    const params = new URLSearchParams(window.location.search);
+    const referrerId = params.get('ref');
+    if (referrerId) {
       setFormData((prevData) => ({
         ...prevData,
-        referrerId: ref, // Add the `referrerId` to the form data
+        referrerId, // Include referrerId in the form data
       }));
     }
   }, []);
-  
 
   // Handle form field changes
   const handleChange = (e) => {

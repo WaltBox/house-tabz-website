@@ -39,40 +39,28 @@ const ReferralProgram = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ type: '', message: '' });
+    setFeedbackMessage('');
     setIsSubmitting(true);
   
+    const searchParams = new URLSearchParams(window.location.search);
+    const referrerId = searchParams.get('ref') || null;
+  
+    const submissionData = {
+      ...formData,
+      referrerId, // Include the referrerId from URL
+    };
+  
+    console.log("Form data before submission:", submissionData);
+  
     try {
-      const endpoint = `${API_BASE_URL}/referral-program`;
-  
-      let response;
-      if (isForgotten) {
-        // Perform a GET request for forgotten link
-        response = await axios.get(endpoint, {
-          params: { email: formData.email },
-        });
-      } else {
-        // Perform a POST request to create a new referral link
-        response = await axios.post(endpoint, formData);
-      }
-  
-      if (response.data.link) {
-        setReferralLink(response.data.link);
-        setStatus({
-          type: 'success',
-          message: isForgotten
-            ? 'Referral link retrieved successfully!'
-            : 'Referral link generated successfully!',
-        });
-      } else {
-        setStatus({ type: 'error', message: 'No referral link found or created.' });
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setStatus({
-        type: 'error',
-        message: error.response?.data?.message || 'An error occurred. Please try again.',
+      const response = await axios.post('https://api.housetabz.com/api/waitlist', submissionData, {
+        headers: { 'Content-Type': 'application/json' },
       });
+      setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
+      setFormData({ name: '', phone: '', email: '', city: '' });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setFeedbackMessage(error.response?.data?.message || 'Failed to join the VIP list.');
     } finally {
       setIsSubmitting(false);
     }

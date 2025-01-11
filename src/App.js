@@ -12,7 +12,7 @@ import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage
 import AboutUs from './components/AboutUs'; // Import the About Us page
 import HowItWorks from './components/HowItWorks'; // Import the How It Works page
 import SharedPaymentSection from './components/SharedPaymentSection';
-
+import ReferralProgram from './components/ReferralProgram';
 const AppContent = () => {
   const location = useLocation();
 
@@ -53,6 +53,8 @@ const AppContent = () => {
         {/* About Us Page */}
         <Route path="/about" element={<AboutUs />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/referral-program" element={<ReferralProgram />} />
+
       </Routes>
     </>
   );

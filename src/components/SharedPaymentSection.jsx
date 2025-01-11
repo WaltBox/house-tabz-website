@@ -65,11 +65,13 @@ const SharedPaymentSection = () => {
       </div>
 
       {/* Background Patterns */}
-      <div className="absolute inset-0 opacity-10 z-0">
+         {/* Background Patterns */}
+         <div className="absolute inset-0 opacity-10 z-0 hidden md:block">
         <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-400 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
         <div className="absolute top-0 right-0 w-64 h-64 bg-green-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-teal-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
       </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -153,8 +155,7 @@ const SharedPaymentSection = () => {
               </div>
 
               {/* Decorative Elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-emerald-200 rounded-full opacity-20" />
-              <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-green-200 rounded-full opacity-20" />
+           
             </div>
           </div>
         </div>

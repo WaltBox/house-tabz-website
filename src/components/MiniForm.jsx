@@ -57,7 +57,7 @@ const MiniForm = () => {
             id="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-3 py-1 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
+            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-base" // Changed text-sm to text-base
             placeholder="Name"
             required
           />
@@ -68,7 +68,7 @@ const MiniForm = () => {
             id="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-3 py-1 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
+            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-base" // Changed text-sm to text-base
             placeholder="Phone"
             required
           />
@@ -79,7 +79,7 @@ const MiniForm = () => {
             id="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-3 py-1 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
+            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-base" // Changed text-sm to text-base
             placeholder="Email"
             required
           />
@@ -90,21 +90,21 @@ const MiniForm = () => {
             id="city"
             value={formData.city}
             onChange={handleChange}
-            className="w-full px-3 py-1 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-sm"
+            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none text-base" // Changed text-sm to text-base
             placeholder="City"
             required
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-1 rounded-md text-sm font-semibold hover:bg-green-600 transition duration-300"
+          className="w-full bg-green-500 text-white py-2 rounded-md text-base font-semibold hover:bg-green-600 transition duration-300" // Changed text-sm to text-base
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Submitting...' : 'Become a VIP'}
         </button>
       </form>
       {feedbackMessage && (
-        <p className="mt-2 text-sm text-center text-green-600 font-semibold">
+        <p className="mt-2 text-base text-center text-green-600 font-semibold">
           {feedbackMessage}
         </p>
       )}

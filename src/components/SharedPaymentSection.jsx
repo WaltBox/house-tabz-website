@@ -79,7 +79,7 @@ const SharedPaymentSection = () => {
           <div className={`space-y-8 transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0'}`}>
             <div className="space-y-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
-                Simplified Shared Payments
+                Streamlined Shared Payments
               </span>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
                 The Payment Method for Roommates

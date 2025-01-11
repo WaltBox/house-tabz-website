@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import Footer from './Footer'; // Import Footer component
 
 const WaitlistPage = () => {
-  // State for form data and feedback
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     city: '',
+    referrerId: '', // Add referrerId to form data
   });
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Extract referrerId from the URL query parameters
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const referrerId = params.get('ref');
+    if (referrerId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        referrerId,
+      }));
+    }
+  }, []);
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -39,17 +51,17 @@ const WaitlistPage = () => {
           },
         }
       );
-      // setFeedbackMessage(response.data.message || 'Congrats! You are officially on the HouseTabz VIP list.');
       setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
       setFormData({
         name: '',
         phone: '',
         email: '',
         city: '',
+        referrerId: formData.referrerId, // Retain referrerId for additional submissions
       });
     } catch (error) {
       if (error.response) {
-        setFeedbackMessage(error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesnt work.');
+        setFeedbackMessage(error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesn\'t work.');
       } else {
         setFeedbackMessage('An error occurred. Please try again later.');
       }

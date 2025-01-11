@@ -17,14 +17,16 @@ const WaitlistPage = () => {
   // Extract referrerId from URL
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const ref = searchParams.get('ref'); // Get the "ref" parameter
+    const ref = searchParams.get('ref'); // Extract "ref" from URL
     if (ref) {
+      console.log('Referrer ID from URL:', ref); // Debugging
       setFormData((prevData) => ({
         ...prevData,
-        referrerId: ref, // Set the referrerId in the form data
+        referrerId: ref,
       }));
     }
-  }, []); // Runs once when the component mounts
+  }, []);
+  
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -40,27 +42,28 @@ const WaitlistPage = () => {
     e.preventDefault();
     setFeedbackMessage('');
     setIsSubmitting(true);
-
+  
+    console.log('Form data before submission:', formData); // Debugging
+  
     try {
       const response = await axios.post('https://api.housetabz.com/api/waitlist', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
       setFormData({
         name: '',
         phone: '',
         email: '',
         city: '',
-        referrerId: formData.referrerId, // Preserve referrerId for further submissions
+        referrerId: formData.referrerId, // Preserve referrerId for subsequent submissions
       });
     } catch (error) {
+      console.error('Error submitting form:', error);
       if (error.response) {
-        setFeedbackMessage(
-          error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesn\'t work.'
-        );
+        setFeedbackMessage(error.response.data.message || 'Failed to join the VIP list.');
       } else {
         setFeedbackMessage('An error occurred. Please try again later.');
       }
@@ -68,6 +71,7 @@ const WaitlistPage = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="waitlist-page min-h-screen w-screen bg-[#dff6f0] flex flex-col justify-between pt-20">

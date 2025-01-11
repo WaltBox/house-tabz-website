@@ -112,10 +112,10 @@ const SharedPaymentSection = () => {
               ))}
             </div>
 
-            <button className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition-colors">
+            {/* <button className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition-colors">
               Get Started
               <ChevronRight className="ml-2 w-5 h-5" />
-            </button>
+            </button> */}
           </div>
 
           {/* Integration Display Section */}

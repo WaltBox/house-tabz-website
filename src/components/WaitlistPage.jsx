@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import Footer from './Footer'; // Import Footer component
+import Footer from './Footer';
 
 const WaitlistPage = () => {
   const [formData, setFormData] = useState({
@@ -9,22 +9,22 @@ const WaitlistPage = () => {
     phone: '',
     email: '',
     city: '',
-    referrerId: '', // Add referrerId to form data
+    referrerId: '', // Include referrerId in the form data
   });
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Extract referrerId from the URL query parameters
+  // Extract referrerId from URL
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const referrerId = params.get('ref');
-    if (referrerId) {
+    const searchParams = new URLSearchParams(window.location.search);
+    const ref = searchParams.get('ref'); // Get the "ref" parameter
+    if (ref) {
       setFormData((prevData) => ({
         ...prevData,
-        referrerId,
+        referrerId: ref, // Set the referrerId in the form data
       }));
     }
-  }, []);
+  }, []); // Runs once when the component mounts
 
   // Handle form field changes
   const handleChange = (e) => {
@@ -42,26 +42,25 @@ const WaitlistPage = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(
-        'https://api.housetabz.com/api/waitlist',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.post('https://api.housetabz.com/api/waitlist', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
       setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
       setFormData({
         name: '',
         phone: '',
         email: '',
         city: '',
-        referrerId: formData.referrerId, // Retain referrerId for additional submissions
+        referrerId: formData.referrerId, // Preserve referrerId for further submissions
       });
     } catch (error) {
       if (error.response) {
-        setFeedbackMessage(error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesn\'t work.');
+        setFeedbackMessage(
+          error.response.data.message || 'Failed to join the VIP list, contact walt@housetabz if it still doesn\'t work.'
+        );
       } else {
         setFeedbackMessage('An error occurred. Please try again later.');
       }
@@ -72,7 +71,6 @@ const WaitlistPage = () => {
 
   return (
     <div className="waitlist-page min-h-screen w-screen bg-[#dff6f0] flex flex-col justify-between pt-20">
-      {/* Mint Wave */}
       <div className="absolute top-0 left-0 w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +86,6 @@ const WaitlistPage = () => {
         </svg>
       </div>
 
-      {/* Content */}
       <div className="flex-grow flex flex-col items-center justify-center px-6 pt-32 pb-20 relative z-10">
         <motion.div
           className="text-center mb-8"
@@ -104,7 +101,6 @@ const WaitlistPage = () => {
           </p>
         </motion.div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 mt-10">
           <div className="mb-4">
             <label className="block text-gray-800 font-semibold mb-2" htmlFor="name">
@@ -171,7 +167,6 @@ const WaitlistPage = () => {
           </button>
         </form>
 
-        {/* Feedback Message */}
         {feedbackMessage && (
           <div className="mt-6 text-center">
             <p className="text-green-600 font-semibold">{feedbackMessage}</p>
@@ -179,7 +174,6 @@ const WaitlistPage = () => {
         )}
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

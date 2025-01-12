@@ -39,33 +39,23 @@ const ReferralProgram = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFeedbackMessage('');
+    setStatus({ type: '', message: '' });
     setIsSubmitting(true);
-  
-    const searchParams = new URLSearchParams(window.location.search);
-    const referrerId = searchParams.get('ref') || null;
-  
-    const submissionData = {
-      ...formData,
-      referrerId, // Include the referrerId from URL
-    };
-  
-    console.log("Form data before submission:", submissionData);
-  
+
     try {
-      const response = await axios.post('https://api.housetabz.com/api/waitlist', submissionData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
-      setFormData({ name: '', phone: '', email: '', city: '' });
+      const response = await axios.post('https://api.housetabz.com/api/referral-program', formData);
+      setReferralLink(response.data.link);
+      setStatus({ type: 'success', message: 'Referral link generated successfully!' });
     } catch (error) {
-      console.error("Error submitting form:", error);
-      setFeedbackMessage(error.response?.data?.message || 'Failed to join the VIP list.');
+      console.error('Error generating referral link:', error);
+      setStatus({
+        type: 'error',
+        message: error.response?.data?.message || 'Failed to generate referral link.',
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
-  
   
   
   const features = [

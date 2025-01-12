@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import Footer from './Footer';
-
+import Confetti from 'react-confetti';
 const WaitlistPage = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +13,11 @@ const WaitlistPage = () => {
   });
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   // Extract referrerId from URL
   useEffect(() => {
@@ -51,7 +56,8 @@ const WaitlistPage = () => {
         },
       });
   
-      setFeedbackMessage('Congrats! You are officially on the HouseTabz VIP list.');
+      setFeedbackMessage('Yay!! You are officially on the HouseTabz VIP list. Thank you for the support!');
+      setShowConfetti(true); // Start confetti!
       setFormData({
         name: '',
         phone: '',
@@ -74,6 +80,28 @@ const WaitlistPage = () => {
 
   return (
     <div className="waitlist-page min-h-screen w-screen bg-[#dff6f0] flex flex-col justify-between pt-20">
+      {showConfetti && (
+        <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+        numberOfPieces={200}
+        gravity={0.3}
+        colors={[
+          '#f94144', // red
+          '#f3722c', // orange
+          '#f8961e', // yellow-orange
+          '#f9c74f', // yellow
+          '#90be6d', // green
+          '#43aa8b', // teal
+          '#577590', // blue
+          '#9b5de5', // purple
+          '#ff99c8'  // pink
+        ]}
+      />
+    
+      )}
+      
       <div className="absolute top-0 left-0 w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"

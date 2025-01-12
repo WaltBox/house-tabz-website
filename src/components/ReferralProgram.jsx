@@ -283,7 +283,7 @@ const ReferralProgram = () => {
 )}
 
 {referralLink && (
-  <div className="mt-6">
+  <div className="mt-6 mx-[-1rem] sm:mx-0">
     <ShareComponent
       referralLink={referralLink}
     />

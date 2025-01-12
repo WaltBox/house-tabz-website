@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import { Share2, Copy, Check } from 'lucide-react';
-import vipInviteImage from '../assets/housetabzvipinvite.png';
+import { Share2, Copy, Check, Gift } from 'lucide-react';
 
 const ShareComponent = ({ referralLink }) => {
   const [copied, setCopied] = useState(false);
 
+  const getShareContent = () => {
+    return `🎉 Join HouseTabz VIP List!
+
+💰 Get $5 in credits when you sign up using my referral link!
+
+${referralLink}
+
+See you there! 🏠`;
+  };
+
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(referralLink);
+      await navigator.clipboard.writeText(getShareContent());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -18,8 +27,8 @@ const ShareComponent = ({ referralLink }) => {
   const handleShare = async () => {
     try {
       await navigator.share({
-        title: 'Join HouseTabz VIP List 🏠',
-        text: 'Get $5 in credits when you join!',
+        title: 'Join HouseTabz VIP List',
+        text: getShareContent(),
         url: referralLink
       });
     } catch (err) {
@@ -29,35 +38,29 @@ const ShareComponent = ({ referralLink }) => {
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-      {/* Preview Card */}
-      <div className="relative">
-        <img 
-          src={vipInviteImage} 
-          alt="HouseTabz VIP Invite" 
-          className="w-full h-56 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
-          <div className="absolute bottom-4 left-4 right-4 text-white">
-            <h3 className="text-xl font-bold mb-1">HouseTabz VIP List 🏠</h3>
-            <p className="text-sm opacity-90">Exclusive rewards await!</p>
+      <div className="p-6">
+        {/* Header */}
+        <div className="flex items-center justify-center mb-6">
+          <div className="h-12 w-12 bg-green-50 rounded-full flex items-center justify-center">
+            <Gift className="h-6 w-6 text-green-500" />
           </div>
         </div>
-      </div>
 
-      <div className="p-6">
-        <div className="mb-6">
-          <h4 className="text-lg font-semibold text-gray-800 mb-2">
-            Share your invite link
-          </h4>
-          <p className="text-sm text-gray-600">
-            When your friends join, you'll both get $5 in credits!
+        {/* Title and Description */}
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+            Share & Earn Together! 🎉
+          </h3>
+          <p className="text-gray-600">
+            Invite friends to join HouseTabz and you'll both get $5 in credits when they sign up!
           </p>
         </div>
 
-        {/* Link Display */}
-        <div className="mb-6 bg-gray-50 rounded-lg p-3 flex items-center justify-between">
-          <div className="truncate text-sm text-gray-600">
-            {referralLink}
+        {/* Message Preview */}
+        <div className="mb-6 bg-gray-50 rounded-lg p-4">
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Your invitation message:</h4>
+          <div className="text-sm text-gray-600 whitespace-pre-line">
+            {getShareContent()}
           </div>
         </div>
 
@@ -79,7 +82,7 @@ const ShareComponent = ({ referralLink }) => {
             ) : (
               <>
                 <Copy className="h-4 w-4" />
-                <span>Copy Link</span>
+                <span>Copy Message</span>
               </>
             )}
           </button>

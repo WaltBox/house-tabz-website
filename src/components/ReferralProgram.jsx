@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Share2, Copy, Gift, Users, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import ShareComponent from './ShareComponent';
+import vipInviteImage from '../assets/housetabzvipinvite.png'; 
+import { Helmet } from 'react-helmet';
 import Footer from './Footer';
 
 const ReferralProgram = () => {
@@ -77,6 +79,15 @@ const ReferralProgram = () => {
   ];
 
   return (
+<>
+    <Helmet>
+      <meta property="og:title" content="Join HouseTabz VIP List 🏠" />
+      <meta property="og:description" content="Get $5 in credits when you sign up! Limited time offer." />
+      <meta property="og:image" content={vipInviteImage} />
+      <meta property="og:url" content={referralLink} />
+      <meta name="apple-mobile-web-app-title" content="HouseTabz VIP Invite" />
+      <link rel="apple-touch-icon" href={vipInviteImage} />
+    </Helmet>
     <section>
       <section className="referral-program bg-gradient-to-b from-[#dff6f0] to-white py-16 px-8">
         <div className="max-w-7xl mx-auto mt-20">
@@ -340,6 +351,7 @@ const ReferralProgram = () => {
         }
       `}</style>
     </section>
+    </>
   );
 };
 

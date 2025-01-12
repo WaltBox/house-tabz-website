@@ -13,6 +13,9 @@ import AboutUs from './components/AboutUs'; // Import the About Us page
 import HowItWorks from './components/HowItWorks'; // Import the How It Works page
 import SharedPaymentSection from './components/SharedPaymentSection';
 import ReferralProgram from './components/ReferralProgram';
+import { Helmet } from 'react-helmet';
+import vipInviteImage from './assets/housetabzvipinvite.png';
+
 const AppContent = () => {
   const location = useLocation();
 
@@ -25,7 +28,26 @@ const AppContent = () => {
 
   return (
     <>
+
+<Helmet>
+        {/* Standard meta tags */}
+        <title>HouseTabz VIP Program</title>
+        <meta name="description" content="Join HouseTabz VIP List and earn rewards!" />
+        
+        {/* Open Graph / Facebook / iMessage */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Join HouseTabz VIP List 🏠" />
+        <meta property="og:description" content="Get $5 in credits when you sign up! Limited time offer." />
+        <meta property="og:image" content={vipInviteImage} />
+        <meta property="og:url" content="https://housetabz.com" />
+        
+        {/* iOS specific */}
+        <meta name="apple-mobile-web-app-title" content="HouseTabz VIP Invite" />
+        <link rel="apple-touch-icon" href={vipInviteImage} />
+      </Helmet>
+
       <Navbar /> {/* Render the Navbar */}
+      
       <Routes>
         {/* Main Landing Page */}
         <Route
@@ -39,6 +61,8 @@ const AppContent = () => {
               <ProblemSection />
               <SolutionPage />
               <LaunchingSection />
+            
+
               <Footer />
             </>
           }
@@ -54,6 +78,7 @@ const AppContent = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/referral-program" element={<ReferralProgram />} />
+      
 
       </Routes>
     </>

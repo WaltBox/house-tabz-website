@@ -258,7 +258,7 @@ const ReferralProgram = () => {
     setStatus({ type: '', message: '' });
   }}
 >
-  {isForgotten ? 'I want to generate a new referral link' : 'I forgot my ref link'}
+  {isForgotten ? 'Back' : 'I forgot my ref link'}
 </p>
 
 {status.message && (

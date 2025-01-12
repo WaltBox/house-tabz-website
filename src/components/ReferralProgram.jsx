@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Share2, Copy, Gift, Users, ChevronRight } from 'lucide-react';
 import axios from 'axios';
-
+import ShareComponent from './ShareComponent';
 import Footer from './Footer';
 
 const ReferralProgram = () => {
@@ -272,26 +272,10 @@ const ReferralProgram = () => {
 )}
 
 {referralLink && (
-  <div className="mt-6 space-y-4">
-    <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
-      <input
-        type="text"
-        value={referralLink}
-        readOnly
-        className="flex-1 bg-transparent border-none focus:outline-none text-sm"
-      />
-      <button
-        onClick={copyToClipboard}
-        className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none transition duration-300"
-        title="Copy to clipboard"
-      >
-        {copied ? (
-          <span className="text-green-500 text-sm font-medium">Copied!</span>
-        ) : (
-          <Copy className="h-4 w-4" />
-        )}
-      </button>
-    </div>
+  <div className="mt-6">
+    <ShareComponent
+      referralLink={referralLink}
+    />
   </div>
 )}
 

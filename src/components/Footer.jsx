@@ -72,7 +72,7 @@ const Footer = () => {
             </li>
             <li>
   <Link to="/homies" className="text-sm hover:text-green-400 transition">
-    Become a Homie
+    HouseTabz Homies
   </Link>
 </li>
           </ul>

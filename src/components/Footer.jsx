@@ -70,6 +70,11 @@ const Footer = () => {
                 Referral Program
               </Link>
             </li>
+            <li>
+  <Link to="/homies" className="text-sm hover:text-green-400 transition">
+    Become a Homie
+  </Link>
+</li>
           </ul>
           {/* Socials */}
           <div className="mt-8">

@@ -12,6 +12,7 @@ import WaitlistPage from './components/WaitlistPage'; // Import the WaitlistPage
 import AboutUs from './components/AboutUs'; // Import the About Us page
 import HowItWorks from './components/HowItWorks'; // Import the How It Works page
 import SharedPaymentSection from './components/SharedPaymentSection';
+import HouseTabzHomies from './components/HouseTabzHomies';
 import ReferralProgram from './components/ReferralProgram';
 import { Helmet } from 'react-helmet';
 import vipInviteImage from './assets/housetabzvipinvite.png';
@@ -62,6 +63,7 @@ const AppContent = () => {
               <SolutionPage />
               <LaunchingSection />
             
+            
 
               <Footer />
             </>
@@ -78,6 +80,7 @@ const AppContent = () => {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/referral-program" element={<ReferralProgram />} />
+        <Route path="/homies" element={<HouseTabzHomies />} />
       
 
       </Routes>

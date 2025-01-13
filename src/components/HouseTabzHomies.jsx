@@ -38,7 +38,7 @@ const HouseTabzHomies = () => {
               </span>
               
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Become a <span className="text-emerald-600">HouseTabz Homie</span>
+                Become a <span className="text-green-500">HouseTabz Homie</span>
               </h1>
 
               <p className="text-xl text-gray-600">

@@ -123,13 +123,13 @@ const HouseTabzHomies = () => {
                   </div>
                 </div>
 
-                <button
+                {/* <button
                   type="submit"
                   disabled
                   className="w-full px-6 py-4 bg-emerald-500 text-white font-medium rounded-xl opacity-75 cursor-not-allowed"
                 >
                   Join the Waitlist
-                </button>
+                </button> */}
               </form>
             </div>
           </div>

@@ -9,11 +9,19 @@ const ConfirmRequest = () => {
   const [perPersonAmount, setPerPersonAmount] = useState(0);
   const [perPersonUpfront, setPerPersonUpfront] = useState(0);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRoommates = async () => {
       try {
-        const userResponse = await axios.get('http://localhost:3004/api/users/1');
+        // Get userId from URL params
+        const userId = searchParams.get('user_id');
+        if (!userId) {
+          throw new Error('User ID is required');
+        }
+
+        // Use the userId from params instead of hardcoded '1'
+        const userResponse = await axios.get(`http://localhost:3004/api/users/${userId}`);
         const { houseId } = userResponse.data;
         const houseResponse = await axios.get(`http://localhost:3004/api/houses/${houseId}`);
         const { users } = houseResponse.data;
@@ -24,6 +32,7 @@ const ConfirmRequest = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error:', error);
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -33,8 +42,14 @@ const ConfirmRequest = () => {
   const handleConfirm = async () => {
     try {
       const partnerId = searchParams.get('partner_id');
+      const userId = searchParams.get('user_id');  // Get userId from params
+
       if (!partnerId) {
         throw new Error('Partner ID is required');
+      }
+
+      if (!userId) {
+        throw new Error('User ID is required');
       }
 
       const apiKey = searchParams.get('apiKey');
@@ -52,7 +67,7 @@ const ConfirmRequest = () => {
           serviceType: searchParams.get('serviceType'),
           estimatedAmount: parseFloat(searchParams.get('amount')),
           requiredUpfrontPayment: parseFloat(searchParams.get('upfront')),
-          userId: 1
+          userId: userId  // Use the userId from params
         },
         {
           headers: {
@@ -67,6 +82,7 @@ const ConfirmRequest = () => {
       }
     } catch (error) {
       console.error('Error creating request:', error);
+      setError(error.message);
     }
   };
 
@@ -76,6 +92,28 @@ const ConfirmRequest = () => {
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#34d933] border-t-transparent"></div>
           <p className="text-gray-700 font-medium">Loading payment details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#dff6f0]">
+        <div className="flex flex-col items-center space-y-4 max-w-md px-6 text-center">
+          <div className="text-red-500 text-xl mb-4">
+            <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Error
+          </div>
+          <p className="text-gray-700">{error}</p>
+          <button 
+            className="mt-4 bg-[#34d399] text-white py-2 px-6 rounded-lg font-medium hover:bg-[#2dbe2c]"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
+// Determine the appropriate API URL based on the environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://api.housetabz.com'
+  : 'http://localhost:3004';
+
 const ConfirmRequest = () => {
   const [searchParams] = useSearchParams();
   const [roommates, setRoommates] = useState([]);
@@ -21,9 +26,9 @@ const ConfirmRequest = () => {
         }
 
         // Use the userId from params instead of hardcoded '1'
-        const userResponse = await axios.get(`http://localhost:3004/api/users/${userId}`);
+        const userResponse = await axios.get(`${API_BASE_URL}/api/users/${userId}`);
         const { houseId } = userResponse.data;
-        const houseResponse = await axios.get(`http://localhost:3004/api/houses/${houseId}`);
+        const houseResponse = await axios.get(`${API_BASE_URL}/api/houses/${houseId}`);
         const { users } = houseResponse.data;
 
         setRoommates(users);
@@ -32,7 +37,7 @@ const ConfirmRequest = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error:', error);
-        setError(error.message);
+        setError(error.response?.data?.message || error.message);
         setLoading(false);
       }
     };
@@ -60,7 +65,7 @@ const ConfirmRequest = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:3004/api/partners/${partnerId}/staged-request`,
+        `${API_BASE_URL}/api/partners/${partnerId}/staged-request`,
         {
           transactionId: searchParams.get('transactionId'),
           serviceName: searchParams.get('serviceName'),
@@ -82,7 +87,7 @@ const ConfirmRequest = () => {
       }
     } catch (error) {
       console.error('Error creating request:', error);
-      setError(error.message);
+      setError(error.response?.data?.message || error.message);
     }
   };
 

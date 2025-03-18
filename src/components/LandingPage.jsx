@@ -34,18 +34,16 @@ const LandingPage = () => (
     </div>
 
     {/* Right Section */}
-   {/* Right Section */}
-   <div className="logo-section w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
-  <div className="relative">
-    <img
-      src={logo}
-      alt="HouseTabz Logo"
-      className="w-40 sm:w-48 md:w-64 lg:w-80 xl:w-96 max-w-full h-auto transform hover:scale-110 transition-transform duration-500"
-    />
-  </div>
-</div>
-
-
+    <div className="logo-section w-full md:w-1/2 flex justify-center relative mt-8 md:mt-0">
+      {/* Rocking animation applied to this container */}
+      <div className="relative rocking">
+        <img
+          src={logo}
+          alt="HouseTabz Logo"
+          className="w-40 sm:w-48 md:w-64 lg:w-80 xl:w-96 max-w-full h-auto transform hover:scale-110 transition-transform duration-500"
+        />
+      </div>
+    </div>
 
     {/* Background Wave */}
     <div className="absolute bottom-0 w-full overflow-hidden">
@@ -122,6 +120,41 @@ const LandingPage = () => (
         }
       }
 
+      /* Smoother rocking animation */
+      @keyframes rocking {
+        0% {
+          transform: rotate(0deg);
+        }
+        12.5% {
+          transform: rotate(5deg);
+        }
+        25% {
+          transform: rotate(10deg);
+        }
+        37.5% {
+          transform: rotate(5deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+        62.5% {
+          transform: rotate(-5deg);
+        }
+        75% {
+          transform: rotate(-10deg);
+        }
+        87.5% {
+          transform: rotate(-5deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      .rocking {
+        animation: rocking 4s infinite linear;
+      }
+
       @media (max-width: 768px) {
         .text-section {
           text-align: center;
@@ -135,20 +168,20 @@ const LandingPage = () => (
           font-size: 1rem;
         }
         .logo-section img {
-    margin-top: 2rem;
-    width: 12rem; /* Smaller logo on mobile */
-    height: auto; /* Maintain aspect ratio */
-  }
+          margin-top: 2rem;
+          width: 12rem; /* Smaller logo on mobile */
+          height: auto;
+        }
         .word-carousel {
-          min-width: 10rem; /* Ensure word visibility on mobile */
+          min-width: 10rem;
         }
       }
-        @media (min-width: 1600px) {
-  .logo-section img {
-    width: 30rem; /* Scale up for ultra-wide screens */
-  }
-}
 
+      @media (min-width: 1600px) {
+        .logo-section img {
+          width: 30rem; /* Scale up for ultra-wide screens */
+        }
+      }
     `}</style>
   </div>
 );

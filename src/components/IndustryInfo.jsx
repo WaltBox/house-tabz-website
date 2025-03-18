@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const IndustryInfo = ({ selectedIndustry }) => {
   // Formatting helpers
@@ -13,7 +13,7 @@ const IndustryInfo = ({ selectedIndustry }) => {
     return `$${formatNumber(num, 2)}`;
   };
 
-  // Energy Data
+  // Energy Data - unchanged
   const energyData = [
     { city: 'Houston', collegeStudents: 155092, age22To30: 495532, age30To40: 575000, totalRoommates: 1225624, sharedHouseholds: 135905, energyRevPotential: 244629000 },
     { city: 'Dallas', collegeStudents: 151206, age22To30: 293304, age30To40: 320000, totalRoommates: 764510, sharedHouseholds: 98292, energyRevPotential: 176925600 },
@@ -36,142 +36,217 @@ const IndustryInfo = ({ selectedIndustry }) => {
     energyRevPotential: (acc.energyRevPotential || 0) + curr.energyRevPotential
   }), {});
 
-  // Cleaning Data
-  const cleaningData = [
-    { city: 'Houston', sharedHouseholds: 135905, avgMonthlySpend: 120, annualRevPotential: 195703200 },
-    { city: 'Dallas', sharedHouseholds: 98292, avgMonthlySpend: 120, annualRevPotential: 141540480 },
-    { city: 'Austin', sharedHouseholds: 87500, avgMonthlySpend: 120, annualRevPotential: 126000000 },
-    { city: 'San Antonio', sharedHouseholds: 65000, avgMonthlySpend: 120, annualRevPotential: 93600000 }
+  // Cleaning Data - empty for now
+  const cleaningData = [];
+
+  const cleaningTotals = {
+    sharedHouseholds: 0,
+    annualRevPotential: 0
+  };
+
+  // Energy metrics display categories
+  const energyMetrics = [
+    { name: 'College Students', key: 'collegeStudents' },
+    { name: '22-30', key: 'age22To30' },
+    { name: '30-40', key: 'age30To40' },
+    { name: 'Total Roommates', key: 'totalRoommates' },
+    { name: 'Shared Households', key: 'sharedHouseholds' },
+    { name: 'Annual Energy Revenue Potential', key: 'energyRevPotential', format: 'currency' }
   ];
 
-  const cleaningTotals = cleaningData.reduce((acc, curr) => ({
-    sharedHouseholds: (acc.sharedHouseholds || 0) + curr.sharedHouseholds,
-    annualRevPotential: (acc.annualRevPotential || 0) + curr.annualRevPotential
-  }), {});
+  // For mobile view - we'll allow users to switch between market summary and city-specific data
+  // Define all state hooks at the top level of the component
+  const [selectedCity, setSelectedCity] = useState('All Cities');
+  const [selectedCleaningCity, setSelectedCleaningCity] = useState('All Cities');
+
+  // Filter data based on selected city
+  const filteredEnergyData = selectedCity === 'All Cities' 
+    ? energyData 
+    : energyData.filter(city => city.city === selectedCity);
+    
+  // Filter data for cleaning
+  const filteredCleaningData = selectedCleaningCity === 'All Cities' 
+    ? cleaningData 
+    : cleaningData.filter(city => city.city === selectedCleaningCity);
 
   if (selectedIndustry === 'energy') {
     return (
-      <div className="industry-info bg-white rounded-xl shadow-lg p-6 mb-10 overflow-x-auto">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">Texas Energy Market Opportunity</h2>
-          <p className="text-gray-600 mb-3">
-            In Texas's deregulated energy market, HouseTabz offers a unique opportunity to reach shared households.
-            Our platform simplifies the billing process for roommates and helps energy providers reduce customer acquisition costs while increasing retention.
-          </p>
-          <p className="text-lg font-semibold text-[#065f46] mb-4 bg-[#e6f7ef] p-3 rounded-md inline-block">
-            The data below represents over <span className="text-2xl font-bold">$650 million</span> in annual energy revenue potential across just ten Texas cities!
-          </p>
+      <div className="industry-info bg-white rounded-2xl shadow-xl p-4 md:p-8 mb-10">
+        <div className="mb-6 md:mb-8 space-y-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 border-l-4 border-emerald-600 pl-4">
+            Texas Energy Market Opportunity
+          </h2>
+          <div className="space-y-3">
+            <p className="text-gray-700 leading-relaxed">
+              In Texas's deregulated energy market, HouseTabz offers a unique opportunity to reach shared households.
+            </p>
+            <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
+              <p className="text-base md:text-lg font-semibold text-emerald-800">
+                Roommates spend over {' '}
+                <span className="text-2xl md:text-3xl font-bold text-emerald-700">$650 million</span> {' '}
+                on energy in just ten of the Texas cities with a deregulated energy market.
+              </p>
+            </div>
+          </div>
         </div>
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="bg-[#f8f9fa] border-b">
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">City</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">College Students</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">22-30</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">30-40</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Total Roommates</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Shared Households</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Annual Energy Revenue Potential</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {energyData.map((city, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="py-2 px-4 text-sm font-medium text-gray-900">{city.city}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.collegeStudents)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.age22To30)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.age30To40)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.totalRoommates)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.sharedHouseholds)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatCurrency(city.energyRevPotential)}</td>
-              </tr>
+        
+        {/* Mobile view - city selector */}
+        <div className="mb-4 md:hidden">
+          <label htmlFor="city-select" className="block text-sm font-medium text-gray-700 mb-1">
+            View Data:
+          </label>
+          <select 
+            id="city-select" 
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+          >
+            <option value="All Cities">Market Summary</option>
+            {energyData.map(city => (
+              <option key={city.city} value={city.city}>{city.city}</option>
             ))}
-            <tr className="bg-[#e6f7ef] font-bold">
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">TOTAL</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(energyTotals.collegeStudents)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(energyTotals.age22To30)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(energyTotals.age30To40)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(energyTotals.totalRoommates)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(energyTotals.sharedHouseholds)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatCurrency(energyTotals.energyRevPotential)}</td>
-            </tr>
-          </tbody>
-        </table>
+          </select>
+        </div>
+        
+        {/* Mobile view: Selected city card or summary */}
+        <div className="md:hidden mb-4">
+          {selectedCity === 'All Cities' ? (
+            // Market Summary Card
+            <div className="border rounded-lg p-4 bg-emerald-50 shadow-sm">
+              <h3 className="text-lg font-semibold text-emerald-900 mb-3">MARKET SUMMARY</h3>
+              <div className="space-y-2">
+                {energyMetrics.map((metric) => (
+                  <div key={metric.key} className="flex justify-between items-center py-1 border-b border-emerald-100">
+                    <span className="text-sm text-emerald-800">{metric.name}:</span>
+                    <span className="text-sm font-medium text-emerald-900">
+                      {metric.format === 'currency' 
+                        ? formatCurrency(energyTotals[metric.key]) 
+                        : formatNumber(energyTotals[metric.key])}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            // Selected City Card
+            <div className="border rounded-lg p-4 bg-white shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">{selectedCity}</h3>
+              <div className="space-y-2">
+                {energyMetrics.map((metric) => {
+                  const cityData = energyData.find(city => city.city === selectedCity);
+                  return (
+                    <div key={metric.key} className="flex justify-between items-center py-1 border-b border-gray-100">
+                      <span className="text-sm text-gray-600">{metric.name}:</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {metric.format === 'currency' 
+                          ? formatCurrency(cityData[metric.key]) 
+                          : formatNumber(cityData[metric.key])}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Desktop view: Table */}
+        <div className="hidden md:block border rounded-xl overflow-x-auto mb-8">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                {['City', 'College Students', '22-30', '30-40', 'Total Roommates', 'Shared Households', 'Annual Energy Revenue Potential'].map((header, idx) => (
+                  <th 
+                    key={idx}
+                    className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {energyData.map((city, index) => (
+                <tr 
+                  key={index}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <td className="px-6 py-3.5 text-sm font-medium text-gray-900">{city.city}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatNumber(city.collegeStudents)}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatNumber(city.age22To30)}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatNumber(city.age30To40)}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatNumber(city.totalRoommates)}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatNumber(city.sharedHouseholds)}</td>
+                  <td className="px-6 py-3.5 text-sm text-gray-700 text-right">{formatCurrency(city.energyRevPotential)}</td>
+                </tr>
+              ))}
+              <tr className="bg-emerald-50 font-semibold">
+                <td className="px-6 py-3.5 text-sm text-emerald-900">TOTAL</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatNumber(energyTotals.collegeStudents)}</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatNumber(energyTotals.age22To30)}</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatNumber(energyTotals.age30To40)}</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatNumber(energyTotals.totalRoommates)}</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatNumber(energyTotals.sharedHouseholds)}</td>
+                <td className="px-6 py-3.5 text-sm text-emerald-900 text-right">{formatCurrency(energyTotals.energyRevPotential)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   } else if (selectedIndustry === 'cleaning') {
     return (
-      <div className="industry-info bg-white rounded-xl shadow-lg p-6 mb-10 overflow-x-auto">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">Cleaning Services Market Opportunity</h2>
-          <p className="text-gray-600 mb-5">
-            Shared households represent a significant opportunity for cleaning service providers.
-            HouseTabz offers a platform to reach these households efficiently, reducing the friction of split payments and helping establish recurring service arrangements.
-          </p>
+      <div className="industry-info text-center p-6 md:p-12 bg-white rounded-2xl shadow-xl mb-10">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-blue-50 p-6 md:p-8 rounded-xl border border-blue-100 inline-block">
+            <div className="space-y-3">
+              <div className="text-blue-600 text-3xl md:text-4xl mb-3"></div>
+              <p className="text-base md:text-lg font-semibold text-blue-900">Detailed market data coming soon</p>
+              <p className="text-xs md:text-sm text-blue-700">
+                Please check back later or contact us for preliminary insights
+              </p>
+            </div>
+          </div>
         </div>
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr className="bg-[#f8f9fa] border-b">
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">City</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Shared Households</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Avg Monthly Spend</th>
-              <th className="py-3 px-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Annual Rev Potential</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {cleaningData.map((city, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="py-2 px-4 text-sm font-medium text-gray-900">{city.city}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatNumber(city.sharedHouseholds)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatCurrency(city.avgMonthlySpend)}</td>
-                <td className="py-2 px-4 text-sm text-gray-700">{formatCurrency(city.annualRevPotential)}</td>
-              </tr>
-            ))}
-            <tr className="bg-[#e6f7ef] font-bold">
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">TOTAL</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatNumber(cleaningTotals.sharedHouseholds)}</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">-</td>
-              <td className="py-2 px-4 text-sm font-bold text-gray-900">{formatCurrency(cleaningTotals.annualRevPotential)}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     );
   } else if (selectedIndustry === 'streaming') {
     return (
-      <div className="industry-info text-center py-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-3">Streaming Services Market Opportunity</h2>
-        <p className="text-gray-600 mb-6">
-          Streaming services are commonly shared among roommates, but account sharing can be challenging to manage.
-          HouseTabz provides a solution that helps streaming services increase subscription revenue while offering a seamless experience for shared households.
-        </p>
-        <div className="coming-soon p-8 bg-gray-100 rounded-lg inline-block">
-          <p className="text-lg font-medium text-gray-700">Detailed market data coming soon</p>
-          <p className="text-sm text-gray-500 mt-2">
-            Please check back later or contact us for preliminary insights
-          </p>
+        <div className="industry-info text-center p-6 md:p-12 bg-white rounded-2xl shadow-xl mb-10">
+        <div className="max-w-2xl mx-auto">
+      
+       
+          <div className="bg-purple-50 p-6 md:p-8 rounded-xl border border-purple-100 inline-block">
+            <div className="space-y-3">
+              <div className="text-purple-600 text-3xl md:text-4xl mb-3"></div>
+              <p className="text-base md:text-lg font-semibold text-black">Detailed market data coming soon</p>
+              <p className="text-xs md:text-sm text-purple-700">
+                Please check back later or contact us for preliminary insights
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
   } else if (selectedIndustry === 'internet') {
     return (
-      <div className="industry-info text-center py-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-3">Internet Services Market Opportunity</h2>
-        <p className="text-gray-600 mb-6">
-          Internet services are an essential utility in shared households, but billing disputes can lead to customer churn.
-          HouseTabz offers internet service providers a way to increase customer satisfaction and retention by simplifying the payment process for roommates.
-        </p>
-        <div className="coming-soon p-8 bg-gray-100 rounded-lg inline-block">
-          <p className="text-lg font-medium text-gray-700">Detailed market data coming soon</p>
-          <p className="text-sm text-gray-500 mt-2">
-            Please check back later or contact us for preliminary insights
-          </p>
+        <div className="industry-info text-center p-6 md:p-12 bg-white rounded-2xl shadow-xl mb-10">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-cyan-50 p-6 md:p-8 rounded-xl border border-cyan-100 inline-block">
+            <div className="space-y-3">
+
+              <p className="text-base md:text-lg font-semibold text-cyan-900">Detailed market data coming soon</p>
+              <p className="text-xs md:text-sm text-cyan-700">
+                Please check back later or contact us for preliminary insights
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
-  } else {
-    return null;
   }
+
+  return null;
 };
 
 export default IndustryInfo;

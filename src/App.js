@@ -16,6 +16,7 @@ import HouseTabzHomies from './components/HouseTabzHomies';
 import ReferralProgram from './components/ReferralProgram';
 import { Helmet } from 'react-helmet';
 import vipInviteImage from './assets/housetabzvipinvite.png';
+import PartnersPage from './components/PartnersPage';
 import ConfirmRequest from './components/ConfirmRequest';
 
 const MainLayout = ({ children }) => (
@@ -101,6 +102,12 @@ const AppContent = () => {
            <HouseTabzHomies />
          </MainLayout>
        } />
+
+<Route path="/partners" element={
+  <MainLayout>
+    <PartnersPage />
+  </MainLayout>
+} />
      </Routes>
    </>
  );

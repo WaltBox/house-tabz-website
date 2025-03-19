@@ -5,11 +5,11 @@ const IntegrationSection = () => {
     <div className="integration-section bg-gradient-to-r from-[#dff6f0] to-white rounded-xl shadow-xl p-10 mb-12">
       <div className="text-center mb-10">
         <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
-          Seamless Integration in Minutes
+          Seamless Integration
         </h2>
         <p className="text-lg text-gray-700 max-w-3xl mx-auto">
           With HouseTabz, integration is as simple as adding our payment button to your checkout.
-          Offer your users a direct, streamlined way to pay for shared household expenses—just like Affirm makes financing simple.
+          Offer your users a direct, streamlined way to pay for shared household expenses.
         </p>
       </div>
       <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 mb-10">
@@ -19,11 +19,11 @@ const IntegrationSection = () => {
             <h3 className="text-2xl font-semibold text-gray-800">Integrate the SDK</h3>
           </div>
           <p className="text-gray-600">
-            Simply add our HouseTabz payment button to your checkout. It only takes one line of code to get started.
+            Simply add our HouseTabz payment button to your checkout. 
           </p>
           <div className="mt-4 text-center">
             <span className="inline-block bg-[#e6f7ef] text-[#34d399] rounded-full px-4 py-1 text-sm font-semibold">
-              One Line of Code
+              A few lines of code
             </span>
           </div>
         </div>

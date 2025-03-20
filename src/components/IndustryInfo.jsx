@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const IndustryInfo = ({ selectedIndustry }) => {
   // Formatting helpers
   const formatNumber = (num) => num.toLocaleString('en-US');
-  const formatCurrency = (num) => `$${formatNumber(num.toFixed(2))}`;
+  const formatCurrency = (num) => `$${formatNumber(parseFloat(num).toFixed(2))}`;
 
   // Energy Data - simplified
   const energyData = [
@@ -39,7 +39,7 @@ const IndustryInfo = ({ selectedIndustry }) => {
         </p>
         <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-100 mb-4">
           <p className="text-lg font-semibold text-emerald-800">
-            Roommates spend over <span className="text-2xl font-bold text-emerald-700">$650 million</span> on energy in these ten Texas cities.
+            Roommates spend over <span className="text-2xl font-bold text-emerald-700">${formatNumber(650000000)}</span> on energy in these ten Texas cities.
           </p>
         </div>
         {/* City Selector for Mobile */}

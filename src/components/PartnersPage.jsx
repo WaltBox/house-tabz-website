@@ -29,7 +29,7 @@ const PartnersPage = () => {
           <PartnerBenefits />
           <IntegrationSection />
           <FAQSection />
-          <PartnerForm />
+          {/* <PartnerForm /> */}
         </div>
       </div>
       <Footer />

@@ -3,31 +3,57 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import Footer from './Footer';
 import Confetti from 'react-confetti';
+
 const WaitlistPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     city: '',
-    referrerId: '', // Include referrerId in the form data
+    referrerId: '',
+    qrId: ''  // New field for meme QR codes
   });
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isQRCodeVersion, setIsQRCodeVersion] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
 
-  // Extract referrerId from URL
+  // Extract parameters from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const referrerId = params.get('referrerId'); // Changed from 'ref' to 'referrerId'
+    
+    // Check for either referrerId or qrId (meme QR code)
+    const referrerId = params.get('referrerId');
+    const qrId = params.get('qrId');
+    const city = params.get('city');
+    
+    // Update form data with URL parameters
+    const updates = {};
+    
     if (referrerId) {
-      console.log('Found referrerId:', referrerId); // Add logging for debugging
-      setFormData((prevData) => ({
+      console.log('Found referrerId:', referrerId);
+      updates.referrerId = referrerId;
+    }
+    
+    if (qrId) {
+      console.log('Found qrId:', qrId);
+      updates.qrId = qrId;
+    }
+    
+    if (city) {
+      console.log('Found city:', city);
+      updates.city = city;
+      setIsQRCodeVersion(true); // If city is provided, we're in QR code mode
+    }
+    
+    if (Object.keys(updates).length > 0) {
+      setFormData(prevData => ({
         ...prevData,
-        referrerId,
+        ...updates
       }));
     }
   }, []);
@@ -47,7 +73,7 @@ const WaitlistPage = () => {
     setFeedbackMessage('');
     setIsSubmitting(true);
   
-    console.log('Form data before submission:', formData); // Debugging
+    console.log('Form data before submission:', formData);
   
     try {
       const response = await axios.post('https://api.housetabz.com/api/waitlist', formData, {
@@ -57,13 +83,16 @@ const WaitlistPage = () => {
       });
   
       setFeedbackMessage('Yay!! You are officially on the HouseTabz VIP list. Thank you for the support!');
-      setShowConfetti(true); // Start confetti!
+      setShowConfetti(true);
+      
+      // Reset form but preserve referral data and city if from QR code
       setFormData({
         name: '',
         phone: '',
         email: '',
-        city: '',
-        referrerId: formData.referrerId, // Preserve referrerId for subsequent submissions
+        city: isQRCodeVersion ? formData.city : '',
+        referrerId: formData.referrerId,
+        qrId: formData.qrId
       });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -76,30 +105,18 @@ const WaitlistPage = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="waitlist-page min-h-screen w-screen bg-[#dff6f0] flex flex-col justify-between pt-20">
       {showConfetti && (
         <Confetti
-        width={windowSize.width}
-        height={windowSize.height}
-        recycle={false}
-        numberOfPieces={200}
-        gravity={0.3}
-        colors={[
-          '#f94144', // red
-          '#f3722c', // orange
-          '#f8961e', // yellow-orange
-          '#f9c74f', // yellow
-          '#90be6d', // green
-          '#43aa8b', // teal
-          '#577590', // blue
-          '#9b5de5', // purple
-          '#ff99c8'  // pink
-        ]}
-      />
-    
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.3}
+          colors={['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590', '#9b5de5', '#ff99c8']}
+        />
       )}
       
       <div className="absolute top-0 left-0 w-full">
@@ -130,6 +147,11 @@ const WaitlistPage = () => {
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
             Be the first to know when HouseTabz is available in your area!
           </p>
+          {isQRCodeVersion && formData.city && (
+            <p className="text-md text-green-600 mt-2">
+              Thanks for scanning the QR code!
+            </p>
+          )}
         </motion.div>
 
         <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 mt-10">
@@ -175,20 +197,25 @@ const WaitlistPage = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-800 font-semibold mb-2" htmlFor="city">
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              value={formData.city}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-              placeholder="Enter your city"
-              required
-            />
-          </div>
+          
+          {/* Only show the city field if not provided via QR code URL */}
+          {!isQRCodeVersion && (
+            <div className="mb-4">
+              <label className="block text-gray-800 font-semibold mb-2" htmlFor="city">
+                City
+              </label>
+              <input
+                type="text"
+                id="city"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+                placeholder="Enter your city"
+                required
+              />
+            </div>
+          )}
+          
           <button
             type="submit"
             className="w-full bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300"

@@ -6,7 +6,7 @@ import IndustryInfo from './IndustryInfo';
 import PartnerBenefits from './PartnerBenefits';
 import IntegrationSection from './IntegrationSection';
 import FAQSection from './FAQSection';
-
+import PartnerForm from './PartnerForm';
 const PartnersPage = () => {
   const [selectedIndustry, setSelectedIndustry] = useState('energy');
 
@@ -29,6 +29,7 @@ const PartnersPage = () => {
           <PartnerBenefits />
           <IntegrationSection />
           <FAQSection />
+          <PartnerForm />
         </div>
       </div>
       <Footer />

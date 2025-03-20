@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 const IndustryInfo = ({ selectedIndustry }) => {
   // Formatting helpers
   const formatNumber = (num) => num.toLocaleString('en-US');
-  const formatCurrency = (num) => `$${formatNumber(parseFloat(num).toFixed(2))}`;
+  const formatCurrency = (num) => {
+    // First format the number with commas, then add decimal places
+    return `${formatNumber(Math.floor(num))}.00`;
+  };
 
   // Energy Data - simplified
   const energyData = [

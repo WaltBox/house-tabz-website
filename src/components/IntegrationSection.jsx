@@ -58,11 +58,11 @@ const IntegrationSection = () => {
           </div>
         </div>
       </div>
-      <div className="text-left mt-6">
+      {/* <div className="text-left mt-6">
         <button className="bg-[#34d399] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#065f46] transition-all duration-300 text-lg font-medium">
           Learn More
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

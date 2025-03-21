@@ -145,7 +145,7 @@ const WaitlistPage = () => {
             Join the <span className="text-green-500">VIP list</span>
           </h2>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            Be the first to know when HouseTabz is available in your area!
+            HouseTabz is coming soon! Sign up to be the first to know about our launch and exclusive offers.
           </p>
           {isQRCodeVersion && formData.city && (
             <p className="text-md text-green-600 mt-2">

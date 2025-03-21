@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 
 const IndustryInfo = ({ selectedIndustry }) => {
-  // Formatting helpers
   const formatNumber = (num) => num.toLocaleString('en-US');
-  const formatCurrency = (num) => {
-    // First format the number with commas, then add decimal places
-    return `${formatNumber(Math.floor(num))}.00`;
-  };
+  const formatCurrency = (num) => `${formatNumber(Math.floor(num))}.00`;
 
-  // Energy Data - simplified
+  // Energy Data - recalculated revenue based on sharedHouseholds * 150 * 12
   const energyData = [
-    { city: 'Houston', totalRoommates: 1225624, sharedHouseholds: 135905, energyRevPotential: 244629000 },
-    { city: 'Dallas', totalRoommates: 764510, sharedHouseholds: 98292, energyRevPotential: 176925600 },
-    { city: 'Fort Worth', totalRoommates: 244391, sharedHouseholds: 30882, energyRevPotential: 55587600 },
-    { city: 'Corpus Christi', totalRoommates: 75769, sharedHouseholds: 9691, energyRevPotential: 17443800 },
-    { city: 'Abilene', totalRoommates: 43985, sharedHouseholds: 6221, energyRevPotential: 11197800 },
-    { city: 'Lubbock', totalRoommates: 132474, sharedHouseholds: 23255, energyRevPotential: 41859000 },
-    { city: 'McAllen', totalRoommates: 230723, sharedHouseholds: 37151, energyRevPotential: 66871800 },
-    { city: 'Waco', totalRoommates: 82810, sharedHouseholds: 11293, energyRevPotential: 20327400 },
-    { city: 'Galveston', totalRoommates: 64334, sharedHouseholds: 10144, energyRevPotential: 18259200 },
-    { city: 'North Richland Hills', totalRoommates: 56779, sharedHouseholds: 8386, energyRevPotential: 15094800 }
+    { city: 'Houston', totalRoommates: 361552, sharedHouseholds: 144621, energyRevPotential: 144621 * 150 * 12 },
+    { city: 'Dallas', totalRoommates: 204029, sharedHouseholds: 81612, energyRevPotential: 81612 * 150 * 12 },
+    { city: 'Fort Worth', totalRoommates: 153619, sharedHouseholds: 61448, energyRevPotential: 61448 * 150 * 12 },
+    { city: 'Arlington', totalRoommates: 62172, sharedHouseholds: 24869, energyRevPotential: 24869 * 150 * 12 },
+    { city: 'Irving', totalRoommates: 40349, sharedHouseholds: 16140, energyRevPotential: 16140 * 150 * 12 },
+    { city: 'Plano', totalRoommates: 45687, sharedHouseholds: 18275, energyRevPotential: 18275 * 150 * 12 },
+    { city: 'Lubbock', totalRoommates: 60154, sharedHouseholds: 24062, energyRevPotential: 24062 * 150 * 12 },
+    { city: 'Corpus Christi', totalRoommates: 49649, sharedHouseholds: 19859, energyRevPotential: 19859 * 150 * 12 },
+    { city: 'Waco', totalRoommates: 34844, sharedHouseholds: 13938, energyRevPotential: 13938 * 150 * 12 },
+    { city: 'Garland', totalRoommates: 38622, sharedHouseholds: 15449, energyRevPotential: 15449 * 150 * 12 }
   ];
 
   const energyTotals = energyData.reduce((acc, curr) => ({
@@ -29,7 +25,9 @@ const IndustryInfo = ({ selectedIndustry }) => {
   }), { totalRoommates: 0, sharedHouseholds: 0, energyRevPotential: 0 });
 
   const [selectedCity, setSelectedCity] = useState('All Cities');
-  const filteredEnergyData = selectedCity === 'All Cities' ? energyData : energyData.filter(city => city.city === selectedCity);
+  const filteredEnergyData = selectedCity === 'All Cities'
+    ? energyData
+    : energyData.filter(city => city.city === selectedCity);
 
   if (selectedIndustry === 'energy') {
     return (
@@ -42,14 +40,15 @@ const IndustryInfo = ({ selectedIndustry }) => {
         </p>
         <div className="bg-emerald-50 p-4 rounded-lg border border-emerald-100 mb-4">
           <p className="text-lg font-semibold text-emerald-800">
-            Roommates spend over <span className="text-2xl font-bold text-emerald-700">${formatNumber(650000000)}</span> on energy in these ten Texas cities.
+            Roommates spend over <span className="text-2xl font-bold text-emerald-700">${formatNumber(756000000)}</span> on energy in these ten Texas cities.
           </p>
         </div>
+
         {/* City Selector for Mobile */}
         <div className="mb-4 md:hidden">
           <label htmlFor="city-select" className="block text-sm font-medium text-gray-700 mb-1">View Data:</label>
-          <select 
-            id="city-select" 
+          <select
+            id="city-select"
             className="w-full p-2 border border-gray-300 rounded-md"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
@@ -60,6 +59,7 @@ const IndustryInfo = ({ selectedIndustry }) => {
             ))}
           </select>
         </div>
+
         {/* Display Data Table */}
         <div className="border rounded-xl overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -93,6 +93,7 @@ const IndustryInfo = ({ selectedIndustry }) => {
       </div>
     );
   }
+
   return null;
 };
 

@@ -61,7 +61,7 @@ const AppContent = () => {
              <SharedPaymentSection />
              <ProblemSection />
              <SolutionPage />
-             <LaunchingSection />
+             {/* <LaunchingSection /> */}
              <Footer />
            </>
          </MainLayout>

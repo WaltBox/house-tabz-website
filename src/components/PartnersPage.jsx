@@ -7,12 +7,13 @@ import PartnerBenefits from './PartnerBenefits';
 import IntegrationSection from './IntegrationSection';
 import FAQSection from './FAQSection';
 import PartnerForm from './PartnerForm';
+
 const PartnersPage = () => {
   const [selectedIndustry, setSelectedIndustry] = useState('energy');
-
+  
   return (
-    <div className="partners-page min-h-screen bg-gradient-to-br from-[#dff6f0] to-white pt-28 pb-20">
-      <div className="content relative">
+    <div className="partners-page flex flex-col min-h-screen bg-gradient-to-br from-[#dff6f0] to-white">
+      <div className="content flex-grow pt-28 pb-20">
         <div className="container mx-auto px-4 md:px-8">
           <ProblemStatement />
           <div className="text-center mb-12">
@@ -29,11 +30,12 @@ const PartnersPage = () => {
           <PartnerBenefits />
           <IntegrationSection />
           <FAQSection />
-          {/* <PartnerForm /> */}
+          <PartnerForm />
         </div>
       </div>
       <Footer />
-      <style>{`
+      
+      <style jsx>{`
         @media (max-width: 768px) {
           .industry-selector button {
             font-size: 0.85rem;

@@ -51,7 +51,7 @@ const PartnerForm = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-5xl font-extrabold text-gray-800">
-            Interested in <span className="text-green-500">Learning More</span>?
+            Interested in <span className="text-[#34d399]">Learning More</span>?
           </h2>
           <p className="text-lg text-gray-600 mt-4">
             Tell us how to contact you and we will reach out soon!
@@ -78,7 +78,7 @@ const PartnerForm = () => {
                   value={formData.businessName}
                   onChange={handleInputChange}
                   placeholder="Your business name"
-                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition"
+                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-[#34d399] focus:border-[#34d399] focus:outline-none transition"
                   required
                 />
               </div>
@@ -93,7 +93,7 @@ const PartnerForm = () => {
                   value={formData.contactName}
                   onChange={handleInputChange}
                   placeholder="Your full name"
-                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition"
+                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-[#34d399] focus:border-[#34d399] focus:outline-none transition"
                   required
                 />
               </div>
@@ -110,7 +110,7 @@ const PartnerForm = () => {
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
                   placeholder="Your phone number"
-                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition"
+                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-[#34d399] focus:border-[#34d399] focus:outline-none transition"
                   required
                 />
               </div>
@@ -125,7 +125,7 @@ const PartnerForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Your email address"
-                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition"
+                  className="w-full p-3 border border-gray-300 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl focus:ring-2 focus:ring-[#34d399] focus:border-[#34d399] focus:outline-none transition"
                   required
                 />
               </div>
@@ -134,8 +134,8 @@ const PartnerForm = () => {
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-green-500 text-white font-bold py-3 px-6 rounded-xl ${
-                isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600'
+              className={`w-full bg-[#34d399] text-white font-bold py-3 px-6 rounded-xl ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#2bb583]'
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -145,7 +145,7 @@ const PartnerForm = () => {
 
             {successMessage && (
               <motion.div 
-                className="mt-4 p-3 bg-green-50 border border-green-100 rounded-xl text-center text-green-600"
+                className="mt-4 p-3 bg-green-50 border border-green-100 rounded-xl text-center text-[#34d399]"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}

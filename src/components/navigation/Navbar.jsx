@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         <Link
           to="/"
-          className="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight hover:text-green-500 transition duration-300"
+          className="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight hover:text-[#34d399] transition duration-300"
         >
           HouseTabz
         </Link>
@@ -56,7 +56,7 @@ const Navbar = () => {
       <div className="hidden md:flex gap-4 items-center">
         <Link
           to="/vip"
-          className="bg-green-500 text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
+          className="bg-[#34d399] text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
         >
           Join VIP list
         </Link>
@@ -64,7 +64,7 @@ const Navbar = () => {
           href="https://housetabz-3e8153557d3a.herokuapp.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-green-500 text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
+          className="bg-[#34d399] text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
         >
           Current Users
         </a>
@@ -74,13 +74,13 @@ const Navbar = () => {
       <div className="md:hidden flex items-center">
         <Link
           to="/vip"
-          className="bg-green-500 text-white py-2 px-4 rounded-full font-semibold mr-4 hover:bg-green-600 hover:shadow-md transition duration-300"
+          className="bg-[#34d399] text-white py-2 px-4 rounded-full font-semibold mr-4 hover:bg-[#2bb583] hover:shadow-md transition duration-300"
         >
           Join VIP list
         </Link>
         <button
           onClick={toggleMenu}
-          className="text-gray-700 focus:outline-none hover:text-green-500 transition duration-300"
+          className="text-gray-700 focus:outline-none hover:text-[#34d399] transition duration-300"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@ const Navbar = () => {
           <Link
             to="/business"
             onClick={closeMenu}
-            className="text-sm font-medium text-gray-700 hover:text-green-500 transition duration-300"
+            className="text-sm font-medium text-gray-700 hover:text-[#34d399] transition duration-300"
           >
             For Business
           </Link>
@@ -114,7 +114,7 @@ const Navbar = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={closeMenu}
-            className="bg-green-500 text-white py-2 px-4 rounded-full font-semibold shadow-sm hover:bg-green-600 hover:shadow-md transition duration-300"
+            className="bg-[#34d399] text-white py-2 px-4 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
           >
             Current Users
           </a>

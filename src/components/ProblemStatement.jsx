@@ -14,7 +14,7 @@ const ProblemStatement = () => {
       >
         <h2 className="text-3xl md:text-4xl font-bold text-black pb-2 font-montserrat leading-tight">
           Remove Signup Friction <br />
-          & Increase <span className="text-green-500">Conversions</span> and <span className="text-green-500">Retention</span>
+          & Increase <span className="text-[#34d399]">Conversions</span> and <span className="text-[#34d399]">Retention</span>
         </h2>
         <div className="h-1 w-60 bg-[#34d399] mx-auto mt-2 rounded-full"></div>
       </motion.div>
@@ -39,20 +39,20 @@ const ProblemStatement = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <div className="inline-block p-2 bg-emerald-50 rounded-lg mb-2">
-                  <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div className="inline-block p-2 bg-[#e6f9f2] rounded-lg mb-2">
+                  <svg className="w-8 h-8 text-[#34d399]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
                 
                 <p className="text-gray-800 text-base leading-relaxed">
-                  <span className="font-semibold text-emerald-600 text-lg">Shared expenses slow down signups.</span> When roommates consider signing up for services, no one wants to put their card down and chase payments later. This hesitation leads to abandoned checkouts or downgraded plans.
+                  <span className="font-semibold text-[#34d399] text-lg">Shared expenses slow down signups.</span> When roommates consider signing up for services, no one wants to put their card down and chase payments later. This hesitation leads to abandoned checkouts or downgraded plans.
                 </p>
                 
                 <div className="flex items-center py-3">
                   <div className="h-px bg-gray-200 flex-grow"></div>
                   <div className="px-4">
-                    <svg className="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 text-[#34d399]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
@@ -63,7 +63,7 @@ const ProblemStatement = () => {
                   Even after sign-up, fronting payments and tracking down reimbursements creates frustration—frustration that isn't just directed at roommates, but at the service itself. This negative experience leads to lower retention and churn, as users associate payment friction with the brand.
                 </p>
                 
-                <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg my-5">
+                <div className="bg-[#e6f9f2] border-l-4 border-[#34d399] p-4 rounded-r-lg my-5">
                   <p className="text-gray-800 text-base leading-relaxed">
                     HouseTabz eliminates this friction by allowing households to pay as a group, ensuring every roommate commits upfront—leading to higher conversions, more signups, and long-term customer retention for our partners.
                   </p>
@@ -80,9 +80,9 @@ const ProblemStatement = () => {
                 viewport={{ once: true }}
               >
                 <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <div className="p-1.5 bg-emerald-100 rounded-full mr-3">
+                  <div className="p-1.5 bg-[#e6f9f2] rounded-full mr-3">
                     <svg
-                      className="w-5 h-5 text-emerald-600"
+                      className="w-5 h-5 text-[#34d399]"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -125,9 +125,9 @@ const ProblemStatement = () => {
                       viewport={{ once: true }}
                     >
                       <div className="flex-shrink-0 mt-1 mr-4">
-                        <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-[#e6f9f2] rounded-full flex items-center justify-center">
                           <svg 
-                            className="w-4 h-4 text-emerald-600" 
+                            className="w-4 h-4 text-[#34d399]" 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
@@ -144,8 +144,6 @@ const ProblemStatement = () => {
                     </motion.li>
                   ))}
                 </ul>
-                
-            
               </motion.div>
             </div>
           </div>

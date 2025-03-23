@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import marketplace from '../assets/marketplace.png';
-import company from '../assets/company.png';
-import house from '../assets/house.png';
+import dashboard from '../assets/dashboard.png';
+import billtakeover from '../assets/billTakeover2.png';
+import houseview from '../assets/houseview.png';
 
 const SolutionPage = () => {
-  const [activeTab, setActiveTab] = useState('house');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const tabs = {
-    house: {
-      image: house,
+    dashboard: {
+      image: dashboard,
       description:
-        "Track and manage all your household expenses with ease. Stay on top of who has paid and enjoy complete transparency.",
+        'Pay all your household bills in one place. Each roommate is equally financially responsible for their portion — no fronting, no chasing payments.',
     },
-    marketplace: {
-      image: marketplace,
+    billtakeover: {
+      image: billtakeover,
       description:
-        "Discover services tailored to your address. Compare options, and pick the best providers for your household needs.",
+        'Already paying a shared bill? Submit the details — once everyone accepts ownership, the responsibility is split evenly across the house.',
     },
-    company: {
-      image: company,
+    houseview: {
+      image: houseview,
       description:
-        "Dive into detailed service plans and connect to providers through an intuitive in-app experience.",
+        'Every house has an HSI (House Status Index) — basically a shared credit score. Pay on time to boost your HSI and unlock more fronting power.',
     },
   };
 
@@ -53,15 +53,16 @@ const SolutionPage = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
-            Mobile App <span className="text-green-500">Coming Soon</span>
-          </h2>
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            The HouseTabz mobile app will bring all the features you need to manage shared expenses right to your fingertips.
-          </p>
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            From tracking bills to discovering services and making payments, everything will be just a tap away. Stay tuned for the launch!
-          </p>
+       <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
+Mobile App Coming Soon!
+</h2>
+<p className="text-lg text-gray-600 mt-4 leading-relaxed">
+  HouseTabz is coming to the App store in the fall of 2025!
+</p>
+<p className="text-lg text-gray-600 mt-4 leading-relaxed">
+  Submit your bills, and once everyone accepts, you're all equally responsible. Pay together, track everything, and unlock rewards for paying on time.
+</p>
+
 
           {/* Tabs */}
           <div className="tabs mt-8 flex gap-4 justify-center lg:justify-start">
@@ -71,11 +72,11 @@ const SolutionPage = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`py-2 px-4 rounded-lg font-bold text-sm ${
                   activeTab === tab
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-[#34d399] text-white'
                     : 'bg-gray-200 text-gray-600'
                 }`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)} View
+                {tab.charAt(0).toUpperCase() + tab.slice(1)} 
               </button>
             ))}
           </div>

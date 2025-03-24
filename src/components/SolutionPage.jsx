@@ -13,12 +13,12 @@ const SolutionPage = () => {
       description:
         'Pay all your household bills in one place. Each roommate is equally financially responsible for their portion — no fronting, no chasing payments.',
     },
-    billtakeover: {
-      image: billtakeover,
+    'Bill Takeover': {
+      image: 'billtakeover',
       description:
         'Already paying a shared bill? Submit the details — once everyone accepts ownership, the responsibility is split evenly across the house.',
     },
-    houseview: {
+    'House View': {
       image: houseview,
       description:
         'Every house has an HSI (House Status Index) — basically a shared credit score. Pay on time to boost your HSI and unlock more fronting power.',

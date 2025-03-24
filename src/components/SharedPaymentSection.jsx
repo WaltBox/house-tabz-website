@@ -124,18 +124,23 @@ const SharedPaymentSection = () => {
               </div>
               <div className="bg-emerald-50 p-4 absolute bottom-0 left-0 right-0" style={{height: "250px"}}>
                 <div className="flex items-center justify-center h-full">
-                  <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg p-4 text-white w-full" style={{aspectRatio: '1.586/1'}}>
-                    <div className="flex flex-col h-full justify-between">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-xs text-emerald-50">Internet Bill</p>
-                          <p className="text-base font-bold mt-1">$89.99/mo</p>
+                  <div className="relative mx-auto" style={{width: "85%", maxWidth: "280px"}}>
+                    {/* Standard credit card dimensions with 1.586:1 aspect ratio */}
+                    <div className="relative" style={{paddingBottom: "63%"}}>
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg p-4 text-white">
+                        <div className="flex flex-col h-full justify-between">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-xs text-emerald-50">Internet Bill</p>
+                              <p className="text-base font-bold mt-1">$89.99/mo</p>
+                            </div>
+                            <CreditCard className="w-6 h-6 text-white opacity-80" />
+                          </div>
+                          
+                          <div className="mt-auto text-xs text-right">
+                            Funded equally by everyone
+                          </div>
                         </div>
-                        <CreditCard className="w-6 h-6 text-white opacity-80" />
-                      </div>
-                      
-                      <div className="mt-auto text-xs text-right">
-                        Funded equally by everyone
                       </div>
                     </div>
                   </div>

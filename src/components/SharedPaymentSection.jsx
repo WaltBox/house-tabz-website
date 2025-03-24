@@ -183,7 +183,7 @@ const SharedPaymentSection = () => {
                     </div>
                   </div>
                   <div className="text-center text-sm text-gray-800 font-medium mb-1">
-                    House Score Index
+                  House Status Index
                   </div>
                   <div className="text-xs text-gray-600 text-center">
                     HouseTabz will cover up to <span className="font-semibold text-emerald-600">$175</span> in late payments to protect your shared bills

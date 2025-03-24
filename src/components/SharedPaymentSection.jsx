@@ -54,7 +54,7 @@ const SharedPaymentSection = () => {
             </div>
             <div className="p-6">
             <p className="text-gray-600">
-                One person always gets stuck putting their card down for shared expenses and chasing others for payment. It's awkward, unfair, and a hassle. Shared expenses should come with <span className="underline text-emerald-600 font-bold">shared</span> Financial responsibility.
+                One person always gets stuck putting their card down for shared expenses and chasing others for payment. It's awkward, unfair, and a hassle. Shared expenses should come with <span className="underline text-emerald-600 font-bold">shared</span> financial responsibility.
               </p>
             </div>
           </div>

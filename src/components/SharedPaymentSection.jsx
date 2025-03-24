@@ -113,7 +113,7 @@ const SharedPaymentSection = () => {
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="p-5 flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
-                  <FileText className="w-8 h-8 text-emerald-600" />
+                  <CreditCard className="w-8 h-8 text-emerald-600" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Generate a virtual card</h4>
                 <p className="text-center text-gray-600 text-sm">

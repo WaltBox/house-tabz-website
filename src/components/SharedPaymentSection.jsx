@@ -36,7 +36,7 @@ const SharedPaymentSection = () => {
             Stop Fronting Costs and chasing Venmo requests.
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
-          HouseTabz makes shared expenses truly shared—every roommate accepts ownership and pays their part, no chasing, no fronting.
+            HouseTabz makes shared expenses truly shared—every roommate accepts ownership and pays their part, no chasing, no fronting.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ const SharedPaymentSection = () => {
               </h3>
             </div>
             <div className="p-6">
-            <p className="text-gray-600">
+              <p className="text-gray-600">
                 One person always gets stuck putting their card down for shared expenses and chasing others for payment. It's awkward, unfair, and a hassle. Shared expenses should come with <span className="underline text-emerald-600 font-bold">shared</span> financial responsibility.
               </p>
             </div>
@@ -83,7 +83,7 @@ const SharedPaymentSection = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Shop the Marketplace */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden relative" style={{height: "500px"}}>
               <div className="p-5 flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
                   <ShoppingCart className="w-8 h-8 text-emerald-600" />
@@ -93,24 +93,26 @@ const SharedPaymentSection = () => {
                   Find services that accept HouseTabz, click "Pay with HouseTabz" at checkout, and each person confirms their portion.
                 </p>
               </div>
-              <div className="bg-emerald-50 p-4">
-                <div className="bg-white rounded-lg p-3 shadow-sm">
-                  <div className="flex justify-between items-center text-sm mb-3">
-                    <span>Expense Total</span>
-                    <span className="font-semibold">$120</span>
-                  </div>
-                  <button className="w-full py-2 bg-emerald-500 text-white rounded-lg text-sm">
-                    Pay with HouseTabz
-                  </button>
-                  <div className="mt-2 text-xs text-gray-500 text-center">
-                    3 people × $40 each
+              <div className="bg-emerald-50 p-4 absolute bottom-0 left-0 right-0" style={{height: "250px"}}>
+                <div className="flex items-center justify-center h-full">
+                  <div className="bg-white rounded-lg p-3 shadow-sm w-full">
+                    <div className="flex justify-between items-center text-sm mb-3">
+                      <span>Expense Total</span>
+                      <span className="font-semibold">$120</span>
+                    </div>
+                    <button className="w-full py-2 bg-emerald-500 text-white rounded-lg text-sm">
+                      Pay with HouseTabz
+                    </button>
+                    <div className="mt-2 text-xs text-gray-500 text-center">
+                      3 people × $40 each
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Connect Bills */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden relative" style={{height: "500px"}}>
               <div className="p-5 flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
                   <CreditCard className="w-8 h-8 text-emerald-600" />
@@ -120,19 +122,21 @@ const SharedPaymentSection = () => {
                   Already paying for a shared service? Enter the details and HouseTabz creates a virtual card you can attach to the account. Each roommate claims ownership and is responsible for funding their portion.
                 </p>
               </div>
-              <div className="bg-emerald-50 p-4">
-                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg p-4 text-white" style={{aspectRatio: '1.586/1'}}>
-                  <div className="flex flex-col h-full justify-between">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-xs text-emerald-50">Internet Bill</p>
-                        <p className="text-base font-bold mt-1">$89.99/mo</p>
+              <div className="bg-emerald-50 p-4 absolute bottom-0 left-0 right-0" style={{height: "250px"}}>
+                <div className="flex items-center justify-center h-full">
+                  <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg p-4 text-white w-full" style={{aspectRatio: '1.586/1'}}>
+                    <div className="flex flex-col h-full justify-between">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-xs text-emerald-50">Internet Bill</p>
+                          <p className="text-base font-bold mt-1">$89.99/mo</p>
+                        </div>
+                        <CreditCard className="w-6 h-6 text-white opacity-80" />
                       </div>
-                      <CreditCard className="w-6 h-6 text-white opacity-80" />
-                    </div>
-                    
-                    <div className="mt-auto text-xs text-right">
-                      Funded equally by everyone
+                      
+                      <div className="mt-auto text-xs text-right">
+                        Funded equally by everyone
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -140,7 +144,7 @@ const SharedPaymentSection = () => {
             </div>
 
             {/* House Score */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden relative" style={{height: "500px"}}>
               <div className="p-5 flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
                   <Shield className="w-8 h-8 text-emerald-600" />
@@ -150,43 +154,45 @@ const SharedPaymentSection = () => {
                   Your household builds a reliability score that determines how much HouseTabz will cover if a payment is late.
                 </p>
               </div>
-              <div className="bg-emerald-50 p-4">
-                <div className="bg-white rounded-lg p-3 shadow-sm">
-                  <div className="flex items-center justify-center mb-2">
-                    <div className="relative w-20 h-20">
-                      <svg className="w-full h-full" viewBox="0 0 36 36">
-                        <path 
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none" 
-                          stroke="#E2E8F0" 
-                          strokeWidth="3"
-                          strokeDasharray="100, 100" 
-                        />
-                        <path 
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none" 
-                          stroke="#10B981" 
-                          strokeWidth="3"
-                          strokeDasharray="72, 100" 
-                        />
-                        <text 
-                          x="18" 
-                          y="20.5" 
-                          textAnchor="middle" 
-                          fill="#10B981" 
-                          fontSize="10" 
-                          fontWeight="bold"
-                        >
-                          72
-                        </text>
-                      </svg>
+              <div className="bg-emerald-50 p-4 absolute bottom-0 left-0 right-0" style={{height: "250px"}}>
+                <div className="flex items-center justify-center h-full">
+                  <div className="bg-white rounded-lg p-3 shadow-sm w-full">
+                    <div className="flex items-center justify-center mb-2">
+                      <div className="relative w-20 h-20">
+                        <svg className="w-full h-full" viewBox="0 0 36 36">
+                          <path 
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" 
+                            stroke="#E2E8F0" 
+                            strokeWidth="3"
+                            strokeDasharray="100, 100" 
+                          />
+                          <path 
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none" 
+                            stroke="#10B981" 
+                            strokeWidth="3"
+                            strokeDasharray="72, 100" 
+                          />
+                          <text 
+                            x="18" 
+                            y="20.5" 
+                            textAnchor="middle" 
+                            fill="#10B981" 
+                            fontSize="10" 
+                            fontWeight="bold"
+                          >
+                            72
+                          </text>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-center text-sm text-gray-800 font-medium mb-1">
-                  House Status Index
-                  </div>
-                  <div className="text-xs text-gray-600 text-center">
-                    HouseTabz will cover up to <span className="font-semibold text-emerald-600">$175</span> in late payments to protect your shared bills
+                    <div className="text-center text-sm text-gray-800 font-medium mb-1">
+                      House Status Index
+                    </div>
+                    <div className="text-xs text-gray-600 text-center">
+                      HouseTabz will cover up to <span className="font-semibold text-emerald-600">$175</span> in late payments
+                    </div>
                   </div>
                 </div>
               </div>
@@ -205,7 +211,6 @@ const SharedPaymentSection = () => {
           </a>
         </div>
       </div>
-
 
       {/* Bottom Mint Wave */}
       <div className="absolute bottom-0 w-full h-[20vh] overflow-hidden z-0">

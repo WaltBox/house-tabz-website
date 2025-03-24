@@ -1,52 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronRight, CreditCard, Users, Wallet, ArrowRightLeft } from 'lucide-react';
+import React from 'react';
+import { CreditCard, Users, Wallet, ShoppingCart, FileText, Shield, ChevronRight } from 'lucide-react';
 
 const SharedPaymentSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
-
-  const features = [
-    {
-      icon: <ArrowRightLeft className="w-6 h-6" />,
-      title: "Seamless Expense Sharing",
-      description: "No more awkward conversations. HouseTabz makes shared expenses hassle-free."
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Roommate Consent Built-In",
-      description: "Whenever you connect to HouseTabz, all roommates provide consent, before the transaction is completed."
-    },
-    {
-      icon: <Wallet className="w-6 h-6" />,
-      title: "Financial Equality",
-      description: "Every roommate is only responsible for their share—no more fronting expenses and waiting for reimbursements."
-    },
-    {
-      icon: <CreditCard className="w-6 h-6" />,
-      title: "One-Click Payments",
-      description: "Use 'Connect to HouseTabz' at checkout and settle shared expenses with just one click."
-    }
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.1 }
-    );
-
-    const section = document.querySelector('.shared-payment-section');
-    if (section) observer.observe(section);
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section className="shared-payment-section relative bg-white py-24 overflow-hidden">
       {/* Mint Wave at Top */}
@@ -65,101 +20,192 @@ const SharedPaymentSection = () => {
       </div>
 
       {/* Background Patterns */}
-         {/* Background Patterns */}
-         <div className="absolute inset-0 opacity-10 z-0 hidden md:block">
+      <div className="absolute inset-0 opacity-10 z-0 hidden md:block">
         <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-400 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
         <div className="absolute top-0 right-0 w-64 h-64 bg-green-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-teal-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
       </div>
 
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Text Section */}
-          <div className={`space-y-8 transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0'}`}>
-            <div className="space-y-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
-                Streamlined Shared Payments
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-                The Payment Method for Roommates
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                HouseTabz eliminates the need for one roommate to put their card down for shared expenses. With 'Pay with HouseTabz' or 'Connect to HouseTabz,' expenses are added to your HouseTabz account—where each roommate is equally responsible to pay their share.
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-800">
+            The First Payment Method for Shared Expenses
+          </span>
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-gray-900">
+            Stop Fronting Costs and chasing Venmo requests.
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+          HouseTabz makes shared expenses truly shared—every roommate accepts ownership and pays their part, no chasing, no fronting.
+          </p>
+        </div>
+
+        {/* Problem/Solution */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          {/* Problem */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden border border-red-100">
+            <div className="p-6 bg-red-50">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center">
+                <span className="w-10 h-10 flex items-center justify-center bg-red-100 rounded-full mr-3">
+                  <span className="text-xl text-red-500">✗</span>
+                </span>
+                The Problem
+              </h3>
+            </div>
+            <div className="p-6">
+            <p className="text-gray-600">
+                One person always gets stuck putting their card down for shared expenses and chasing others for payment. It's awkward, unfair, and a hassle. Shared expenses should come with <span className="underline text-emerald-600 font-bold">shared</span> Financial responsibility.
               </p>
             </div>
-
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className={`p-4 rounded-xl transition-all duration-300 ${
-                    activeFeature === index ? 'bg-white shadow-lg scale-105' : 'bg-green-50'
-                  }`}
-                >
-                  <div className="flex flex-col space-y-4">
-                    {/* Icon Section */}
-                    <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full mx-auto">
-                      {feature.icon}
-                    </div>
-
-                    {/* Text Content */}
-                    <div className="text-center">
-                      <h3 className="font-semibold text-gray-900">{feature.title}</h3>
-                      <p className="text-sm text-gray-600 mt-2">{feature.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* <button className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition-colors">
-              Get Started
-              <ChevronRight className="ml-2 w-5 h-5" />
-            </button> */}
           </div>
 
-          {/* Integration Display Section */}
-          <div className={`relative transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'}`}>
-            <div className="relative w-full aspect-[4/3]">
-              {/* Checkout Integration Demo */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 space-y-6">
-                  <div className="border-b pb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Checkout</h3>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Total Amount</span>
-                      <span className="text-gray-900 font-semibold">$120.00</span>
-                    </div>
-
-                    <div className="p-4 bg-green-50 rounded-lg border border-green-100">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
-                          <Users className="w-5 h-5 text-emerald-600" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-gray-500">$40.00 per roommate</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button className="w-full py-3 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors">
-                      Pay with HouseTabz
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Decorative Elements */}
-           
+          {/* Solution */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden border border-emerald-100">
+            <div className="p-6 bg-emerald-50">
+              <h3 className="text-xl font-bold text-gray-900 flex items-center">
+                <span className="w-10 h-10 flex items-center justify-center bg-emerald-100 rounded-full mr-3">
+                  <span className="text-xl text-emerald-500">✓</span>
+                </span>
+                The Solution
+              </h3>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-600">
+                HouseTabz makes everyone equally responsible from day one. No more fronting costs or chasing payments. Everyone pays their fair share automatically for truly shared expenses.
+              </p>
             </div>
           </div>
         </div>
+
+        {/* How It Works */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-center mb-10">How It Works</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Shop the Marketplace */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="p-5 flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <ShoppingCart className="w-8 h-8 text-emerald-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Shop the Marketplace</h4>
+                <p className="text-center text-gray-600 text-sm">
+                  Find services that accept HouseTabz, click "Pay with HouseTabz" at checkout, and each person confirms their portion.
+                </p>
+              </div>
+              <div className="bg-emerald-50 p-4">
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <div className="flex justify-between items-center text-sm mb-3">
+                    <span>Expense Total</span>
+                    <span className="font-semibold">$120</span>
+                  </div>
+                  <button className="w-full py-2 bg-emerald-500 text-white rounded-lg text-sm">
+                    Pay with HouseTabz
+                  </button>
+                  <div className="mt-2 text-xs text-gray-500 text-center">
+                    3 people × $40 each
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Connect Bills */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="p-5 flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <FileText className="w-8 h-8 text-emerald-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Generate a virtual card</h4>
+                <p className="text-center text-gray-600 text-sm">
+                  Already paying for a shared service? Enter the details and HouseTabz creates a virtual card you can attach to the account. Each roommate claims ownership and is responsible for funding their portion.
+                </p>
+              </div>
+              <div className="bg-emerald-50 p-4">
+                <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg p-4 text-white" style={{aspectRatio: '1.586/1'}}>
+                  <div className="flex flex-col h-full justify-between">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-xs text-emerald-50">Internet Bill</p>
+                        <p className="text-base font-bold mt-1">$89.99/mo</p>
+                      </div>
+                      <CreditCard className="w-6 h-6 text-white opacity-80" />
+                    </div>
+                    
+                    <div className="mt-auto text-xs text-right">
+                      Funded equally by everyone
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* House Score */}
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="p-5 flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <Shield className="w-8 h-8 text-emerald-600" />
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">House Status Index</h4>
+                <p className="text-center text-gray-600 text-sm">
+                  Your household builds a reliability score that determines how much HouseTabz will cover if a payment is late.
+                </p>
+              </div>
+              <div className="bg-emerald-50 p-4">
+                <div className="bg-white rounded-lg p-3 shadow-sm">
+                  <div className="flex items-center justify-center mb-2">
+                    <div className="relative w-20 h-20">
+                      <svg className="w-full h-full" viewBox="0 0 36 36">
+                        <path 
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none" 
+                          stroke="#E2E8F0" 
+                          strokeWidth="3"
+                          strokeDasharray="100, 100" 
+                        />
+                        <path 
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none" 
+                          stroke="#10B981" 
+                          strokeWidth="3"
+                          strokeDasharray="72, 100" 
+                        />
+                        <text 
+                          x="18" 
+                          y="20.5" 
+                          textAnchor="middle" 
+                          fill="#10B981" 
+                          fontSize="10" 
+                          fontWeight="bold"
+                        >
+                          72
+                        </text>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="text-center text-sm text-gray-800 font-medium mb-1">
+                    House Score Index
+                  </div>
+                  <div className="text-xs text-gray-600 text-center">
+                    HouseTabz will cover up to <span className="font-semibold text-emerald-600">$175</span> in late payments to protect your shared bills
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <a 
+            href="/vip" 
+            className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-500 text-white font-medium hover:bg-emerald-600 transition-colors shadow-sm hover:shadow-md"
+          >
+            Join VIP List
+            <ChevronRight className="ml-2 w-5 h-5" />
+          </a>
+        </div>
       </div>
+
 
       {/* Bottom Mint Wave */}
       <div className="absolute bottom-0 w-full h-[20vh] overflow-hidden z-0">

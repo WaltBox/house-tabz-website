@@ -14,7 +14,7 @@ const SolutionPage = () => {
         'Pay all your household bills in one place. Each roommate is equally financially responsible for their portion — no fronting, no chasing payments.',
     },
     'Bill Takeover': {
-      image: 'billtakeover',
+      image: billtakeover,
       description:
         'Already paying a shared bill? Submit the details — once everyone accepts ownership, the responsibility is split evenly across the house.',
     },

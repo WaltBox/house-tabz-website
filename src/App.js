@@ -38,7 +38,7 @@ const AppContent = () => {
  return (
    <>
      <Helmet>
-       <title>HouseTabz VIP Program</title>
+       <title>HouseTabz</title>
        <meta name="description" content="Join HouseTabz VIP List and earn rewards!" />
        <meta property="og:type" content="website" />
        <meta property="og:title" content="Join HouseTabz VIP List 🏠" />

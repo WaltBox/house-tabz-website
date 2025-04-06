@@ -24,7 +24,7 @@ const LandingPage = () => {
         <span className="w-full text-white montserrat-black text-6xl md:text-7xl mb-4 text-center md:text-left">HouseTabz</span>
         <span className="w-full text-left">Stop fighting over</span>
         <div className="flex flex-wrap items-center gap-3 md:gap-4 self-start max-w-full overflow-visible mr-6">
-          <span className="text-[#34d399] bg-[#dff6f0] px-2 py-1 rounded-md whitespace-nowrap">
+          <span className="text-[#34d399] bg-white px-2 py-1 rounded-md whitespace-nowrap">
             Shared
           </span>
           <span className="word-carousel">
@@ -41,7 +41,7 @@ const LandingPage = () => {
       </p> */}
       <Link
         to="/how-it-works"
-        className="bg-[#dff6f0] text-black py-3 px-6 rounded-full shadow-md hover:bg-[#34d399] transition-all duration-300"
+        className="bg-white text-black py-3 px-6 rounded-full shadow-md hover:bg-[#dff6f0] transition-all duration-300"
       >
         How It Works
       </Link>

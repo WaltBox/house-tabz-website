@@ -21,10 +21,10 @@ const LandingPage = () => (
 
         </div>
       </h1>
-      <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">
+      {/* <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">
         Say goodbye to awkward conversations and tracking down payments.
         HouseTabz allows your house to operate as a single financial entity.
-      </p>
+      </p> */}
       <Link
         to="/how-it-works"
         className="bg-[#dff6f0] text-black py-3 px-6 rounded-full shadow-md hover:bg-[#34d399] transition-all duration-300"

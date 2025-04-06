@@ -6,10 +6,10 @@ const LandingPage = () => (
   <div className="landing-page min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-[#34d399] via-[#6ee7b7] to-white relative">
     {/* Left Section */}
     <div className="text-section w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-8 md:px-16">
-      <h1 className="text-4xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-wrap items-center gap-y-4 md:gap-y-6 text-center md:text-left">
+      <h1 className="text-5xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-col md:flex-wrap items-start md:items-center gap-y-4 md:gap-y-6 text-left">
         <span className="w-full">Stop fighting over</span>
         <div className="flex items-center gap-4 md:gap-6">
-          <span className="text-white bg-[#34d399] px-2 py-1 rounded-md whitespace-nowrap">
+          <span className="text-[#34d399] bg-[#dff6f0] px-2 py-1 rounded-md whitespace-nowrap">
             Shared
           </span>
           <span className="word-carousel">
@@ -18,7 +18,6 @@ const LandingPage = () => (
             <span>Streaming</span>
             <span>Cleaning</span>
           </span>
-
         </div>
       </h1>
       {/* <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">
@@ -40,7 +39,7 @@ const LandingPage = () => (
         <img
           src={logo}
           alt="HouseTabz Logo"
-          className="w-40 sm:w-48 md:w-64 lg:w-80 xl:w-96 max-w-full h-auto transform hover:scale-110 transition-transform duration-500"
+          className="w-56 sm:w-64 md:w-64 lg:w-80 xl:w-96 max-w-full h-auto transform hover:scale-110 transition-transform duration-500"
         />
       </div>
     </div>
@@ -76,10 +75,10 @@ const LandingPage = () => (
       .word-carousel {
         display: inline-block;
         position: relative;
-        min-width: 18.1rem;
+        min-width: 16rem;
         height: 1.5em;
         overflow: hidden;
-        text-align: center;
+        text-align: left;
       }
 
       .word-carousel span {
@@ -156,24 +155,30 @@ const LandingPage = () => (
       }
 
       @media (max-width: 768px) {
-        .text-section {
-          text-align: center;
-          align-items: center;
-        }
         .text-section h1 {
-          font-size: 2rem;
-          line-height: 1.3;
+          font-size: 2.5rem;
+          line-height: 1.2;
         }
         .text-section p {
-          font-size: 1rem;
+          font-size: 1.25rem;
+          text-align: left;
         }
         .logo-section img {
           margin-top: 2rem;
-          width: 12rem; /* Smaller logo on mobile */
-          height: auto;
+          width: 14rem; /* Larger logo on mobile */
         }
         .word-carousel {
           min-width: 10rem;
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .text-section h1 {
+          font-size: 2.2rem;
+        }
+        .word-carousel {
+          min-width: 9rem;
         }
       }
 

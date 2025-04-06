@@ -7,7 +7,7 @@ const LandingPage = () => (
     {/* Left Section */}
     <div className="text-section w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-8 md:px-16">
       <h1 className="text-4xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-wrap items-center gap-y-4 md:gap-y-6 text-center md:text-left">
-        <span className="w-full">Stop fighting over your</span>
+        <span className="w-full">Stop fighting over</span>
         <div className="flex items-center gap-4 md:gap-6">
           <span className="text-white bg-[#34d399] px-2 py-1 rounded-md whitespace-nowrap">
             Shared
@@ -18,7 +18,7 @@ const LandingPage = () => (
             <span>Streaming</span>
             <span>Cleaning</span>
           </span>
-          <span className="text-[#black] whitespace-nowrap">Bill</span>
+
         </div>
       </h1>
       <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">

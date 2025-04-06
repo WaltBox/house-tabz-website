@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 
 // Determine the appropriate API URL based on the environment
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
+const API_BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://api.housetabz.com'
   : 'http://localhost:3004';
 
@@ -11,29 +12,27 @@ const ConfirmRequest = () => {
   const [searchParams] = useSearchParams();
   const [roommates, setRoommates] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [perPersonAmount, setPerPersonAmount] = useState(0);
-  const [perPersonUpfront, setPerPersonUpfront] = useState(0);
+  const [monthlyShare, setMonthlyShare] = useState(0);
+  const [upfrontPledge, setUpfrontPledge] = useState(0);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState(null);
+  const [showUpfrontInfo, setShowUpfrontInfo] = useState(false);
 
   useEffect(() => {
     const fetchRoommates = async () => {
       try {
-        // Get userId from URL params
         const userId = searchParams.get('user_id');
-        if (!userId) {
-          throw new Error('User ID is required');
-        }
+        if (!userId) throw new Error('User ID is required');
 
-        // Use the userId from params instead of hardcoded '1'
         const userResponse = await axios.get(`${API_BASE_URL}/api/users/${userId}`);
         const { houseId } = userResponse.data;
         const houseResponse = await axios.get(`${API_BASE_URL}/api/houses/${houseId}`);
         const { users } = houseResponse.data;
 
         setRoommates(users);
-        setPerPersonAmount(parseFloat(searchParams.get('amount')) / users.length);
-        setPerPersonUpfront(parseFloat(searchParams.get('upfront')) / users.length);
+        // Calculate per-person amounts based on the number of roommates.
+        setUpfrontPledge(parseFloat(searchParams.get('upfront')) / users.length);
+        setMonthlyShare(parseFloat(searchParams.get('amount')) / users.length);
         setLoading(false);
       } catch (error) {
         console.error('Error:', error);
@@ -47,22 +46,14 @@ const ConfirmRequest = () => {
   const handleConfirm = async () => {
     try {
       const partnerId = searchParams.get('partner_id');
-      const userId = searchParams.get('user_id');  // Get userId from params
+      const userId = searchParams.get('user_id');
 
-      if (!partnerId) {
-        throw new Error('Partner ID is required');
-      }
-
-      if (!userId) {
-        throw new Error('User ID is required');
-      }
+      if (!partnerId) throw new Error('Partner ID is required');
+      if (!userId) throw new Error('User ID is required');
 
       const apiKey = searchParams.get('apiKey');
       const secretKey = searchParams.get('secretKey');
-
-      if (!apiKey || !secretKey) {
-        throw new Error('Both API key and Secret key are required');
-      }
+      if (!apiKey || !secretKey) throw new Error('Both API key and Secret key are required');
 
       const response = await axios.post(
         `${API_BASE_URL}/api/partners/${partnerId}/staged-request`,
@@ -72,7 +63,7 @@ const ConfirmRequest = () => {
           serviceType: searchParams.get('serviceType'),
           estimatedAmount: parseFloat(searchParams.get('amount')),
           requiredUpfrontPayment: parseFloat(searchParams.get('upfront')),
-          userId: userId  // Use the userId from params
+          userId: userId
         },
         {
           headers: {
@@ -113,7 +104,7 @@ const ConfirmRequest = () => {
             Error
           </div>
           <p className="text-gray-700">{error}</p>
-          <button 
+          <button
             className="mt-4 bg-[#34d399] text-white py-2 px-6 rounded-lg font-medium hover:bg-[#2dbe2c]"
             onClick={() => window.location.reload()}
           >
@@ -131,50 +122,64 @@ const ConfirmRequest = () => {
         <div className="text-center mb-12">
           <div className="flex flex-col items-center mb-6">
             <img
-              src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo.png"
+              src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
               alt="HouseTabz Logo"
               className="h-16 w-auto mb-4"
             />
             <h1 className="text-3xl font-bold text-gray-900">Payment Split Confirmation</h1>
           </div>
           <p className="text-gray-600 text-lg">
-            Review and confirm your contribution to the shared payment pool
+            Confirm your ownership below.
           </p>
         </div>
 
         {/* Main Content */}
         <div className="bg-white rounded-lg shadow-md">
-          {/* Transaction Details */}
+          {/* Expense Summary */}
           <div className="px-8 py-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Transaction Details</h2>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">{searchParams.get('serviceName')}</span>
-                <span className="text-gray-900 font-medium">{searchParams.get('serviceType')}</span>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Expense Summary</h2>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="flex flex-col items-center">
+                <span className="text-gray-700 font-bold text-3xl">
+                  ${upfrontPledge.toFixed(2)}
+                </span>
+                <span className="text-xs text-gray-500 uppercase">Pledge Required</span>
               </div>
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                <span className="text-gray-600">Total Amount</span>
-                <span className="text-gray-900 font-semibold text-xl">
-                  ${parseFloat(searchParams.get('amount')).toFixed(2)}
+              <div className="flex flex-col items-center">
+                <span className="text-gray-600 text-sm">
+                  and claim ownership for your portion of this bill:
+                </span>
+                <span className="text-gray-900 font-bold text-2xl">
+                  ${monthlyShare.toFixed(2)}/mo
                 </span>
               </div>
-              {searchParams.get('upfront') && (
-                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                  <span className="text-gray-600">Required Upfront</span>
-                  <div className="text-right">
-                    <span className="text-gray-900 font-semibold">
-                      ${parseFloat(searchParams.get('upfront')).toFixed(2)}
-                    </span>
-                    <p className="text-sm text-gray-500 mt-1">Held in escrow until all confirm</p>
-                  </div>
+              <button 
+                className="mt-1"
+                onClick={() => setShowUpfrontInfo(!showUpfrontInfo)}
+                title="What is this?"
+              >
+                <InformationCircleIcon className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+              </button>
+              {showUpfrontInfo && (
+                <div className="mt-2 p-2 bg-gray-100 border border-gray-300 rounded text-xs text-gray-700 text-center">
+                  <p>
+                    The one-time pledge is typically a security deposit required by the provider.
+                    By confirming, you commit to this pledge and secure your ownership for a monthly charge of ${monthlyShare.toFixed(2)}.
+                  </p>
+                  <button 
+                    className="mt-1 text-blue-500 hover:underline"
+                    onClick={() => setShowUpfrontInfo(false)}
+                  >
+                    Got it, close
+                  </button>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Split Details */}
+          {/* Roommate Split Details */}
           <div className="px-8 py-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Payment Split</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Roommate Split</h2>
             <div className="space-y-3">
               {roommates.map((roommate) => (
                 <div key={roommate.id} className="flex justify-between items-center p-4 bg-[#dff6f0] rounded-md">
@@ -187,15 +192,9 @@ const ConfirmRequest = () => {
                     <span className="text-gray-900 font-medium">{roommate.username}</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-gray-900 font-semibold">
-                      ${perPersonAmount.toFixed(2)}
-                    </div>
-                    {perPersonUpfront > 0 && (
-                      <div className="text-sm text-gray-500 mt-1">
-                        <span className="bg-white text-[#34d933] px-2 py-1 rounded">
-                          ${perPersonUpfront.toFixed(2)} upfront
-                        </span>
-                      </div>
+                    <p className="text-gray-900 font-semibold text-lg">${monthlyShare.toFixed(2)}/mo</p>
+                    {upfrontPledge > 0 && (
+                      <p className="text-xs text-gray-500 mt-0.5">${upfrontPledge.toFixed(2)} upfront</p>
                     )}
                   </div>
                 </div>
@@ -203,12 +202,18 @@ const ConfirmRequest = () => {
             </div>
           </div>
 
+          {/* Disclaimer */}
+          <div className="px-8 py-4 bg-gray-50">
+            <p className="text-gray-600 text-center text-sm">
+              By clicking “Confirm Your Share”, you commit to the one-time pledge and monthly charge.
+            </p>
+          </div>
+
           {/* Action Buttons */}
           <div className="px-8 py-6 bg-gray-50 rounded-b-lg">
             {!isConfirmed ? (
               <button 
-                className="w-full bg-[#34d399] text-white py-4 px-6 rounded-lg font-semibold text-lg
-                          hover:bg-[#2dbe2c] transition-colors duration-200 mb-4 flex items-center justify-center space-x-2"
+                className="w-full bg-[#34d399] text-white py-4 px-6 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 hover:bg-[#2dbe2c] transition-colors duration-200 mb-4"
                 onClick={handleConfirm}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,24 +224,22 @@ const ConfirmRequest = () => {
             ) : (
               <div className="space-y-3">
                 <button 
-                  className="w-full bg-gray-200 text-gray-500 py-4 px-6 rounded-lg font-semibold text-lg 
-                            flex items-center justify-center space-x-2 cursor-not-allowed"
+                  className="w-full bg-gray-200 text-gray-500 py-4 px-6 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 cursor-not-allowed"
                   disabled
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Contribution Confirmed</span>
+                  <span>Share Confirmed</span>
                 </button>
-                <p className="text-center text-gray-600">
-                  Your roommates will be notified to confirm their shares
+                <p className="text-center text-gray-600 text-sm">
+                  Your roommates will be notified to confirm their shares.
                 </p>
               </div>
             )}
             
             <button 
-              className="w-full mt-3 bg-white text-gray-700 py-3 px-6 rounded-lg font-medium
-                        hover:bg-gray-100 transition-colors duration-200 border border-gray-300"
+              className="w-full mt-3 bg-white text-gray-700 py-3 px-6 rounded-lg font-medium border border-gray-300 hover:bg-gray-100 transition-colors duration-200"
               onClick={() => window.close()}
             >
               Cancel

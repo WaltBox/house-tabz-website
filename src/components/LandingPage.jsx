@@ -18,7 +18,7 @@ const LandingPage = () => (
             <span>Streaming</span>
             <span>Cleaning</span>
           </span>
-          <span className="text-[#065f46] whitespace-nowrap">Bill</span>
+          <span className="text-[#black] whitespace-nowrap">Bill</span>
         </div>
       </h1>
       <p className="text-lg md:text-2xl text-gray-700 mb-8 text-center md:text-left">
@@ -27,7 +27,7 @@ const LandingPage = () => (
       </p>
       <Link
         to="/how-it-works"
-        className="bg-[#065f46] text-white py-3 px-6 rounded-full shadow-md hover:bg-[#034c39] transition-all duration-300"
+        className="bg-[#dff6f0] text-black py-3 px-6 rounded-full shadow-md hover:bg-[#34d399] transition-all duration-300"
       >
         How It Works
       </Link>
@@ -86,7 +86,7 @@ const LandingPage = () => (
         position: absolute;
         left: 0;
         opacity: 0;
-        color: #065f46;
+        color: black;
         font-weight: 700;
         animation: rotateWord 8s linear infinite;
         line-height: 1.5;

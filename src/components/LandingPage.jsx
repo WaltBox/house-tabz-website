@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/housetabzlogo.png';
 
-const LandingPage = () => (
-  <div className="landing-page min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-[#34d399] via-[#6ee7b7] to-white relative">
+const LandingPage = () => {
+  // Load Montserrat Black font
+  useEffect(() => {
+    // Create a new link element
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+    
+    return () => {
+      document.head.removeChild(fontLink);
+    };
+  }, []);
+
+  return (
+  <div className="landing-page min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-[#34d399] via-[#6ee7b7] to-white relative pt-16 md:pt-0">
     {/* Left Section */}
-    <div className="text-section w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-8 md:px-16">
-      <h1 className="text-5xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-col md:flex-wrap items-start md:items-center gap-y-4 md:gap-y-6 text-left">
-        <span className="w-full">Stop fighting over</span>
-        <div className="flex items-center gap-4 md:gap-6">
+    <div className="text-section w-full md:w-1/2 flex flex-col justify-center items-center md:items-start px-3 md:px-16 mt-6 md:mt-0">
+      <h1 className="text-5xl md:text-6xl font-extrabold text-black mb-6 leading-tight flex flex-col md:flex-wrap items-center md:items-start gap-y-4 md:gap-y-6 w-full">
+        <span className="w-full text-white montserrat-black text-6xl md:text-7xl mb-4 text-center md:text-left">HouseTabz</span>
+        <span className="w-full text-left">Stop fighting over</span>
+        <div className="flex flex-wrap items-center gap-3 md:gap-4 self-start max-w-full overflow-visible mr-6">
           <span className="text-[#34d399] bg-[#dff6f0] px-2 py-1 rounded-md whitespace-nowrap">
             Shared
           </span>
@@ -66,6 +81,13 @@ const LandingPage = () => (
         color: #2d3748;
       }
 
+      .montserrat-black {
+        font-family: 'Montserrat-Black', 'Montserrat', sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
       .wave-svg {
         width: 100%;
         height: 10vh;
@@ -75,21 +97,26 @@ const LandingPage = () => (
       .word-carousel {
         display: inline-block;
         position: relative;
-        min-width: 16rem;
+        width: auto;
+        min-width: 12rem;
+        max-width: 180px;
         height: 1.5em;
-        overflow: hidden;
+        overflow: visible;
         text-align: left;
+        vertical-align: middle;
       }
 
       .word-carousel span {
         position: absolute;
         left: 0;
+        top: 0;
         opacity: 0;
         color: black;
         font-weight: 700;
         animation: rotateWord 8s linear infinite;
         line-height: 1.5;
         width: 100%;
+        white-space: nowrap;
       }
 
       .word-carousel span:nth-child(2) {
@@ -158,6 +185,13 @@ const LandingPage = () => (
         .text-section h1 {
           font-size: 2.5rem;
           line-height: 1.2;
+          margin-top: 1rem;
+          width: 95%;
+          max-width: 95vw;
+        }
+        .text-section h1 .montserrat-black {
+          font-size: 3.5rem;
+          line-height: 1;
         }
         .text-section p {
           font-size: 1.25rem;
@@ -168,7 +202,9 @@ const LandingPage = () => (
           width: 14rem; /* Larger logo on mobile */
         }
         .word-carousel {
-          min-width: 10rem;
+          min-width: 6.5rem;
+          max-width: none;
+          width: auto;
           text-align: left;
         }
       }
@@ -176,9 +212,13 @@ const LandingPage = () => (
       @media (max-width: 480px) {
         .text-section h1 {
           font-size: 2.2rem;
+          width: 90%;
+        }
+        .text-section h1 .montserrat-black {
+          font-size: 3rem;
         }
         .word-carousel {
-          min-width: 9rem;
+          min-width: 6rem;
         }
       }
 
@@ -190,5 +230,6 @@ const LandingPage = () => (
     `}</style>
   </div>
 );
+};
 
 export default LandingPage;

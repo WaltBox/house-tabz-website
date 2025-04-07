@@ -286,11 +286,7 @@ const LandingPage = () => {
         }}
       ></div>
 
-      {isIOS && (
-        <div className="fixed bottom-4 left-4 bg-black bg-opacity-50 text-white text-xs p-2 rounded z-50 pointer-events-none">
-          iOS detected
-        </div>
-      )}
+     
     </section>
   );
 };

@@ -12,6 +12,19 @@ const Navbar = () => {
     setMenuOpen(false);
   };
 
+  // Import Montserrat font
+  useEffect(() => {
+    // Create a new link element
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+    
+    return () => {
+      document.head.removeChild(fontLink);
+    };
+  }, []);
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -38,6 +51,7 @@ const Navbar = () => {
         <Link
           to="/"
           className="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight hover:text-[#34d399] transition duration-300"
+          style={{ fontFamily: "'Montserrat', sans-serif" }}
         >
           HouseTabz
         </Link>

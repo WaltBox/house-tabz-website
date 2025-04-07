@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,9 +10,12 @@ const LandingPage = () => {
   const containerRef = useRef(null);
   const textRefs = useRef([]);
   const buttonRef = useRef(null);
-  const isGreenBg = useRef(true);
+  const [isGreen, setIsGreen] = useState(true);
 
   useEffect(() => {
+    // Clear any existing refs from potential re-renders
+    textRefs.current = [];
+    
     // Set initial state
     gsap.set(textRefs.current, { opacity: 0, y: 20 });
     gsap.set(buttonRef.current, { opacity: 0 });
@@ -34,43 +37,67 @@ const LandingPage = () => {
       delay: 0.8
     });
 
-    // Scroll-triggered color flip animation
-    ScrollTrigger.create({
+    // Scroll-triggered color flip animation - improved for mobile
+    const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top center",
-      end: "bottom center",
-      onToggle: self => {
-        isGreenBg.current = self.isActive;
-        const bgColor = isGreenBg.current ? "#34d399" : "white";
-        const textColor = isGreenBg.current ? "white" : "#34d399";
-        
-        gsap.to(sectionRef.current, {
-          backgroundColor: bgColor,
-          duration: 0.5
-        });
-        
-        gsap.to(textRefs.current, {
-          color: textColor,
-          duration: 0.5
-        });
-        
-        updateButtonColors(false);
-      }
+      start: "top 60%", // Adjusted trigger point
+      end: "bottom 40%",
+      markers: false, // Set to true for debugging
+      onEnter: () => updateColors(true),
+      onLeave: () => updateColors(false),
+      onEnterBack: () => updateColors(true),
+      onLeaveBack: () => updateColors(false),
+      // Make sure ScrollTrigger refreshes on mobile orientation changes
+      invalidateOnRefresh: true,
+      scrub: 0.5 // Adding scrub for smoother transitions
     });
 
-    return () => ScrollTrigger.getAll().forEach(t => t.kill());
+    // Refresh ScrollTrigger on resize to handle orientation changes
+    window.addEventListener('resize', () => {
+      ScrollTrigger.refresh();
+    });
+
+    // Clean up function
+    return () => {
+      trigger.kill();
+      window.removeEventListener('resize', () => {
+        ScrollTrigger.refresh();
+      });
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
   }, []);
 
-  const updateButtonColors = (isHovered) => {
+  const updateColors = (isGreenBackground) => {
+    setIsGreen(isGreenBackground);
+    
+    const bgColor = isGreenBackground ? "#34d399" : "white";
+    const textColor = isGreenBackground ? "white" : "#34d399";
+    
+    gsap.to(sectionRef.current, {
+      backgroundColor: bgColor,
+      duration: 0.5
+    });
+    
+    gsap.to(textRefs.current, {
+      color: textColor,
+      duration: 0.5
+    });
+    
+    updateButtonColors(false, isGreenBackground);
+  };
+
+  const updateButtonColors = (isHovered, forceGreen = null) => {
+    const isGreenBg = forceGreen !== null ? forceGreen : isGreen;
+    
     const bgColor = isHovered 
-      ? (isGreenBg.current ? "white" : "#34d399")
+      ? (isGreenBg ? "white" : "#34d399")
       : "transparent";
     
     const textColor = isHovered 
-      ? (isGreenBg.current ? "#34d399" : "white")
-      : (isGreenBg.current ? "white" : "#34d399");
+      ? (isGreenBg ? "#34d399" : "white")
+      : (isGreenBg ? "white" : "#34d399");
     
-    const borderColor = isGreenBg.current ? "white" : "#34d399";
+    const borderColor = isGreenBg ? "white" : "#34d399";
 
     gsap.to(buttonRef.current, {
       backgroundColor: bgColor,
@@ -128,6 +155,9 @@ const LandingPage = () => {
           How It Works
         </Link>
       </div>
+      
+      {/* Add this invisible element for better scroll triggering on mobile */}
+      <div className="h-[200vh]"></div>
     </section>
   );
 };

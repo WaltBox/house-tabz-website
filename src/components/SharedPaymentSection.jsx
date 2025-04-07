@@ -5,7 +5,7 @@ const SharedPaymentSection = () => {
   return (
     <section className="shared-payment-section relative bg-white py-24 overflow-hidden">
       {/* Mint Wave at Top */}
-      <div className="absolute -top-[10vh] w-full h-[20vh] overflow-hidden z-0">
+      {/* <div className="absolute -top-[10vh] w-full h-[20vh] overflow-hidden z-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
@@ -17,7 +17,7 @@ const SharedPaymentSection = () => {
             d="M0,128L80,192C160,256,320,320,480,288C640,256,800,160,960,128C1120,96,1280,160,1360,192L1440,224L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
           ></path>
         </svg>
-      </div>
+      </div> */}
 
       {/* Background Patterns */}
       <div className="absolute inset-0 opacity-10 z-0 hidden md:block">

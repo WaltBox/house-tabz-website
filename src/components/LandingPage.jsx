@@ -69,12 +69,8 @@ const LandingPage = () => {
           ease: "power3.out"
         });
 
-        // Button animation
-        gsap.to(buttonRef.current, {
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.5
-        });
+        // Button animation is now handled by CSS with a longer delay
+        // We'll keep the initial setup but remove the animation from here
       }
     }, 300);
     
@@ -214,19 +210,27 @@ const LandingPage = () => {
 
   // Add the animation keyframes to the document
   useEffect(() => {
-    if (!document.getElementById('pop-animation-style')) {
+    if (!document.getElementById('animation-styles')) {
       const styleEl = document.createElement('style');
-      styleEl.id = 'pop-animation-style';
+      styleEl.id = 'animation-styles';
       styleEl.innerHTML = `
         @keyframes popIn {
           0% { opacity: 0; transform: scale(0.5); }
           70% { opacity: 1; transform: scale(1.1); }
           100% { opacity: 1; transform: scale(1); }
         }
+        
+        @keyframes fadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
       `;
       document.head.appendChild(styleEl);
     }
   }, []);
+
+  // Calculate button delay based on number of words
+  const buttonAnimationDelay = 0.8 + (4 * 0.2) + 0.4; // Heading delay + (number of words * word delay) + extra time
 
   return (
     <section
@@ -267,7 +271,9 @@ const LandingPage = () => {
           style={{
             backgroundColor: 'transparent',
             color: 'white',
-            borderColor: 'white'
+            borderColor: 'white',
+            opacity: 0,
+            animation: `fadeIn 0.8s forwards ${buttonAnimationDelay}s`
           }}
           onMouseEnter={() => updateButtonColors(true)}
           onMouseLeave={() => updateButtonColors(false)}
@@ -285,8 +291,6 @@ const LandingPage = () => {
           WebkitOverflowScrolling: 'touch'
         }}
       ></div>
-
-     
     </section>
   );
 };

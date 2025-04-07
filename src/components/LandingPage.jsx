@@ -1,3 +1,5 @@
+// src/components/LandingPage.jsx
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -24,12 +26,8 @@ const LandingPage = () => {
       const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       setIsIOS(iOS);
-
-      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                     window.innerWidth < 768;
-      setIsMobile(mobile);
+      setIsMobile(window.innerWidth < 768);
     };
-
     checkDevice();
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
@@ -68,9 +66,6 @@ const LandingPage = () => {
           stagger: 0.15,
           ease: "power3.out"
         });
-
-        // Button animation is now handled by CSS with a longer delay
-        // We'll keep the initial setup but remove the animation from here
       }
     }, 300);
     
@@ -105,37 +100,18 @@ const LandingPage = () => {
     if (!sectionRef.current || !spacerRef.current) return;
     ScrollTrigger.getAll().forEach(t => t.kill());
 
-    if (isIOS) {
-      spacerRef.current.style.height = '300vh';
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top 30%",
-        end: "bottom 10%",
-        markers: false,
-        onEnter: () => updateColors(true),
-        onLeave: () => updateColors(false),
-        onEnterBack: () => updateColors(true),
-        onLeaveBack: () => updateColors(false),
-        invalidateOnRefresh: true,
-        scrub: true,
-        fastScrollEnd: true,
-        preventOverlaps: true
-      });
-    } else {
-      spacerRef.current.style.height = '200vh';
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: isMobile ? "top 40%" : "top 60%",
-        end: isMobile ? "bottom 20%" : "bottom 40%",
-        markers: false,
-        onEnter: () => updateColors(true),
-        onLeave: () => updateColors(false),
-        onEnterBack: () => updateColors(true),
-        onLeaveBack: () => updateColors(false),
-        invalidateOnRefresh: true,
-        scrub: isMobile ? 0.3 : 0.5
-      });
-    }
+    spacerRef.current.style.height = isIOS ? '300vh' : '200vh';
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: isMobile ? "top 40%" : "top 60%",
+      end: isMobile ? "bottom 20%" : "bottom 40%",
+      scrub: isMobile ? 0.3 : 0.5,
+      onEnter: () => updateColors(true),
+      onLeave: () => updateColors(false),
+      onEnterBack: () => updateColors(true),
+      onLeaveBack: () => updateColors(false),
+      invalidateOnRefresh: true
+    });
 
     ScrollTrigger.refresh(true);
   };
@@ -148,7 +124,6 @@ const LandingPage = () => {
     gsap.to(sectionRef.current, { backgroundColor: bgColor, duration: 0.5 });
     gsap.to(textRefs.current, { color: textColor, duration: 0.5 });
     
-    // Update all word spans
     const wordSpans = document.querySelectorAll('.animated-word');
     if (wordSpans.length > 0) {
       gsap.to(wordSpans, { color: textColor, duration: 0.5 });
@@ -184,10 +159,11 @@ const LandingPage = () => {
   // Create the animated words for the subheading
   const renderAnimatedSubheading = () => {
     const words = ["for", "shared", "household", "expenses"];
+    const logoUrl = "https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png";
     
     return (
       <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-        {words.map((word, index) => (
+        {words.slice(0, 3).map((word, index) => (
           <span 
             key={index}
             className="animated-word inline-block mx-1"
@@ -204,6 +180,46 @@ const LandingPage = () => {
             {word}
           </span>
         ))}
+
+        {/* Keep "expenses" + logo together */}
+        <span style={{ whiteSpace: 'nowrap' }}>
+          <span
+            className="animated-word inline-block mx-1"
+            style={{
+              color: 'rgba(255, 255, 255, 0.9)',
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 600,
+              letterSpacing: '0.02em',
+              opacity: 0,
+              transform: 'scale(0.5)',
+              animation: `popIn 0.5s forwards ${0.8 + 3 * 0.2}s`,
+            }}
+          >
+            expenses
+          </span>
+          <span
+            className="inline-block ml-1"
+            style={{
+              width: '0.45em',
+              height: '0.45em',
+              verticalAlign: 'baseline',
+              marginBottom: '-.01em',
+              opacity: 0,
+              transform: 'scale(2)',
+              animation: `popIn 0.5s forwards ${0.8 + 4 * 0.2}s`,
+            }}
+          >
+            <img
+              src={logoUrl}
+              alt="HouseTabz logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'block',
+              }}
+            />
+          </span>
+        </span>
       </h2>
     );
   };
@@ -230,7 +246,7 @@ const LandingPage = () => {
   }, []);
 
   // Calculate button delay based on number of words
-  const buttonAnimationDelay = 0.8 + (4 * 0.2) + 0.4; // Heading delay + (number of words * word delay) + extra time
+  const buttonAnimationDelay = 0.8 + (4 * 0.2) + 0.4;
 
   return (
     <section
@@ -290,7 +306,7 @@ const LandingPage = () => {
           touchAction: 'pan-y',
           WebkitOverflowScrolling: 'touch'
         }}
-      ></div>
+      />
     </section>
   );
 };

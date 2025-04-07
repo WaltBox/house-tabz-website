@@ -10,8 +10,49 @@ const LandingPage = () => {
   const containerRef = useRef(null);
   const textRefs = useRef([]);
   const buttonRef = useRef(null);
+  const spacerRef = useRef(null);
   const [isGreen, setIsGreen] = useState(true);
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  // Load fonts
+  useEffect(() => {
+    // Check if font is already in document
+    const existingLink = document.querySelector('link[href*="Montserrat"]');
+    
+    if (!existingLink) {
+      const fontLink = document.createElement('link');
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap';
+      fontLink.rel = 'stylesheet';
+      fontLink.id = 'montserrat-font-link';
+      
+      // Set up load event to track when the font is actually loaded
+      fontLink.onload = () => {
+        setFontLoaded(true);
+      };
+      
+      document.head.appendChild(fontLink);
+    } else {
+      setFontLoaded(true);
+    }
+  }, []);
+
+  // Set up animations and scroll triggers
   useEffect(() => {
     // Clear any existing refs from potential re-renders
     textRefs.current = [];
@@ -20,52 +61,69 @@ const LandingPage = () => {
     gsap.set(textRefs.current, { opacity: 0, y: 20 });
     gsap.set(buttonRef.current, { opacity: 0 });
     
-    // Text entrance animation
-    gsap.to(textRefs.current, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power3.out",
-      delay: 0.3
-    });
+    // Wait a bit for everything to be ready
+    const timeoutId = setTimeout(() => {
+      // Text entrance animation
+      gsap.to(textRefs.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out"
+      });
 
-    // Button entrance animation
-    gsap.to(buttonRef.current, {
-      opacity: 1,
-      duration: 0.8,
-      delay: 0.8
-    });
-
-    // Scroll-triggered color flip animation - improved for mobile
+      // Button entrance animation
+      gsap.to(buttonRef.current, {
+        opacity: 1,
+        duration: 0.8,
+        delay: 0.5
+      });
+      
+      // Initialize ScrollTrigger
+      initScrollTrigger();
+    }, 500);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
+  }, [fontLoaded, isMobile]);
+  
+  const initScrollTrigger = () => {
+    // Make sure references exist
+    if (!sectionRef.current) return;
+    
+    // Kill any existing triggers
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    
+    // Create trigger with mobile-specific settings
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: "top 60%", // Adjusted trigger point
-      end: "bottom 40%",
+      start: isMobile ? "top 40%" : "top 60%",
+      end: isMobile ? "bottom 20%" : "bottom 40%",
       markers: false, // Set to true for debugging
       onEnter: () => updateColors(true),
       onLeave: () => updateColors(false),
-      onEnterBack: () => updateColors(true),
+      onEnterBack: () => updateColors(true), 
       onLeaveBack: () => updateColors(false),
-      // Make sure ScrollTrigger refreshes on mobile orientation changes
       invalidateOnRefresh: true,
-      scrub: 0.5 // Adding scrub for smoother transitions
+      scrub: isMobile ? 0.3 : 0.5, // Faster scrub on mobile
+      // Debug callback to see scroll values
+      onUpdate: self => {
+        // Uncomment for debugging
+        // console.log(`Progress: ${self.progress.toFixed(2)}, Direction: ${self.direction}`);
+      }
     });
-
-    // Refresh ScrollTrigger on resize to handle orientation changes
-    window.addEventListener('resize', () => {
-      ScrollTrigger.refresh();
-    });
-
-    // Clean up function
-    return () => {
-      trigger.kill();
-      window.removeEventListener('resize', () => {
-        ScrollTrigger.refresh();
-      });
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
-  }, []);
+    
+    // Force a refresh to make sure positions are calculated correctly
+    ScrollTrigger.refresh();
+    
+    // If on mobile, add touch-specific handler
+    if (isMobile && spacerRef.current) {
+      // Set correct height for mobile
+      spacerRef.current.style.height = '150vh';
+    }
+  };
 
   const updateColors = (isGreenBackground) => {
     setIsGreen(isGreenBackground);
@@ -125,16 +183,32 @@ const LandingPage = () => {
         <div className="text-center max-w-4xl">
           <h1 
             ref={addToRefs}
-            className="text-5xl md:text-7xl lg:text-8xl font-black mb-4 leading-tight"
-            style={{ color: 'white' }}
+            className={`text-5xl md:text-7xl lg:text-8xl font-black mb-2 md:mb-4 leading-tight ${fontLoaded ? '' : 'opacity-90'}`}
+            style={{ 
+              color: 'white',
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 900,
+              letterSpacing: '0.01em',
+              textTransform: 'uppercase',
+              textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
           >
             THE PAYMENT METHOD
           </h1>
           
+          {/* Decorative divider */}
+          <div className="w-16 h-1 bg-white mx-auto mb-3 md:mb-5 opacity-80 rounded-full"></div>
+          
           <h2
             ref={addToRefs}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
-            style={{ color: 'white' }}
+            className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${fontLoaded ? '' : 'opacity-90'}`}
+            style={{ 
+              color: 'rgba(255, 255, 255, 0.9)',
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 600,
+              letterSpacing: '0.02em',
+              textTransform: 'none'
+            }}
           >
             for shared household expenses
           </h2>
@@ -143,7 +217,7 @@ const LandingPage = () => {
         <Link
           ref={buttonRef}
           to="/how-it-works"
-          className="mt-16 font-bold text-xl py-4 px-14 rounded-full transition-all duration-300 border-2"
+          className="mt-12 md:mt-16 font-bold text-lg md:text-xl py-3 md:py-4 px-10 md:px-14 rounded-full transition-all duration-300 border-2"
           style={{ 
             backgroundColor: 'transparent',
             color: 'white',
@@ -156,8 +230,14 @@ const LandingPage = () => {
         </Link>
       </div>
       
-      {/* Add this invisible element for better scroll triggering on mobile */}
-      <div className="h-[200vh]"></div>
+      {/* Mobile-optimized scrollable content space */}
+      <div 
+        ref={spacerRef} 
+        className="w-full h-[200vh]" 
+        style={{ 
+          touchAction: isMobile ? 'pan-y' : 'auto'
+        }}
+      ></div>
     </section>
   );
 };

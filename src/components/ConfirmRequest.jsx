@@ -1,3 +1,4 @@
+// src/pages/ConfirmRequest.js
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -17,13 +18,32 @@ const ConfirmRequest = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState(null);
   const [showUpfrontInfo, setShowUpfrontInfo] = useState(false);
+  const [tokenLoaded, setTokenLoaded] = useState(false);
 
+  // Effect to retrieve token from sessionStorage and set axios header
   useEffect(() => {
+    const token = sessionStorage.getItem('housetabz_jwt');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      console.log('JWT token attached to axios headers:', token);
+      setTokenLoaded(true);
+    } else {
+      console.error('JWT token not found in sessionStorage');
+      // Optionally, you could set an error state here if token is mandatory.
+      setTokenLoaded(false);
+    }
+  }, []);
+
+  // Effect to fetch roommates ONLY after the token has been loaded
+  useEffect(() => {
+    if (!tokenLoaded) return; // Wait for the token to be attached
     const fetchRoommates = async () => {
       try {
         const userId = searchParams.get('user_id');
         if (!userId) throw new Error('User ID is required');
 
+        console.log('Fetching user details with Authorization header:', axios.defaults.headers.common['Authorization']);
+        // Fetch user details (protected endpoint)
         const userResponse = await axios.get(`${API_BASE_URL}/api/users/${userId}`);
         const { houseId } = userResponse.data;
         const houseResponse = await axios.get(`${API_BASE_URL}/api/houses/${houseId}`);
@@ -35,13 +55,13 @@ const ConfirmRequest = () => {
         setMonthlyShare(parseFloat(searchParams.get('amount')) / users.length);
         setLoading(false);
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching data:', error);
         setError(error.response?.data?.message || error.message);
         setLoading(false);
       }
     };
     fetchRoommates();
-  }, [searchParams]);
+  }, [searchParams, tokenLoaded]);
 
   const handleConfirm = async () => {
     try {

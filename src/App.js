@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import LandingPage from './components/LandingPage';
 import ProblemSection from './components/ProblemSection';
 import SolutionPage from './components/SolutionPage';
-import LaunchingSection from './components/LaunchingSection';
+// import LaunchingSection from './components/LaunchingSection';
 import Footer from './components/Footer';
 import Navbar from './components/navigation/Navbar';
 import BusinessPage from './components/BusinessPage';
@@ -18,7 +18,14 @@ import { Helmet } from 'react-helmet';
 import vipInviteImage from './assets/housetabzvipinvite.png';
 import PartnersPage from './components/PartnersPage';
 import ConfirmRequest from './components/ConfirmRequest';
-
+// import IntegrationDocs from './components/IntegrationDocs';
+import QuickstartGuide from './components/QuickstartGuide';
+import DocsLanding from './components/DocsLanding';
+import SDKDocs from './components/integration/docs/SDKDocs';
+import DatabaseSetup from './components/integration/docs/DatabaseSetup';
+import APIReference from './components/integration/docs/APIReference';
+import WebhookSetup from './components/integration/docs/WebhookSetup';
+import IntegrationChecklist from './components/integration/docs/IntegrationChecklist';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -100,6 +107,45 @@ const AppContent = () => {
        <Route path="/homies" element={
          <MainLayout>
            <HouseTabzHomies />
+         </MainLayout>
+       } />
+
+<Route path="/docs" element={
+  <MainLayout>
+    <DocsLanding />
+  </MainLayout>
+} />
+<Route path="/docs/quickstart" element={
+         <MainLayout>
+           <QuickstartGuide />
+         </MainLayout>
+       } />
+
+<Route path="/docs/sdk" element={
+         <MainLayout>
+           <SDKDocs />
+         </MainLayout>
+       } />
+       <Route path="/docs/database" element={
+         <MainLayout>
+           <DatabaseSetup />
+         </MainLayout>
+       } />
+
+<Route path="/docs/api" element={
+         <MainLayout>
+           <APIReference />
+         </MainLayout>
+       } />
+
+<Route path="/docs/webhooks" element={
+         <MainLayout>
+           <WebhookSetup />
+         </MainLayout>
+       } />
+       <Route path="/docs/guide" element={
+         <MainLayout>
+           <IntegrationChecklist />
          </MainLayout>
        } />
 

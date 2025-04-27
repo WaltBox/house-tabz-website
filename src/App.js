@@ -15,7 +15,7 @@ import SharedPaymentSection from './components/SharedPaymentSection';
 import HouseTabzHomies from './components/HouseTabzHomies';
 import ReferralProgram from './components/ReferralProgram';
 import { Helmet } from 'react-helmet';
-import vipInviteImage from './assets/housetabzvipinvite.png';
+
 import PartnersPage from './components/PartnersPage';
 import ConfirmRequest from './components/ConfirmRequest';
 // import IntegrationDocs from './components/IntegrationDocs';
@@ -45,7 +45,7 @@ const AppContent = () => {
 
  return (
    <>
-     <Helmet>
+     {/* <Helmet>
        <title>HouseTabz</title>
        <meta name="description" content="Join HouseTabz VIP List and earn rewards!" />
        <meta property="og:type" content="website" />
@@ -55,7 +55,7 @@ const AppContent = () => {
        <meta property="og:url" content="https://housetabz.com" />
        <meta name="apple-mobile-web-app-title" content="HouseTabz VIP Invite" />
        <link rel="apple-touch-icon" href={vipInviteImage} />
-     </Helmet>
+     </Helmet> */}
      
      <Routes>
        {/* Confirm Request - No Navbar */}

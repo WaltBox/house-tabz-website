@@ -26,6 +26,7 @@ import DatabaseSetup from './components/integration/docs/DatabaseSetup';
 import APIReference from './components/integration/docs/APIReference';
 import WebhookSetup from './components/integration/docs/WebhookSetup';
 import IntegrationChecklist from './components/integration/docs/IntegrationChecklist';
+import TestShit from './components/integration/docs/testshit';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -135,6 +136,12 @@ const AppContent = () => {
 <Route path="/docs/api" element={
          <MainLayout>
            <APIReference />
+         </MainLayout>
+       } />
+
+<Route path="/docs/testshit" element={
+         <MainLayout>
+           <TestShit />
          </MainLayout>
        } />
 

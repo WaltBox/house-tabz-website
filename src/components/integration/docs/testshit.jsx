@@ -14,7 +14,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-const QuickstartGuide = () => {
+const TestShit = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('introduction');
   
@@ -754,4 +754,4 @@ const SectionHeader = ({ icon, title, subtitle }) => {
   );
 };
 
-export default QuickstartGuide;
+export default TestShit;

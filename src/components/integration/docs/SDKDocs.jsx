@@ -185,11 +185,14 @@ const SDKDocs = () => {
 
     {/* Overview Section */}
     <section ref={overviewRef} id="overview" className="mb-16 scroll-mt-24">
-      <SectionHeader 
-        icon={<Home className="w-6 h-6" />}
-        title="HouseTabz SDK"
-        subtitle="Easily add HouseTabz shared payment functionality to your checkout page"
-      />
+    <div className="mb-6 md:mb-8">
+  <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+    HouseTabz SDK
+  </h1>
+  <p className="mt-4 text-base md:text-lg text-gray-600">
+    Easily add HouseTabz shared payment functionality to your checkout page
+  </p>
+</div>
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Overview</h2>
         <p className="text-gray-600 mb-4">

@@ -53,6 +53,7 @@ const DocsLanding = () => {
               <a
                 href="/dashboard"
                 className="hidden lg:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200"
+                style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', color: '#34d399' }}
               >
                 Dashboard
               </a>
@@ -73,11 +74,10 @@ const DocsLanding = () => {
         {/* Mobile Side Navigation */}
         <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out lg:hidden`}>
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <img 
-              src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png" 
-              alt="HouseTabz Logo" 
-              className="h-8"
-            />
+            <div className="flex items-center space-x-2" style={{ color: '#34d399' }}>
+              <FileText className="w-5 h-5" />
+              <div className="text-lg font-semibold">Documentation</div>
+            </div>
             <button
               type="button"
               className="p-2 rounded-md inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
@@ -125,21 +125,17 @@ const DocsLanding = () => {
               href="/docs/webhooks"
               mobile
             />
-              <NavItem 
-    icon={<ChevronRight className="w-5 h-5 transform rotate-180" />}
-    title="Back to Docs"
-    isActive={false}
-    onClick={() => window.location.href = '/docs'}
-    mobile
-  />
           </nav>
         </div>
 
         {/* Fixed Side Navigation */}
         <div className="hidden lg:flex lg:flex-shrink-0">
-          <div className="w-64 bg-white border-r border-gray-200 fixed h-[calc(100vh-4rem)] overflow-y-auto pt-6">
+          <div className="w-64 bg-white border-r border-gray-200 fixed h-[calc(100vh-4rem)] overflow-y-auto top-16 pt-6">
             <div className="px-6 pb-6 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Documentation</h2>
+              <div className="flex items-center space-x-2" style={{ color: '#34d399' }}>
+                <FileText className="w-5 h-5" />
+                <h2 className="font-bold text-lg">Documentation</h2>
+              </div>
             </div>
             
             <nav className="px-6 pt-2">
@@ -286,7 +282,10 @@ const NavItem = ({ icon, title, isActive, href, mobile = false }) => {
             ? 'bg-green-50 text-green-700 font-medium' 
             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
         } ${mobile ? 'text-base' : 'text-sm'}`}
-        style={{ color: isActive ? '#34d399' : '' }}
+        style={{ 
+          backgroundColor: isActive ? 'rgba(52, 211, 153, 0.1)' : '',
+          color: isActive ? '#34d399' : '' 
+        }}
       >
         <span className={`flex-shrink-0 ${isActive ? 'text-green-600' : 'text-gray-400'}`} style={{ color: isActive ? '#34d399' : '' }}>
           {icon}

@@ -320,7 +320,6 @@ const SDKDocs = () => {
               <button 
                 onClick={() => copyToClipboard(`await window.HouseTabz.init({
   apiKey: 'your_api_key_here',
-  secretKey: 'your_secret_key_here',
   environment: 'production' // or 'development', 'staging'
 });`)}
                 className="text-gray-500 hover:text-gray-700"
@@ -333,7 +332,6 @@ const SDKDocs = () => {
                 <code className="text-gray-800 font-mono">
 {`await window.HouseTabz.init({
   apiKey: 'your_api_key_here',
-  secretKey: 'your_secret_key_here',
   environment: 'production' // or 'development', 'staging'
 });`}
                 </code>
@@ -345,7 +343,6 @@ const SDKDocs = () => {
             <h3 className="font-medium text-purple-800 mb-2">Configuration Options</h3>
             <ul className="list-disc list-inside text-gray-700 space-y-2">
               <li><code className="bg-gray-100 px-1 py-0.5 rounded text-sm">apiKey</code>: Required API Key</li>
-              <li><code className="bg-gray-100 px-1 py-0.5 rounded text-sm">secretKey</code>: Required Secret Key</li>
               <li><code className="bg-gray-100 px-1 py-0.5 rounded text-sm">environment</code>: 'production', 'development', 'staging'</li>
               <li><code className="bg-gray-100 px-1 py-0.5 rounded text-sm">userId</code> (optional)</li>
               <li><code className="bg-gray-100 px-1 py-0.5 rounded text-sm">partnerId</code> (optional)</li>
@@ -463,7 +460,7 @@ const SDKDocs = () => {
                 <tr className="border-b border-gray-200">
                   <td className="py-2 text-gray-900 font-mono">serviceType</td>
                   <td className="py-2 text-gray-600">string</td>
-                  <td className="py-2 text-gray-600">Type of service (energy, cleaning, internet, streaming, rent, other)</td>
+                  <td className="py-2 text-gray-600">Type of service (Energy, Cleaning, Internet, Streaming, Other)</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-2 text-gray-900 font-mono">estimatedAmount</td>
@@ -567,7 +564,7 @@ const SDKDocs = () => {
     <section 
               ref={exampleRef} 
               id="example" 
-              className="mb-16 scroll-mt-4"
+              className="mb-16 scroll-mt-24"
             >
               <SectionHeader 
                 icon={<CheckCircle className="w-6 h-6" />}
@@ -631,7 +628,6 @@ const SDKDocs = () => {
             try {
                 await window.HouseTabz.init({
                     apiKey: 'your_api_key_here',
-                    secretKey: 'your_secret_key_here',
                     environment: 'development'
                 });
 
@@ -713,7 +709,7 @@ const SDKDocs = () => {
             try {
                 await window.HouseTabz.init({
                     apiKey: 'your_api_key_here',
-                    secretKey: 'your_secret_key_here',
+                   
                     environment: 'development'
                 });
 

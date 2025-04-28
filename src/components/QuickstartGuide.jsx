@@ -455,14 +455,16 @@ const QuickstartGuide = () => {
                         <pre className="text-xs md:text-sm overflow-x-auto">
                           <code className="text-gray-800 font-mono">
 {`{
-  id: string,              // Your internal ID
-  housetabz_id: string,    // ID from HouseTabz
-  status: enum(            // Current status
+  id: string,                 // Your internal ID
+  housetabz_agreement_id,    // ID from HouseTabz
+  status: enum(             // Current status
     'pending',
     'active',
     'completed',
     'cancelled'
   ),
+  transaction_id: string,     // Your transactionId
+  payment_method_id: string, // The payment method for your use
   created_at: timestamp,
   updated_at: timestamp
 }`}
@@ -580,7 +582,7 @@ const QuickstartGuide = () => {
   "agreement_id": "ht_agr_123456",
   "amount": 15000,       // $150.00
   "currency": "usd",
-  "description": "Monthly rent payment",
+  "description": "Monthly energy payment",
   "due_date": "2025-05-01",
   "external_id": "your_invoice_123"
 }`}
@@ -730,6 +732,7 @@ const IntegrationStep = ({ number, title, icon, onClick }) => {
           onClick={onClick}
           className="group flex items-center text-gray-800 hover:text-green-700 font-medium"
           style={{ hover: { color: '#34d399' } }}
+
         >
           {title}
           <span className="ml-2 text-gray-400 group-hover:text-green-500">

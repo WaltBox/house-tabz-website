@@ -480,7 +480,6 @@ const APIReference = () => {
                     <li>The bill is automatically split among housemates according to the agreement terms</li>
                     <li>Each housemate will be notified about their portion of the bill</li>
                     <li>Use the <code className="bg-gray-100 px-1 py-0.5 rounded text-xs sm:text-sm">externalBillId</code> to prevent duplicate bills from being created</li>
-                    <li>For webhook notifications about bill payments, see the Webhooks API Reference section</li>
                   </ul>
                 </div>
               </div>

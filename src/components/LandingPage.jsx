@@ -119,7 +119,7 @@ const LandingPage = () => {
   const updateColors = (isGreenBg) => {
     setIsGreen(isGreenBg);
     const bgColor = isGreenBg ? "#34d399" : "white";
-    const textColor = isGreenBg ? "white" : "#34d399";
+    const textColor = isGreenBg ? "black" : "#34d399";
 
     gsap.to(sectionRef.current, { backgroundColor: bgColor, duration: 0.5 });
     gsap.to(textRefs.current, { color: textColor, duration: 0.5 });
@@ -135,12 +135,12 @@ const LandingPage = () => {
   const updateButtonColors = (isHovered, forceGreen = null) => {
     const isGreenBg = forceGreen !== null ? forceGreen : isGreen;
     const bgColor = isHovered
-      ? (isGreenBg ? "white" : "#34d399")
+      ? (isGreenBg ? "black" : "#34d399")
       : "transparent";
     const textColor = isHovered
-      ? (isGreenBg ? "#34d399" : "white")
-      : (isGreenBg ? "white" : "#34d399");
-    const borderColor = isGreenBg ? "white" : "#34d399";
+      ? (isGreenBg ? "#34d399" : "black")
+      : (isGreenBg ? "black" : "#34d399");
+    const borderColor = isGreenBg ? "black" : "#34d399";
 
     gsap.to(buttonRef.current, {
       backgroundColor: bgColor,
@@ -159,16 +159,15 @@ const LandingPage = () => {
   // Create the animated words for the subheading
   const renderAnimatedSubheading = () => {
     const words = ["for", "shared", "household", "expenses"];
-    const logoUrl = "https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png";
     
     return (
       <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-        {words.slice(0, 3).map((word, index) => (
+        {words.map((word, index) => (
           <span 
             key={index}
             className="animated-word inline-block mx-1"
             style={{
-              color: 'rgba(255, 255, 255, 0.9)',
+              color: 'black',
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 600,
               letterSpacing: '0.02em',
@@ -180,46 +179,6 @@ const LandingPage = () => {
             {word}
           </span>
         ))}
-
-        {/* Keep "expenses" + logo together */}
-        <span style={{ whiteSpace: 'nowrap' }}>
-          <span
-            className="animated-word inline-block mx-1"
-            style={{
-              color: 'rgba(255, 255, 255, 0.9)',
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 600,
-              letterSpacing: '0.02em',
-              opacity: 0,
-              transform: 'scale(0.5)',
-              animation: `popIn 0.5s forwards ${0.8 + 3 * 0.2}s`,
-            }}
-          >
-            expenses
-          </span>
-          <span
-            className="inline-block ml-1"
-            style={{
-              width: '0.45em',
-              height: '0.45em',
-              verticalAlign: 'baseline',
-              marginBottom: '-.01em',
-              opacity: 0,
-              transform: 'scale(2)',
-              animation: `popIn 0.5s forwards ${0.8 + 4 * 0.2}s`,
-            }}
-          >
-            <img
-              src={logoUrl}
-              alt="HouseTabz logo"
-              style={{
-                width: '100%',
-                height: '100%',
-                display: 'block',
-              }}
-            />
-          </span>
-        </span>
       </h2>
     );
   };
@@ -256,14 +215,34 @@ const LandingPage = () => {
     >
       <div
         ref={containerRef}
-        className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10"
+        className={`absolute inset-0 flex flex-col items-center ${isMobile ? 'justify-start pt-20' : 'justify-center'} px-6 z-20`}
       >
-        <div className="text-center max-w-4xl">
+        {/* Very large logo implementation positioned behind everything */}
+        <div 
+          className="absolute inset-0 flex items-center justify-center z-10"
+          style={{
+            transform: isMobile ? 'translateY(35%)' : 'translateY(25%)'
+          }}
+        >
+          <img
+            src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+            alt="HouseTabz logo"
+            style={{
+              width: isMobile ? '90vw' : '70vw',
+              maxWidth: '700px',
+              minWidth: isMobile ? '300px' : '500px',
+              height: 'auto',
+              filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.15))'
+            }}
+          />
+        </div>
+
+        <div className="text-center max-w-4xl relative z-20">
           <h1
             ref={addToRefs}
             className={`text-5xl md:text-7xl lg:text-8xl font-black mb-2 md:mb-4 leading-tight ${fontLoaded ? '' : 'opacity-90'}`}
             style={{
-              color: 'white',
+              color: 'black',
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 900,
               letterSpacing: '0.01em',
@@ -274,7 +253,7 @@ const LandingPage = () => {
             THE PAYMENT METHOD
           </h1>
 
-          <div className="w-16 h-1 bg-white mx-auto mb-3 md:mb-5 opacity-80 rounded-full"></div>
+          <div className="w-16 h-1 bg-[black] mx-auto mb-3 md:mb-5 opacity-80 rounded-full"></div>
 
           {/* Render the animated subheading with CSS animations */}
           {renderAnimatedSubheading()}
@@ -283,11 +262,11 @@ const LandingPage = () => {
         <Link
           ref={buttonRef}
           to="/how-it-works"
-          className="mt-12 md:mt-16 font-bold text-lg md:text-xl py-3 md:py-4 px-10 md:px-14 rounded-full transition-all duration-300 border-2"
+          className={`relative z-20 ${isMobile ? 'mt-4' : 'mt-6 md:mt-12'} font-bold text-lg md:text-xl py-3 md:py-4 px-10 md:px-14 rounded-full transition-all duration-300 border-2`}
           style={{
             backgroundColor: 'transparent',
-            color: 'white',
-            borderColor: 'white',
+            color: 'black',
+            borderColor: 'black',
             opacity: 0,
             animation: `fadeIn 0.8s forwards ${buttonAnimationDelay}s`
           }}

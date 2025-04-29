@@ -221,7 +221,7 @@ const LandingPage = () => {
         <div 
           className="absolute inset-0 flex items-center justify-center z-10"
           style={{
-            transform: isMobile ? 'translateY(35%)' : 'translateY(15%)'
+            transform: isMobile ? 'translateY(32%)' : 'translateY(15%)'
           }}
         >
           <img

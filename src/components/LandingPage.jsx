@@ -210,7 +210,7 @@ const LandingPage = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen bg-[#34d399] transition-colors duration-500 overflow-hidden"
+      className="relative h-screen bg-[#34d399] transition-colors duration-500 overflow-visible"
       style={{ minHeight: isIOS ? '-webkit-fill-available' : '800px' }}
     >
       <div
@@ -221,7 +221,7 @@ const LandingPage = () => {
         <div 
           className="absolute inset-0 flex items-center justify-center z-10"
           style={{
-            transform: isMobile ? 'translateY(35%)' : 'translateY(25%)'
+            transform: isMobile ? 'translateY(35%)' : 'translateY(15%)'
           }}
         >
           <img

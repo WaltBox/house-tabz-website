@@ -81,6 +81,16 @@ const Footer = () => {
     Become a Homie
   </Link>
 </li>
+<li>
+<Link to="/docs" className="text-sm hover:text-green-400 transition">
+  Docs
+</Link>
+</li>
+<li>
+<Link to="/terms" className="text-green-500 underline">
+  Terms of Service
+</Link>
+</li>
           </ul>
           {/* Socials */}
           <div className="mt-8">

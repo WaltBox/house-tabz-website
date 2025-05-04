@@ -27,6 +27,8 @@ import APIReference from './components/integration/docs/APIReference';
 import WebhookSetup from './components/integration/docs/WebhookSetup';
 import IntegrationChecklist from './components/integration/docs/IntegrationChecklist';
 import TestShit from './components/integration/docs/testshit';
+import Terms from './components/TermsOfServicepage';
+import TermsOfServicePage from './components/TermsOfServicepage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -108,6 +110,12 @@ const AppContent = () => {
        <Route path="/homies" element={
          <MainLayout>
            <HouseTabzHomies />
+         </MainLayout>
+       } />
+
+<Route path="/terms" element={
+         <MainLayout>
+           <TermsOfServicePage />
          </MainLayout>
        } />
 

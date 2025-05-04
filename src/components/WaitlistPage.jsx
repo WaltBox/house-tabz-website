@@ -76,7 +76,7 @@ const WaitlistPage = () => {
     console.log('Form data before submission:', formData);
   
     try {
-      const response = await axios.post('https://api.housetabz.com/api/waitlist', formData, {
+      const response = await axios.post('http://api.housetabz.com/api/waitlist', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

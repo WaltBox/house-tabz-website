@@ -47,7 +47,10 @@ const Footer = () => {
             <span className="font-semibold">Address:</span> Dallas, TX
           </p>
           <p className="text-sm mt-2">
-            <span className="font-semibold">Email:</span> support@housetabz.com
+            <span className="font-semibold">Email:</span>{" "}
+            <a href="mailto:support@housetabz.com" className="hover:text-green-400 transition">
+              support@housetabz.com
+            </a>
           </p>
         </div>
 
@@ -55,13 +58,7 @@ const Footer = () => {
         <div className="links md:w-1/3">
           <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
           <ul className="mt-4 space-y-2">
-
           <li>
-              <Link to="/partners" className="text-sm hover:text-green-400 transition">
-                Partners
-              </Link>
-            </li>
-            <li>
               <Link to="/about" className="text-sm hover:text-green-400 transition">
                 About Us
               </Link>
@@ -72,40 +69,44 @@ const Footer = () => {
               </Link>
             </li>
             <li>
+              <Link to="/partners" className="text-sm hover:text-green-400 transition">
+                Partners
+              </Link>
+            </li>
+            <li>
+              <Link to="/docs" className="text-sm hover:text-green-400 transition">
+                Docs
+              </Link>
+            </li>
+        
+         
+            <li>
               <Link to="/referral-program" className="text-sm hover:text-green-400 transition">
                 Referral Program
               </Link>
             </li>
             <li>
-  <Link to="/homies" className="text-sm hover:text-green-400 transition">
-    Become a Homie
-  </Link>
-</li>
-<li>
-<Link to="/docs" className="text-sm hover:text-green-400 transition">
-  Docs
-</Link>
-</li>
-<li>
-<Link to="/terms" className="text-green-500 underline">
-  Terms of Service
-</Link>
-</li>
+              <Link to="/homies" className="text-sm hover:text-green-400 transition">
+                Become a Homie
+              </Link>
+            </li>
+          
           </ul>
+          
           {/* Socials */}
           <div className="mt-8">
             <h3 className="text-xl font-bold text-green-400">Follow Our Socials</h3>
             <div className="flex space-x-4 mt-4">
-              <a href="https://www.instagram.com/housetabz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/housetabz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <FaInstagram className="text-2xl hover:text-green-400 transition" />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=61571984092500" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/profile.php?id=61571984092500" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <FaFacebook className="text-2xl hover:text-green-400 transition" />
               </a>
-              <a href="https://x.com/housetabz?s=11" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/housetabz?s=11" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                 <FaTwitter className="text-2xl hover:text-green-400 transition" />
               </a>
-              <a href="https://www.linkedin.com/company/104392401/" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com/company/104392401/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <FaLinkedin className="text-2xl hover:text-green-400 transition" />
               </a>
             </div>
@@ -161,11 +162,20 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="mt-12 border-t border-gray-600 pt-6 text-center">
+      {/* Bottom Bar with Terms of Service */}
+      <div className="mt-12 border-t border-gray-600 pt-6 flex flex-col sm:flex-row justify-between items-center">
         <p className="text-xs text-gray-400">
           © {new Date().getFullYear()} HouseTabz. All rights reserved.
         </p>
+        <div className="mt-3 sm:mt-0">
+          <Link to="/terms" className="text-xs text-gray-400 hover:text-green-400 transition">
+            Terms of Service
+          </Link>
+          {/* Add more legal links here if needed */}
+          {/* <Link to="/privacy" className="text-xs text-gray-400 hover:text-green-400 transition ml-4">
+            Privacy Policy
+          </Link> */}
+        </div>
       </div>
     </footer>
   );

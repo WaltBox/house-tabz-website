@@ -113,11 +113,7 @@ const AppContent = () => {
          </MainLayout>
        } />
 
-<Route path="/terms" element={
-         <MainLayout>
-           <TermsOfServicePage />
-         </MainLayout>
-       } />
+<Route path="/terms" element={<TermsOfServicePage />} />
 
 <Route path="/docs" element={
   <MainLayout>

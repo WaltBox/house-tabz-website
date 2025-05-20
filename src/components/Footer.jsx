@@ -68,11 +68,11 @@ const Footer = () => {
                 How It Works
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/partners" className="text-sm hover:text-green-400 transition">
                 Partners
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/docs" className="text-sm hover:text-green-400 transition">
                 Docs

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import LandingPage from './components/LandingPage';
 import ProblemSection from './components/ProblemSection';
 import SolutionPage from './components/SolutionPage';
+import DawgMode from './components/DawgMode'
 // import LaunchingSection from './components/LaunchingSection';
 import Footer from './components/Footer';
 import Navbar from './components/navigation/Navbar';
@@ -71,6 +72,7 @@ const AppContent = () => {
              <SharedPaymentSection />
              <ProblemSection />
              <SolutionPage />
+             <DawgMode /> 
              {/* <LaunchingSection /> */}
              <Footer />
            </>

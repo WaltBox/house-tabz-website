@@ -170,7 +170,7 @@ const WaitlistPage = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800">
-            Join the <span className="text-green-500">VIP list</span>
+            Join the <span className="text-[#34d399]">VIP list</span>
           </h2>
           <p className="text-lg text-gray-600 mt-4 leading-relaxed">
             HouseTabz is coming soon! Sign up to be the first to know about our launch.
@@ -269,13 +269,13 @@ const WaitlistPage = () => {
           
           <motion.button
             type="submit"
-            className="w-full bg-[#34d399] text-white py-3 px-4 rounded-lg font-bold text-lg hover:bg-green-600 transition-colors duration-300 relative overflow-hidden"
+            className="w-full bg-[#34d399] text-white py-3 px-4 rounded-lg font-bold text-lg hover:bg-opacity-90 transition-all duration-300 relative overflow-hidden shadow-md hover:shadow-lg"
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             <span className="relative flex items-center justify-center">
-              {isSubmitting ? 'Submitting...' : 'Unlock Dawg Mode'}
+              {isSubmitting ? 'Submitting...' : 'Join the VIP list'}
               {!isSubmitting && (
                 <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

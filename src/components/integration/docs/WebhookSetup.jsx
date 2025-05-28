@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Code, 
@@ -12,7 +13,8 @@ import {
   Copy,
   ArrowRight,
   Bell,
-  Shield
+  Shield,
+  AlertTriangle
 } from 'lucide-react';
 
 const WebhookSetup = () => {
@@ -22,7 +24,6 @@ const WebhookSetup = () => {
   
   // Import Montserrat font
   useEffect(() => {
-    // Create a new link element
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap';
     fontLink.rel = 'stylesheet';
@@ -62,9 +63,8 @@ const WebhookSetup = () => {
   // Track scroll position to update active menu item
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100; // Offset for better UX
+      const scrollPosition = window.scrollY + 100;
       
-      // Check each section's position
       Object.entries(contentRefs).forEach(([section, ref]) => {
         if (ref.current) {
           const element = ref.current;
@@ -91,62 +91,60 @@ const WebhookSetup = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const agreementCreatedExample = `{
-  "event": "agreement.created",
-  "timestamp": "2025-04-21T18:57:34.930Z",
-  "houseTabzAgreementId": "b2df516a-d1cb-496f-a45b-0b986f62c00c",
-  "externalAgreementId": 10001,
-  "transactionId": "ENERGY-TEST-1745261821710",
-  "serviceName": "Energy Test Plan",
-  "serviceType": "energy",
-  "estimatedAmount": 120,
-  "status": "pending"
-}`;
-
-  const agreementAuthorizedExample = `{
-  "event": "request.authorized",
-  "timestamp": "2025-04-21T19:00:41.456Z",
-  "houseTabzAgreementId": "b2df516a-d1cb-496f-a45b-0b986f62c00c",
-  "externalAgreementId": 10001,
-  "transactionId": "ENERGY-TEST-1745261821710",
-  "status": "authorized",
-  "serviceName": "Energy Test Plan",
-  "serviceType": "energy"
-}`;
-
-const billPaidExample = `{
-    "event": "bill.paid",
-    "houseTabzAgreementId": "a10d74b5-43a8-487c-87ac-2f76d2fde008",
-    "externalAgreementId": 10001,
-    "externalBillId": "10134123",
-    "amountPaid": 104,
-    "paymentDate": "2025-04-24T16:18:41.210Z"
-  }`;
-  const webhookHandlerExample = `// Example webhook handler in Node.js/Express
+  // Updated webhook examples with signature verification
+  const webhookHandlerExample = `// Complete webhook handler with signature verification
 const express = require('express');
+const crypto = require('crypto');
 const app = express();
-app.use(express.json());
+
+// Use raw body parser for signature verification
+app.use('/webhooks/housetabz', express.raw({ type: 'application/json' }));
 
 app.post('/webhooks/housetabz', async (req, res) => {
   try {
-    const event = req.body;
+    // Get webhook secret from your environment variables
+    const webhookSecret = process.env.HOUSETABZ_WEBHOOK_SECRET;
+    
+    // Get signature headers
+    const timestamp = req.headers['housetabz-timestamp'];
+    const signature = req.headers['housetabz-signature'];
+    
+    // Verify signature (CRITICAL for security)
+    if (!verifyWebhookSignature(req.body, timestamp, signature, webhookSecret)) {
+      console.error('Invalid webhook signature');
+      return res.status(401).json({ error: 'Invalid signature' });
+    }
+    
+    // Parse the JSON body after verification
+    const event = JSON.parse(req.body.toString());
     
     // Process based on event type
     switch(event.event) {
       case 'agreement.created':
-        // Create a new payment method and agreement in your database
         await createPaymentMethodAndAgreement(event);
         break;
         
       case 'request.authorized':
-        // Update agreement status to active
         await updateAgreementStatus(event.houseTabzAgreementId, 'active');
         break;
         
-      // Handle other event types as needed
+      case 'bill.created':
+        await handleBillCreated(event);
+        break;
+        
+      case 'bill.updated':
+        await handleBillUpdated(event);
+        break;
+        
+      case 'bill.paid':
+        await handleBillPaid(event);
+        break;
+        
+      default:
+        console.log('Unknown event type:', event.event);
     }
     
-    // Always return a 200 response quickly
+    // Always return 200 quickly
     res.status(200).json({ received: true });
   } catch (error) {
     console.error('Webhook error:', error);
@@ -154,16 +152,39 @@ app.post('/webhooks/housetabz', async (req, res) => {
   }
 });
 
+// 🔒 CRITICAL: Verify webhook signature
+function verifyWebhookSignature(payload, timestamp, signature, secret) {
+  // Check if signature has sha256= prefix
+  if (!signature || !signature.startsWith('sha256=')) {
+    return false;
+  }
+  
+  // Create expected signature
+  const signedPayload = \`\${timestamp}.\${payload}\`;
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload)
+    .digest('hex');
+  
+  const expectedSignatureWithPrefix = \`sha256=\${expectedSignature}\`;
+  
+  // Use timing-safe comparison
+  return crypto.timingSafeEqual(
+    Buffer.from(signature, 'utf8'),
+    Buffer.from(expectedSignatureWithPrefix, 'utf8')
+  );
+}
+
 async function createPaymentMethodAndAgreement(event) {
-  // Create a payment method entry
+  // Create payment method entry
   const paymentMethod = await db.PaymentMethods.create({
     type: 'housetabz',
-    last4: '1234', // You can set this to a standard value
+    last4: '1234',
     brand: 'HouseTabz',
     userId: getUserIdFromTransaction(event.transactionId)
   });
   
-  // Create a HouseTabz agreement entry
+  // Create HouseTabz agreement entry
   await db.HouseTabzAgreements.create({
     userId: getUserIdFromTransaction(event.transactionId),
     housetabzAgreementId: event.houseTabzAgreementId,
@@ -180,12 +201,179 @@ async function updateAgreementStatus(houseTabzAgreementId, status) {
   );
 }
 
+async function handleBillCreated(event) {
+  // Handle bill.created event
+  console.log('Bill created:', event.externalBillId);
+}
+
+async function handleBillUpdated(event) {
+  // Handle bill.updated event
+  console.log('Bill updated:', event.externalBillId);
+}
+
+async function handleBillPaid(event) {
+  // Update bill status to paid
+  await db.Bills.update(
+    { status: 'paid', paidAt: new Date() },
+    { where: { externalId: event.externalBillId } }
+  );
+}
+
 function getUserIdFromTransaction(transactionId) {
-  // Implement your logic to get the user ID from the transaction ID
+  // Extract user ID from your transaction ID format
   return 'user_123';
 }
 
 app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
+
+  const pythonWebhookExample = `# Python webhook handler with signature verification
+import hmac
+import hashlib
+import json
+import time
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/webhooks/housetabz', methods=['POST'])
+def handle_webhook():
+    try:
+        # Get webhook secret from environment
+        webhook_secret = os.getenv('HOUSETABZ_WEBHOOK_SECRET')
+        
+        # Get signature headers
+        timestamp = request.headers.get('housetabz-timestamp')
+        signature = request.headers.get('housetabz-signature')
+        
+        # Get raw payload
+        payload = request.get_data()
+        
+        # Verify signature (CRITICAL for security)
+        if not verify_webhook_signature(payload, timestamp, signature, webhook_secret):
+            return jsonify({'error': 'Invalid signature'}), 401
+        
+        # Parse JSON after verification
+        event = json.loads(payload.decode('utf-8'))
+        
+        # Process based on event type
+        if event['event'] == 'agreement.created':
+            create_payment_method_and_agreement(event)
+        elif event['event'] == 'request.authorized':
+            update_agreement_status(event['houseTabzAgreementId'], 'active')
+        elif event['event'] == 'bill.created':
+            handle_bill_created(event)
+        elif event['event'] == 'bill.updated':
+            handle_bill_updated(event)
+        elif event['event'] == 'bill.paid':
+            handle_bill_paid(event)
+        
+        return jsonify({'received': True}), 200
+        
+    except Exception as e:
+        print(f'Webhook error: {e}')
+        return jsonify({'error': str(e)}), 400
+
+def verify_webhook_signature(payload, timestamp, signature, secret):
+    """Verify webhook signature"""
+    if not signature or not signature.startswith('sha256='):
+        return False
+    
+    # Create expected signature
+    signed_payload = f"{timestamp}.{payload.decode('utf-8')}"
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        signed_payload.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    expected_signature_with_prefix = f"sha256={expected_signature}"
+    
+    # Use constant-time comparison
+    return hmac.compare_digest(signature, expected_signature_with_prefix)
+
+def create_payment_method_and_agreement(event):
+    # Your database logic here
+    pass
+
+def update_agreement_status(agreement_id, status):
+    # Your database logic here
+    pass
+
+def handle_bill_created(event):
+    print(f"Bill created: {event.get('externalBillId')}")
+
+def handle_bill_updated(event):
+    print(f"Bill updated: {event.get('externalBillId')}")
+
+def handle_bill_paid(event):
+    # Update bill status to paid
+    print(f"Bill paid: {event.get('externalBillId')}")
+
+if __name__ == '__main__':
+    app.run(debug=True, port=3000)`;
+
+  // Updated webhook event examples with missing events
+  const agreementCreatedExample = `{
+  "event": "agreement.created",
+  "timestamp": "2025-05-25T22:46:44.607Z",
+  "houseTabzAgreementId": "a16aee5b-8378-4db0-a5c6-c9b8aac9f2fb",
+  "externalAgreementId": null,
+  "transactionId": "OCTOPUS-1748204777548",
+  "serviceName": "Octopus Energy - Octo12",
+  "serviceType": "energy",
+  "estimatedAmount": null,
+  "status": "pending"
+}`;
+
+  const requestAuthorizedExample = `{
+  "event": "request.authorized",
+  "timestamp": "2025-05-25T04:04:04.480Z",
+  "houseTabzAgreementId": "9ff8a4b5-6150-40cc-b31b-1eb17f3c2e16",
+  "externalAgreementId": null,
+  "transactionId": "OCTOPUS-1748145774864",
+  "status": "authorized",
+  "serviceName": "Octopus Energy - Octo12",  
+  "serviceType": "energy"
+}`;
+
+  const billCreatedExample = `{
+  "event": "bill.created",
+  "timestamp": "2025-05-26T10:30:15.123Z",
+  "houseTabzAgreementId": "a16aee5b-8378-4db0-a5c6-c9b8aac9f2fb",
+  "externalAgreementId": "AGREEMENT-001",
+  "externalBillId": "BILL-MAY-2025-001",
+  "billId": 66,
+  "amount": 150.00,
+  "totalAmount": 156.00,
+  "dueDate": "2025-06-15T00:00:00.000Z",
+  "billingPeriod": "May 2025",
+  "chargesCreated": 3,
+  "status": "pending"
+}`;
+
+  const billUpdatedExample = `{
+  "event": "bill.updated",
+  "timestamp": "2025-05-26T14:22:33.456Z",
+  "houseTabzAgreementId": "a16aee5b-8378-4db0-a5c6-c9b8aac9f2fb",
+  "externalAgreementId": "AGREEMENT-001",
+  "externalBillId": "BILL-MAY-2025-001",
+  "billId": 66,
+  "amount": 175.00,
+  "totalAmount": 181.50,
+  "dueDate": "2025-06-20T00:00:00.000Z",
+  "status": "pending",
+  "updatedFields": ["amount", "dueDate"]
+}`;
+
+  const billPaidExample = `{
+  "event": "bill.paid",
+  "timestamp": "2025-05-26T16:45:22.789Z",
+  "houseTabzAgreementId": "a16aee5b-8378-4db0-a5c6-c9b8aac9f2fb",
+  "externalAgreementId": "AGREEMENT-001",
+  "externalBillId": "BILL-MAY-2025-001",
+  "amountPaid": 181.50,
+  "paymentDate": "2025-05-26T16:45:22.789Z"
+}`;
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50" style={{ fontFamily: "'Montserrat', sans-serif" }}>
@@ -197,7 +385,7 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
         />
       )}
 
-      {/* Top Navigation Bar - Simplified */}
+      {/* Top Navigation Bar */}
       <header className="fixed w-full z-30 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -282,7 +470,13 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
               onClick={() => navigateTo('events')}
               mobile
             />
-         
+            <NavItem 
+              icon={<Shield className="w-5 h-5" />}
+              title="Security & Verification"
+              isActive={activeSection === 'security'}
+              onClick={() => navigateTo('security')}
+              mobile
+            />
           </nav>
         </div>
 
@@ -325,7 +519,12 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   isActive={activeSection === 'events'}
                   onClick={() => navigateTo('events')}
                 />
-               
+                <NavItem 
+                  icon={<Shield className="w-5 h-5" />}
+                  title="Security & Verification"
+                  isActive={activeSection === 'security'}
+                  onClick={() => navigateTo('security')}
+                />
               </ul>
             </nav>
           </div>
@@ -345,7 +544,7 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   Webhook Integration
                 </h1>
                 <p className="mt-4 text-base md:text-lg text-gray-600">
-                  Receive real-time updates from HouseTabz using webhooks
+                  Receive real-time updates from HouseTabz using secure webhooks
                 </p>
               </div>
               
@@ -357,44 +556,74 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   when a customer chooses to pay with HouseTabz.
                 </p>
                 
-                <h3 className="font-medium text-gray-900 mb-3">Key Integration Points</h3>
+                <h3 className="font-medium text-gray-900 mb-3">Key Integration Events</h3>
                 <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
-                  There are three primary webhook events that you need to handle for the HouseTabz integration:
+                  Your system will receive these webhook events during the HouseTabz integration lifecycle:
                 </p>
                 
-                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6 mb-6 md:mb-8">
-                  <div className="flex-1 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+                  <div className="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
                     <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
                       <Bell className="w-5 h-5 mr-2" />
                       <h4 className="font-medium">agreement.created</h4>
                     </div>
                     <p className="text-xs md:text-sm text-gray-600">
-                      Sent when a customer chooses to pay with HouseTabz. You should create a new payment method and agreement in your database.
+                      Customer chooses HouseTabz payment
                     </p>
                   </div>
                   
-                  <div className="flex-1 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                  <div className="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
                     <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
                       <Bell className="w-5 h-5 mr-2" />
                       <h4 className="font-medium">request.authorized</h4>
                     </div>
                     <p className="text-xs md:text-sm text-gray-600">
-                      Sent when all housemates have authorized the HouseTabz agreement. You should update the agreement status from 'pending' to 'active'.
+                      All housemates approve the agreement
                     </p>
                   </div>
                   
-                  <div className="flex-1 bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                  <div className="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                    <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
+                      <Bell className="w-5 h-5 mr-2" />
+                      <h4 className="font-medium">bill.created</h4>
+                    </div>
+                    <p className="text-xs md:text-sm text-gray-600">
+                      New bill created for the agreement
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
+                    <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
+                      <Bell className="w-5 h-5 mr-2" />
+                      <h4 className="font-medium">bill.updated</h4>
+                    </div>
+                    <p className="text-xs md:text-sm text-gray-600">
+                      Bill details modified (amount, due date)
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-3 md:p-4 rounded-lg border border-gray-200">
                     <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
                       <Bell className="w-5 h-5 mr-2" />
                       <h4 className="font-medium">bill.paid</h4>
                     </div>
                     <p className="text-xs md:text-sm text-gray-600">
-                      Sent when a bill has been fully paid by all housemates. You should update the bill status to 'paid' in your system.
+                      Bill fully paid by all housemates
                     </p>
                   </div>
                 </div>
                 
-                <div className="bg-green-50 border border-green-100 rounded-lg p-3 md:p-4 mb-4 md:mb-6" style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
+                <div className="bg-red-50 border border-red-100 rounded-lg p-3 md:p-4 mb-4 md:mb-6">
+                  <h3 className="font-medium mb-2 text-red-800 flex items-center">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Security Critical
+                  </h3>
+                  <p className="text-xs md:text-sm text-red-800">
+                    All webhooks are signed with HMAC-SHA256. You MUST verify webhook signatures to ensure they're from HouseTabz and haven't been tampered with. See the Security section below.
+                  </p>
+                </div>
+                
+                <div className="bg-green-50 border border-green-100 rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
                   <h3 className="font-medium mb-2" style={{ color: '#34d399' }}>Webhook Flow</h3>
                   <p className="text-xs md:text-sm text-gray-700 mb-2 md:mb-4">
                     When a customer uses the "Pay with HouseTabz" button, your system will receive webhooks in this sequence:
@@ -402,6 +631,7 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   <ol className="list-decimal list-inside text-xs md:text-sm text-gray-700 space-y-1 md:space-y-2 ml-2 md:ml-4">
                     <li><strong>agreement.created</strong> - Create payment method and agreement entry (status: 'pending')</li>
                     <li><strong>request.authorized</strong> - Update agreement status to 'active' after all housemates approve</li>
+                    <li><strong>bill.created</strong> - Sent when you create new bills via the API</li>
                     <li><strong>bill.paid</strong> - Sent when bills are paid via the HouseTabz platform</li>
                   </ol>
                 </div>
@@ -430,16 +660,16 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   <ul className="list-disc list-inside text-xs md:text-sm text-gray-600 ml-2 md:ml-4 mb-4 md:mb-6 space-y-1 md:space-y-2">
                     <li>Accept HTTP POST requests</li>
                     <li>Parse JSON payloads</li>
-                    <li>Verify webhook signatures (recommended)</li>
+                    <li><strong>Verify webhook signatures (REQUIRED for security)</strong></li>
                     <li>Respond quickly with a 200 status code</li>
                     <li>Process events asynchronously</li>
                   </ul>
 
                   <div className="rounded-lg overflow-hidden border border-gray-200 mb-4 md:mb-6">
                     <div className="bg-gray-100 px-3 md:px-4 py-2 border-b border-gray-200 flex justify-between items-center">
-                      <div className="text-xs md:text-sm font-mono text-gray-600">Example Webhook Handler (Node.js/Express)</div>
+                      <div className="text-xs md:text-sm font-mono text-gray-600">Python Webhook Handler</div>
                       <button 
-                        onClick={() => copyToClipboard(webhookHandlerExample)}
+                        onClick={() => copyToClipboard(pythonWebhookExample)}
                         className="text-gray-500 hover:text-gray-700"
                       >
                         <Copy className="w-4 h-4" />
@@ -448,13 +678,11 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                     <div className="bg-gray-50 p-3 md:p-4">
                       <pre className="text-xs md:text-sm overflow-x-auto">
                         <code className="text-gray-800 font-mono whitespace-pre-wrap">
-                          {webhookHandlerExample}
+                          {pythonWebhookExample}
                         </code>
                       </pre>
                     </div>
                   </div>
-                  
-             
                 </div>
               </div>
               
@@ -468,8 +696,8 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                   <ol className="list-decimal list-inside text-xs md:text-sm text-gray-600 ml-2 md:ml-4 mb-4 md:mb-6 space-y-2 md:space-y-3">
                     <li><strong>Register in Dashboard:</strong> Go to the HouseTabz Partner Dashboard and navigate to the "Webhooks" section.</li>
                     <li><strong>Add Endpoint:</strong> Click "Add Endpoint" and enter your webhook URL (e.g., https://your-domain.com/webhooks/housetabz).</li>
-                    <li><strong>Subscribe to Events:</strong> Select the events you want to receive (agreement.created and request.authorized).</li>
-                    <li><strong>Save Configuration:</strong> Click "Save" to complete the registration.</li>
+                    <li><strong>Subscribe to Events:</strong> Select the events you want to receive (all events recommended).</li>
+                    <li><strong>Save Configuration:</strong> Click "Save" to complete the registration and receive your webhook secret.</li>
                   </ol>
                   
                   <div className="bg-purple-50 border border-purple-100 rounded-lg p-3 md:p-4 mb-4 md:mb-6">
@@ -484,6 +712,100 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                 </div>
               </div>
             </section>
+
+            {/* Security Section */}
+            <section 
+              ref={securityRef} 
+              id="security" 
+              className="mb-12 md:mb-16 scroll-mt-24"
+            >
+              <SectionHeader 
+                icon={<Shield className="w-6 h-6" />}
+                title="Security & Verification"
+                subtitle="Verify webhook signatures for security"
+              />
+              
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100">
+                <div className="p-4 md:p-6">
+                  <div className="bg-red-50 border border-red-100 rounded-lg p-4 mb-6">
+                    <h3 className="font-medium text-red-800 mb-2 flex items-center">
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      Critical Security Requirement
+                    </h3>
+                    <p className="text-sm text-red-800">
+                      You MUST verify webhook signatures to ensure webhooks are actually from HouseTabz and haven't been tampered with. 
+                      Failing to verify signatures leaves your system vulnerable to malicious webhook attacks.
+                    </p>
+                  </div>
+
+                  <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Webhook Signature Verification</h2>
+                  <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+                    Every HouseTabz webhook includes signature headers that you must verify:
+                  </p>
+
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                    <h3 className="font-medium text-gray-900 mb-3">Signature Headers</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
+                      <li><code className="bg-gray-100 px-1 py-0.5 rounded text-xs">housetabz-timestamp</code>: Unix timestamp when the webhook was sent</li>
+                      <li><code className="bg-gray-100 px-1 py-0.5 rounded text-xs">housetabz-signature</code>: HMAC-SHA256 signature with sha256= prefix</li>
+                    </ul>
+                  </div>
+
+                  <div className="mb-6">
+                    <h3 className="font-medium text-gray-900 mb-4">Signature Verification Process</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                          <span className="text-xs font-bold text-green-600">1</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Extract signature headers</p>
+                          <p className="text-sm text-gray-600">Get timestamp and signature from request headers</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                          <span className="text-xs font-bold text-green-600">2</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Create signed payload</p>
+                          <p className="text-sm text-gray-600">Combine timestamp and raw request body: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">timestamp + "." + body</code></p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                          <span className="text-xs font-bold text-green-600">3</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Generate expected signature</p>
+                          <p className="text-sm text-gray-600">Create HMAC-SHA256 using your webhook secret and signed payload</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                          <span className="text-xs font-bold text-green-600">4</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">Compare signatures</p>
+                          <p className="text-sm text-gray-600">Use timing-safe comparison to verify signatures match</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 border border-amber-100 rounded-lg p-4">
+                    <h3 className="font-medium text-amber-800 mb-2">Security Best Practices</h3>
+                    <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+                      <li>Always verify signatures before processing webhook events</li>
+                      <li>Use timing-safe comparison functions to prevent timing attacks</li>
+                      <li>Check timestamp to prevent replay attacks (reject old webhooks)</li>
+                      <li>Store webhook secrets securely using environment variables</li>
+                      <li>Use raw request body for signature verification (not parsed JSON)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
             
             {/* Events Section */}
             <section 
@@ -494,10 +816,11 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
               <SectionHeader 
                 icon={<Bell className="w-6 h-6" />}
                 title="Webhook Events"
-                subtitle="Detailed information about the events your system will receive"
+                subtitle="Detailed information about all webhook events"
               />
               
-              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100">
+              {/* agreement.created Event */}
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mb-6">
                 <div className="p-4 md:p-6">
                   <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">agreement.created Event</h2>
                   <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
@@ -528,86 +851,22 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                       </pre>
                     </div>
                   </div>
-                  
-                  <div className="overflow-x-auto mb-6 md:mb-8">
-                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Field</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Type</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">event</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">The type of event ("agreement.created")</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">timestamp</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (ISO 8601)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">When the event occurred</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">houseTabzAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (UUID)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Unique identifier for the HouseTabz agreement</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">externalAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string | null</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Optional external reference ID</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">transactionId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Your transaction identifier</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">serviceName</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Name of the service</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">serviceType</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Type of service (e.g., "energy")</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">estimatedAmount</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">number</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Estimated monthly payment amount</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">status</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Current status ("pending")</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
                 </div>
               </div>
               
-              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mt-6 md:mt-8">
+              {/* request.authorized Event */}
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mb-6">
                 <div className="p-4 md:p-6">
                   <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">request.authorized Event</h2>
                   <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
-                    This event is sent when all housemates have authorized the HouseTabz agreement. When you receive this event, you should:
+                    This event is sent when all housemates have authorized the HouseTabz agreement. When you receive this event, update the agreement status to 'active'.
                   </p>
-
-                  <ul className="list-disc list-inside text-xs md:text-sm text-gray-600 ml-2 md:ml-4 mb-4 md:mb-6 space-y-1 md:space-y-2">
-                    <li>Find the HouseTabz agreement using the houseTabzAgreementId</li>
-                    <li>Update the status from 'pending' to 'active'</li>
-                    <li>Process any pending transactions related to this agreement</li>
-                  </ul>
 
                   <div className="rounded-lg overflow-hidden border border-gray-200 mb-4 md:mb-6">
                     <div className="bg-gray-100 px-3 md:px-4 py-2 border-b border-gray-200 flex justify-between items-center">
                       <div className="text-xs md:text-sm font-mono text-gray-600">request.authorized Event Example</div>
                       <button 
-                        onClick={() => copyToClipboard(agreementAuthorizedExample)}
+                        onClick={() => copyToClipboard(requestAuthorizedExample)}
                         className="text-gray-500 hover:text-gray-700"
                       >
                         <Copy className="w-4 h-4" />
@@ -616,86 +875,86 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                     <div className="bg-gray-50 p-3 md:p-4">
                       <pre className="text-xs md:text-sm overflow-x-auto">
                         <code className="text-gray-800 font-mono whitespace-pre-wrap">
-                          {agreementAuthorizedExample}
+                          {requestAuthorizedExample}
                         </code>
                       </pre>
-                      </div>
-                  </div>
-                  
-                  <div className="overflow-x-auto mb-6 md:mb-8">
-                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Field</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Type</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">event</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">The type of event ("request.authorized")</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">timestamp</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (ISO 8601)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">When the event occurred</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">houseTabzAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (UUID)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Unique identifier for the HouseTabz agreement</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">externalAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string | null</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Optional external reference ID</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">transactionId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Your transaction identifier</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">status</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">New status ("authorized")</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">serviceName</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Name of the service</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">serviceType</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Type of service (e.g., "energy")</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    </div>
                   </div>
                   
                   <div className="bg-green-50 border border-green-100 rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
                     <h3 className="font-medium mb-2" style={{ color: '#34d399' }}>Next Steps After Authorization</h3>
                     <p className="text-xs md:text-sm text-gray-700">
-                      Once you receive the request.authorized event and update the agreement status to active, the HouseTabz integration is complete. You can now use the HouseTabz agreement to create bills for this customer and their housemates.
+                      Once you receive the request.authorized event and update the agreement status to active, you can start creating bills for this customer and their housemates using the Bills API.
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mt-6 md:mt-8">
+
+              {/* bill.created Event */}
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mb-6">
+                <div className="p-4 md:p-6">
+                  <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">bill.created Event</h2>
+                  <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+                    This event is sent when you successfully create a new bill via the Bills API. Use this to confirm bill creation and track the bill lifecycle.
+                  </p>
+
+                  <div className="rounded-lg overflow-hidden border border-gray-200 mb-4 md:mb-6">
+                    <div className="bg-gray-100 px-3 md:px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                      <div className="text-xs md:text-sm font-mono text-gray-600">bill.created Event Example</div>
+                      <button 
+                        onClick={() => copyToClipboard(billCreatedExample)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-3 md:p-4">
+                      <pre className="text-xs md:text-sm overflow-x-auto">
+                        <code className="text-gray-800 font-mono whitespace-pre-wrap">
+                          {billCreatedExample}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* bill.updated Event */}
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mb-6">
+                <div className="p-4 md:p-6">
+                  <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">bill.updated Event</h2>
+                  <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+                    This event is sent when you update an existing bill via the Bills API. The event includes which fields were updated.
+                  </p>
+
+                  <div className="rounded-lg overflow-hidden border border-gray-200 mb-4 md:mb-6">
+                    <div className="bg-gray-100 px-3 md:px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                      <div className="text-xs md:text-sm font-mono text-gray-600">bill.updated Event Example</div>
+                      <button 
+                        onClick={() => copyToClipboard(billUpdatedExample)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-3 md:p-4">
+                      <pre className="text-xs md:text-sm overflow-x-auto">
+                        <code className="text-gray-800 font-mono whitespace-pre-wrap">
+                          {billUpdatedExample}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* bill.paid Event */}
+              <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-100 mb-6">
                 <div className="p-4 md:p-6">
                   <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">bill.paid Event</h2>
                   <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
-                    This event is sent when a bill has been fully paid by all housemates. When you receive this event, you should:
+                    This event is sent when a bill has been fully paid by all housemates. Update your bill status to 'paid' and record the payment details.
                   </p>
-
-                  <ul className="list-disc list-inside text-xs md:text-sm text-gray-600 ml-2 md:ml-4 mb-4 md:mb-6 space-y-1 md:space-y-2">
-                    <li>Find the bill in your system using the externalBillId</li>
-                    <li>Update the bill status to 'paid' or 'completed'</li>
-                    <li>Record the payment details for financial reconciliation</li>
-                  </ul>
 
                   <div className="rounded-lg overflow-hidden border border-gray-200 mb-4 md:mb-6">
                     <div className="bg-gray-100 px-3 md:px-4 py-2 border-b border-gray-200 flex justify-between items-center">
@@ -716,50 +975,6 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
                     </div>
                   </div>
                   
-                  <div className="overflow-x-auto mb-6 md:mb-8">
-                    <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Field</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Type</th>
-                          <th className="py-2 px-2 md:px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">event</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">The type of event ("bill.paid")</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">houseTabzAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (UUID)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">The agreement ID associated with this bill</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">externalAgreementId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string | null</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Your reference ID for the agreement (may be null)</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">externalBillId</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">Your unique identifier for this bill</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">amountPaid</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">number</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">The total amount paid for this bill</td>
-                        </tr>
-                        <tr className="bg-gray-50">
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm font-mono text-gray-900">paymentDate</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">string (ISO 8601)</td>
-                          <td className="py-2 px-2 md:px-4 text-xs md:text-sm text-gray-500">When the final payment was processed</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  
                   <div className="bg-green-50 border border-green-100 rounded-lg p-3 md:p-4" style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
                     <h3 className="font-medium mb-2" style={{ color: '#34d399' }}>Payment Reconciliation</h3>
                     <p className="text-xs md:text-sm text-gray-700">
@@ -770,10 +985,7 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
               </div>
             </section>
             
-         
-           
-            
-            {/* Simplified Footer */}
+            {/* Footer */}            
             <footer className="bg-white border-t border-gray-200 py-6 md:py-8 mt-12 md:mt-16">
               <div className="max-w-5xl mx-auto px-4 md:px-6">
                 <p className="text-center text-xs md:text-sm text-gray-500">
@@ -791,6 +1003,19 @@ app.listen(3000, () => console.log('Webhook server running on port 3000'));`;
           Copied to clipboard!
         </div>
       )}
+    </div>
+  );
+};
+
+// Section Header Component
+const SectionHeader = ({ icon, title, subtitle }) => {
+  return (
+    <div className="mb-6">
+      <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
+        {icon}
+        <h2 className="ml-2 text-xl md:text-2xl font-bold text-gray-900">{title}</h2>
+      </div>
+      <p className="text-sm md:text-base text-gray-600">{subtitle}</p>
     </div>
   );
 };
@@ -841,19 +1066,6 @@ const NavItem = ({ icon, title, isActive, onClick, href, mobile = false }) => {
         <span>{title}</span>
       </button>
     </li>
-  );
-};
-
-// Section Header Component
-const SectionHeader = ({ icon, title, subtitle }) => {
-  return (
-    <div className="mb-6">
-      <div className="flex items-center mb-2" style={{ color: '#34d399' }}>
-        {icon}
-        <h2 className="ml-2 text-xl md:text-2xl font-bold text-gray-900">{title}</h2>
-      </div>
-      <p className="text-sm md:text-base text-gray-600">{subtitle}</p>
-    </div>
   );
 };
 

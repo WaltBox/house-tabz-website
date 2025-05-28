@@ -10,7 +10,9 @@ import {
   ChevronRight,
   ChevronLeft,
   Copy,
-  ArrowRight
+  ArrowRight,
+  Shield,
+  Lock
 } from 'lucide-react';
 
 const APIReference = () => {
@@ -21,12 +23,14 @@ const APIReference = () => {
   
   // Section refs for navigation
   const overviewRef = useRef(null);
+  const authenticationRef = useRef(null);
   const requestParamsRef = useRef(null);
   const responseRef = useRef(null);
   
   // Content refs map
   const contentRefs = {
     overview: overviewRef,
+    authentication: authenticationRef,
     requestParams: requestParamsRef,
     response: responseRef
   };
@@ -88,8 +92,11 @@ const APIReference = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const requestExample = `curl -X POST https://api.housetabz.com/api/partners/bills \\
-  -H "x-api-key: YOUR_API_KEY" \\
+  // Updated authentication examples
+  const curlExample = `curl -X POST https://api.housetabz.com/api/partners/bills \\
+  -H "x-api-key: htz_c8e31445c22b73e5f6010151de255137" \\
+  -H "housetabz-timestamp: 1748213204" \\
+  -H "housetabz-signature: sha256=a1b2c3d4e5f6789abcdef..." \\
   -H "Content-Type: application/json" \\
   -d '{
     "houseTabzAgreementId": "a10d74b5-43a8-487c-87ac-2f76d2fde008",
@@ -99,6 +106,97 @@ const APIReference = () => {
     "dueDate": "2025-05-15T00:00:00.000Z",
     "billingPeriod": "May 2025"
   }'`;
+
+  const nodeJsExample = `const crypto = require('crypto');
+
+// Your API credentials
+const apiKey = 'htz_your_api_key_here';
+const secretKey = 'htzsk_your_secret_key_here';
+
+// Request data
+const requestBody = {
+  houseTabzAgreementId: "a10d74b5-43a8-487c-87ac-2f76d2fde008",
+  externalBillId: "10134123",
+  amount: 104,
+  dueDate: "2025-05-15T00:00:00.000Z",
+  billingPeriod: "May 2025"
+};
+
+// Generate timestamp
+const timestamp = Math.floor(Date.now() / 1000).toString();
+
+// Create signed payload
+const payload = JSON.stringify(requestBody);
+const signedPayload = \`\${timestamp}.\${payload}\`;
+
+// Generate HMAC signature
+const signature = crypto
+  .createHmac('sha256', secretKey)
+  .update(signedPayload)
+  .digest('hex');
+
+const signatureWithPrefix = \`sha256=\${signature}\`;
+
+// Make the request
+const response = await fetch('https://api.housetabz.com/api/partners/bills', {
+  method: 'POST',
+  headers: {
+    'x-api-key': apiKey,
+    'housetabz-timestamp': timestamp,
+    'housetabz-signature': signatureWithPrefix,
+    'Content-Type': 'application/json'
+  },
+  body: payload
+});`;
+
+  const pythonExample = `import hmac
+import hashlib
+import json
+import time
+import requests
+
+# Your API credentials
+api_key = 'htz_your_api_key_here'
+secret_key = 'htzsk_your_secret_key_here'
+
+# Request data
+request_body = {
+    "houseTabzAgreementId": "a10d74b5-43a8-487c-87ac-2f76d2fde008",
+    "externalBillId": "10134123",
+    "amount": 104,
+    "dueDate": "2025-05-15T00:00:00.000Z",
+    "billingPeriod": "May 2025"
+}
+
+# Generate timestamp
+timestamp = str(int(time.time()))
+
+# Create signed payload
+payload = json.dumps(request_body, separators=(',', ':'))
+signed_payload = f"{timestamp}.{payload}"
+
+# Generate HMAC signature
+signature = hmac.new(
+    secret_key.encode('utf-8'),
+    signed_payload.encode('utf-8'),
+    hashlib.sha256
+).hexdigest()
+
+signature_with_prefix = f"sha256={signature}"
+
+# Make the request
+headers = {
+    'x-api-key': api_key,
+    'housetabz-timestamp': timestamp,
+    'housetabz-signature': signature_with_prefix,
+    'Content-Type': 'application/json'
+}
+
+response = requests.post(
+    'https://api.housetabz.com/api/partners/bills',
+    headers=headers,
+    data=payload
+)`;
 
   const responseExample = `{
   "message": "Bill created successfully",
@@ -195,14 +293,21 @@ const APIReference = () => {
             mobile
           />
           <NavItem 
-            icon={<Code className="w-5 h-5" />}
+            icon={<Shield className="w-5 h-5" />}
+            title="Authentication"
+            isActive={activeSection === 'authentication'}
+            onClick={() => navigateTo('authentication')}
+            mobile
+          />
+          <NavItem 
+            icon={<Database className="w-5 h-5" />}
             title="Request Parameters"
             isActive={activeSection === 'requestParams'}
             onClick={() => navigateTo('requestParams')}
             mobile
           />
           <NavItem 
-            icon={<Code className="w-5 h-5" />}
+            icon={<CheckCircle className="w-5 h-5" />}
             title="Response"
             isActive={activeSection === 'response'}
             onClick={() => navigateTo('response')}
@@ -239,13 +344,19 @@ const APIReference = () => {
           onClick={() => navigateTo('overview')}
         />
         <NavItem 
-          icon={<Code className="w-5 h-5" />}
+          icon={<Shield className="w-5 h-5" />}
+          title="Authentication"
+          isActive={activeSection === 'authentication'}
+          onClick={() => navigateTo('authentication')}
+        />
+        <NavItem 
+          icon={<Database className="w-5 h-5" />}
           title="Request Parameters"
           isActive={activeSection === 'requestParams'}
           onClick={() => navigateTo('requestParams')}
         />
         <NavItem 
-          icon={<Code className="w-5 h-5" />}
+          icon={<CheckCircle className="w-5 h-5" />}
           title="Response"
           isActive={activeSection === 'response'}
           onClick={() => navigateTo('response')}
@@ -285,11 +396,171 @@ const APIReference = () => {
                 This endpoint creates a new bill for an existing HouseTabz agreement. Bills are shared among housemates according to the agreement terms.
               </p>
               
-              <div className="bg-green-50 border border-green-100 rounded-lg p-4 mb-6" style={{ backgroundColor: 'rgba(52, 211, 153, 0.1)', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
-                <h3 className="font-medium mb-2" style={{ color: '#34d399' }}>Authentication Required</h3>
-                <p className="text-gray-700 text-sm sm:text-base">
-                  This endpoint requires your API key to be included in the <code className="bg-gray-100 px-1 py-0.5 rounded text-sm">x-api-key</code> header.
+              <div className="bg-red-50 border border-red-100 rounded-lg p-4 mb-6">
+                <h3 className="font-medium mb-2 text-red-800 flex items-center">
+                  <Lock className="w-4 h-4 mr-2" />
+                  Secure Authentication Required
+                </h3>
+                <p className="text-red-700 text-sm sm:text-base">
+                  This endpoint requires HMAC signature authentication with your API key, timestamp, and signed request body. See the Authentication section below for details.
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Authentication Section */}
+          <section 
+            ref={authenticationRef} 
+            id="authentication" 
+            className="mb-12 lg:mb-16 scroll-mt-24"
+          >
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 mb-8">
+              <div className="border-b border-gray-200">
+                <div className="flex">
+                  <button
+                    className="px-4 py-2 text-sm font-medium border-b-2 border-green-500 text-green-600"
+                    style={{ color: '#34d399' }}
+                  >
+                    Authentication
+                  </button>
+                </div>
+              </div>
+              
+              <div className="p-4 sm:p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                  <Shield className="w-5 h-5 mr-2" style={{ color: '#34d399' }} />
+                  HMAC Signature Authentication
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  All API requests must be authenticated using HMAC-SHA256 signatures. This ensures the request hasn't been tampered with and comes from a verified partner.
+                </p>
+
+                <div className="bg-amber-50 border border-amber-100 rounded-lg p-4 mb-6">
+                  <h3 className="font-medium text-amber-800 mb-2">Required Headers</h3>
+                  <p className="text-amber-800 text-sm mb-3">Every API request must include these three headers:</p>
+                  <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+                    <li><code className="bg-amber-100 px-1 py-0.5 rounded text-xs">x-api-key</code>: Your API key from the partner dashboard</li>
+                    <li><code className="bg-amber-100 px-1 py-0.5 rounded text-xs">housetabz-timestamp</code>: Unix timestamp of the request</li>
+                    <li><code className="bg-amber-100 px-1 py-0.5 rounded text-xs">housetabz-signature</code>: HMAC-SHA256 signature with sha256= prefix</li>
+                  </ul>
+                </div>
+
+                <div className="mb-8">
+                  <h3 className="font-medium text-gray-900 mb-4">Step-by-Step Signature Generation</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                        <span className="text-xs font-bold text-green-600">1</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Generate timestamp</p>
+                        <p className="text-sm text-gray-600">Create a Unix timestamp: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">Math.floor(Date.now() / 1000)</code></p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                        <span className="text-xs font-bold text-green-600">2</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Create signed payload</p>
+                        <p className="text-sm text-gray-600">Combine timestamp and JSON body: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">timestamp + "." + JSON.stringify(body)</code></p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                        <span className="text-xs font-bold text-green-600">3</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Generate HMAC signature</p>
+                        <p className="text-sm text-gray-600">Create HMAC-SHA256 using your secret key and signed payload</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5">
+                        <span className="text-xs font-bold text-green-600">4</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Add sha256= prefix</p>
+                        <p className="text-sm text-gray-600">Format the signature: <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">"sha256=" + signature</code></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  {/* cURL Example */}
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
+                    <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                      <div className="text-sm font-mono text-gray-600">cURL Example</div>
+                      <button 
+                        onClick={() => copyToClipboard(curlExample)}
+                        className="text-gray-500 hover:text-gray-700"
+                        aria-label="Copy to clipboard"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-4">
+                      <pre className="text-xs sm:text-sm overflow-x-auto">
+                        <code className="text-gray-800 font-mono whitespace-pre-wrap">
+                          {curlExample}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+
+                  {/* Node.js Example */}
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
+                    <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                      <div className="text-sm font-mono text-gray-600">Node.js Example</div>
+                      <button 
+                        onClick={() => copyToClipboard(nodeJsExample)}
+                        className="text-gray-500 hover:text-gray-700"
+                        aria-label="Copy to clipboard"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-4">
+                      <pre className="text-xs sm:text-sm overflow-x-auto">
+                        <code className="text-gray-800 font-mono whitespace-pre-wrap">
+                          {nodeJsExample}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+
+                  {/* Python Example */}
+                  <div className="rounded-lg overflow-hidden border border-gray-200">
+                    <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+                      <div className="text-sm font-mono text-gray-600">Python Example</div>
+                      <button 
+                        onClick={() => copyToClipboard(pythonExample)}
+                        className="text-gray-500 hover:text-gray-700"
+                        aria-label="Copy to clipboard"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="bg-gray-50 p-4">
+                      <pre className="text-xs sm:text-sm overflow-x-auto">
+                        <code className="text-gray-800 font-mono whitespace-pre-wrap">
+                          {pythonExample}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-red-50 border border-red-100 rounded-lg p-4 mt-6">
+                  <h3 className="font-medium text-red-800 mb-2">Security Notes</h3>
+                  <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
+                    <li>Never share your secret key or include it in client-side code</li>
+                    <li>Requests with timestamps older than 5 minutes will be rejected</li>
+                    <li>Each request must have a unique timestamp to prevent replay attacks</li>
+                    <li>Store your API credentials securely using environment variables</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </section>
@@ -364,26 +635,6 @@ const APIReference = () => {
                       </tr>
                     </tbody>
                   </table>
-                </div>
-                
-                <div className="rounded-lg overflow-hidden border border-gray-200 mb-6">
-                  <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
-                    <div className="text-xs sm:text-sm font-mono text-gray-600">Example Request</div>
-                    <button 
-                      onClick={() => copyToClipboard(requestExample)}
-                      className="text-gray-500 hover:text-gray-700"
-                      aria-label="Copy to clipboard"
-                    >
-                      <Copy className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="bg-gray-50 p-4">
-                    <pre className="text-xs sm:text-sm overflow-x-auto">
-                      <code className="text-gray-800 font-mono whitespace-pre-wrap">
-                        {requestExample}
-                      </code>
-                    </pre>
-                  </div>
                 </div>
               </div>
             </div>
@@ -474,12 +725,22 @@ const APIReference = () => {
                   </div>
                 </div>
                 
-                <div className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                <div className="bg-purple-50 border border-purple-100 rounded-lg p-4 mb-6">
                   <h3 className="font-medium text-purple-800 mb-2">Notes</h3>
                   <ul className="list-disc list-inside text-xs sm:text-sm text-gray-700 space-y-2">
                     <li>The bill is automatically split among housemates according to the agreement terms</li>
                     <li>Each housemate will be notified about their portion of the bill</li>
                     <li>Use the <code className="bg-gray-100 px-1 py-0.5 rounded text-xs sm:text-sm">externalBillId</code> to prevent duplicate bills from being created</li>
+                  </ul>
+                </div>
+
+                <div className="bg-red-50 border border-red-100 rounded-lg p-4">
+                  <h3 className="font-medium text-red-800 mb-2">Common Errors</h3>
+                  <ul className="list-disc list-inside text-xs sm:text-sm text-red-800 space-y-2">
+                    <li><strong>401 Unauthorized</strong> - Invalid API key, expired timestamp, or incorrect signature</li>
+                    <li><strong>404 Not Found</strong> - HouseTabz agreement not found or doesn't belong to your partner account</li>
+                    <li><strong>409 Conflict</strong> - Bill with the same externalBillId already exists</li>
+                    <li><strong>400 Bad Request</strong> - Missing required fields or invalid data format</li>
                   </ul>
                 </div>
               </div>

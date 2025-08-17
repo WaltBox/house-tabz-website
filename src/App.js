@@ -30,6 +30,7 @@ import IntegrationChecklist from './components/integration/docs/IntegrationCheck
 import TestShit from './components/integration/docs/testshit';
 import Terms from './components/TermsOfServicepage';
 import TermsOfServicePage from './components/TermsOfServicepage';
+import DuckedPage from './components/DuckedPage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -165,6 +166,12 @@ const AppContent = () => {
 <Route path="/partners" element={
   <MainLayout>
     <PartnersPage />
+  </MainLayout>
+} />
+
+<Route path="/ducked" element={
+  <MainLayout>
+    <DuckedPage />
   </MainLayout>
 } />
      </Routes>

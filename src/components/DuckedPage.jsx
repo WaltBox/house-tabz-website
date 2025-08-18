@@ -218,10 +218,10 @@ const DuckedPage = () => {
                         </svg>
                       </div>
                       <h3 
-                        className="text-xl md:text-2xl font-bold text-[#34d399]"
+                        className="text-xl md:text-2xl font-bold text-[#34d399] text-left"
                         style={{ fontFamily: "'Montserrat', sans-serif" }}
                       >
-                        Because You're Our Dawg!
+                        Because You're our Dawg!
                       </h3>
                     </div>
                     <p 

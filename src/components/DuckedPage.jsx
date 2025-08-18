@@ -31,12 +31,30 @@ const DuckedPage = () => {
           <div className="w-16 h-1 bg-[#34d399] mx-auto mb-6 opacity-80 rounded-full"></div>
           
           {/* Subtitle */}
-          <h2 
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-8 max-w-4xl mx-auto"
-            style={{ fontFamily: "'Montserrat', sans-serif" }}
-          >
-            Stop getting F*cked by your roommates.
-          </h2>
+          <div className="relative mb-8 max-w-4xl mx-auto">
+            <h2 
+              className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-800 leading-tight"
+              style={{ 
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 900
+              }}
+            >
+              Now stop getting{' '}
+              <span 
+                className="text-[#d93434] font-black relative inline-block"
+                style={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 900
+                }}
+              >
+                F*cked
+                <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 100 8" preserveAspectRatio="none">
+                  <path d="M2,6 Q25,2 50,4 T98,3" stroke="#d93434" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.7" />
+                </svg>
+              </span>
+              {' '}by your roommates.
+            </h2>
+          </div>
           
           {/* Description */}
           <p 
@@ -61,13 +79,13 @@ const DuckedPage = () => {
                   className="text-lg md:text-xl font-bold text-gray-800 mb-3"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  Connect Any  Service
+                  Connect Any Recurring Service
                 </h3>
                 <p 
                   className="text-gray-600 leading-relaxed"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  Connect any service to HouseTabz and automatically split expenses with your roommates.
+                  Connect any recurring service to HouseTabz and automatically split expenses with your roommates.
                 </p>
               </div>
 
@@ -130,7 +148,7 @@ const DuckedPage = () => {
                   className="text-gray-600 leading-relaxed"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  Use the HouseTabz card at partnered merchants and automatically split purchases with your roommates.
+                 Select 'Pay with HouseTabz' at our partnered merchants and automatically split purchases with your roommates.
                 </p>
               </div>
             </div>
@@ -152,51 +170,10 @@ const DuckedPage = () => {
               </div>
             </a>
             
-            <div 
-              className="text-sm text-gray-500 mt-4"
-              style={{ fontFamily: "'Montserrat', sans-serif" }}
-            >
-              Join thousands who've stopped getting ducked by their roommates
-          </div>
+          
 
           {/* Bottom Highlight Section */}
-          <div className="relative bg-white rounded-3xl p-10 md:p-16 w-[95%] md:w-[85%] lg:w-[80%] mx-auto mt-20 mb-24 shadow-2xl border border-gray-100 overflow-hidden">
-            {/* Subtle background accent */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#34d399]/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#34d399]/10 rounded-full blur-2xl"></div>
-            
-            <div className="relative z-10 text-center max-w-4xl mx-auto">
-              <div className="space-y-6">
-                <div className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  <span className="text-gray-500">Fronting bills?</span> <span className="text-red-500 font-semibold">Awkward.</span>
-                </div>
-                
-                <div className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  <span className="text-gray-500">Getting Venmo-requested?</span> <span className="text-red-500 font-semibold">Awkward.</span>
-                </div>
-                
-                <div className="mt-8 pt-6 border-t-2 border-[#34d399]/20">
-                  <div className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-800 mb-4" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}>
-                    HouseTabz?
-                  </div>
-                  
-                  <div className="relative inline-block">
-                    <span 
-                      className="text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-[#34d399] to-[#2bb583] bg-clip-text text-transparent"
-                      style={{ 
-                        fontFamily: "'Montserrat', sans-serif",
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                      }}
-                    >
-                      Zero awkward.
-                    </span>
-                    <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#34d399] to-[#2bb583] rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+       
 
           {/* Why the Dawg Duck Section - 85% width on Mac+ */}
           <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-3xl p-6 md:p-8 lg:p-10 w-[95%] md:w-[85%] mx-auto mt-20 mb-20 relative overflow-hidden">
@@ -237,7 +214,7 @@ const DuckedPage = () => {
                     <div className="flex items-center mb-4">
                       <div className="w-8 h-8 bg-[#34d399] rounded-lg flex items-center justify-center mr-3">
                         <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7 9c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm7 0c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zM12 17.5c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
+                          <path d="M8.5 2C7.1 2 6 3.1 6 4.5S7.1 7 8.5 7 11 5.9 11 4.5 9.9 2 8.5 2zm7 0C14.1 2 13 3.1 13 4.5S14.1 7 15.5 7 18 5.9 18 4.5 16.9 2 15.5 2zM5 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm14 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM12 13c-3.3 0-6 2.7-6 6 0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2 0-3.3-2.7-6-6-6z"/>
                         </svg>
                       </div>
                       <h3 

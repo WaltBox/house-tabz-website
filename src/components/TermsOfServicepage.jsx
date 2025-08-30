@@ -45,65 +45,70 @@ const TermsOfServicePage = () => {
     {
       title: '3. User Accounts and Responsibilities',
       content:
-        'You agree to: Provide accurate and complete account information; Promptly fund your pledged and ongoing payment obligations; Maintain the confidentiality of your login credentials; Notify us immediately of unauthorized account use. Failure to meet your obligations may affect your account status, your household’s House Status Index (HSI), and access to Platform features.',
+        'You agree to: Provide accurate and complete account information; Promptly fund your pledged and ongoing payment obligations; Maintain the confidentiality of your login credentials; Notify us immediately of unauthorized account use. Failure to meet your obligations may affect your account status, your household\'s House Status Index (HSI), and access to Platform features.',
     },
     {
-      title: '4. House Status Index (HSI)',
+      title: '4. House Management and Departure',
+      content:
+        'House Departure Requirements: Users may not unilaterally remove themselves from a House or transfer ownership of shared services without proper authorization. To initiate departure from a House, the departing User must: (a) Obtain majority consent from all active housemates in the House; (b) Complete all outstanding payment obligations and settle any fronted amounts; (c) Follow HouseTabz\'s prescribed transfer procedures for service ownership. Until these requirements are satisfied, the User remains legally and financially responsible for their assigned share of all House services, regardless of actual occupancy or usage. HouseTabz reserves the right to refuse departure requests that would compromise service continuity or create financial hardship for remaining housemates. Unauthorized departure attempts may result in account suspension and collection actions for outstanding obligations.',
+    },
+    {
+      title: '5. House Status Index (HSI)',
       content:
         'The HSI is a proprietary score reflecting a House’s collective payment behavior. It affects: Eligibility for fronted (advanced) payments from HouseTabz; Service fees, penalties, and discounts; Access to premium features. Timely payment improves your HSI; late or missed payments may lower it. HouseTabz reserves the right to adjust the HSI in its sole discretion.',
     },
     {
-      title: '5. Financial Terms and Fronting',
+      title: '6. Financial Terms and Fronting',
       content:
         'Each User is individually responsible for their assigned share of a House Service. HouseTabz may, at its discretion, advance funds (“front”) to cover a shortfall if one or more Users fail to pay, to prevent service disruptions. Any fronted amount creates an immediate repayment obligation for the nonpaying User(s). Service fees, penalties, or interest may apply to late payments, fronted amounts, or returned transactions.',
     },
     {
-      title: '6. Fees and Charges',
+      title: '7. Fees and Charges',
       content:
         'HouseTabz may charge: Service fees for managing accounts, facilitating payments, and providing premium services; Penalties for late payments or insufficient funds; Fees for payment processing or currency conversion (if applicable). All applicable fees will be disclosed prior to use. By using the Platform, you authorize us to deduct such fees.',
     },
     {
-      title: '7. Third-Party Services',
+      title: '8. Third-Party Services',
       content:
         'HouseTabz is not a provider of any underlying household services (e.g., utilities, internet). We act solely as a payment facilitator. We: Do not control or guarantee third-party services, pricing, or performance; Are not responsible for service failures, outages, or disputes between you and third-party providers. You must resolve third-party disputes directly with the provider.',
     },
     {
-      title: '8. Account Suspension and Termination',
+      title: '9. Account Suspension and Termination',
       content:
         'We may suspend, restrict, or terminate your account or access to the Platform if: You violate these Terms or applicable law; You engage in fraud, abuse, or misconduct; You fail to meet your payment obligations. Termination does not release you from outstanding balances or repayment of fronted funds.',
     },
     {
-      title: '9. Limitation of Liability',
+      title: '10. Limitation of Liability',
       content:
         'To the maximum extent permitted by law: HouseTabz is not liable for indirect, incidental, consequential, or punitive damages; We are not responsible for service interruptions, data loss, unauthorized account access, or third-party failures; Our total liability under these Terms is limited to the lesser of (a) $100 or (b) the total amount of fees you paid to us in the preceding 12 months.',
     },
     {
-      title: '10. Privacy and Data Use',
+      title: '11. Privacy and Data Use',
       content:
         'Your use of the Platform is subject to our Privacy Policy, which describes how we collect, use, and protect your data. By using the Platform, you consent to these practices.',
     },
     {
-      title: '11. Changes to Terms',
+      title: '12. Changes to Terms',
       content:
         'We may update these Terms at any time. Material changes will be communicated through the Platform or email. Continued use of the Platform after changes take effect constitutes your acceptance.',
     },
     {
-      title: '12. Arbitration and Dispute Resolution',
+      title: '13. Arbitration and Dispute Resolution',
       content:
         'Any dispute, claim, or controversy arising out of or relating to these Terms or your use of the Platform will be resolved by binding arbitration, except as otherwise provided under applicable law. You waive your right to a trial by jury and to participate in class actions.',
     },
     {
-      title: '13. Indemnification',
+      title: '14. Indemnification',
       content:
         'You agree to indemnify, defend, and hold harmless HouseTabz, its affiliates, officers, and employees from any claims, losses, damages, liabilities, or expenses arising from: Your violation of these Terms; Your use or misuse of the Platform; Your interactions with third-party providers.',
     },
     {
-      title: '14. Governing Law',
+      title: '15. Governing Law',
       content:
         'These Terms are governed by the laws of the State of Texas, without regard to its conflict of law provisions. Any claims or proceedings will be brought exclusively in the state or federal courts located in Randall County, Texas.',
     },
     {
-      title: '15. Contact Information',
+      title: '16. Contact Information',
       content:
         'HouseTabz, Inc. | Email: walt@housetabz.com',
     },

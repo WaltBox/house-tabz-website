@@ -31,6 +31,7 @@ import TestShit from './components/integration/docs/testshit';
 import Terms from './components/TermsOfServicepage';
 import TermsOfServicePage from './components/TermsOfServicepage';
 import DuckedPage from './components/DuckedPage';
+import MaisonPage from './components/MaisonPage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -172,6 +173,12 @@ const AppContent = () => {
 <Route path="/ducked" element={
   <MainLayout>
     <DuckedPage />
+  </MainLayout>
+} />
+
+<Route path="/maison" element={
+  <MainLayout>
+    <MaisonPage />
   </MainLayout>
 } />
      </Routes>

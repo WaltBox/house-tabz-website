@@ -58,33 +58,33 @@ const Footer = () => {
         <div className="links md:w-1/3">
           <h3 className="text-xl font-bold text-green-400">Quick Links</h3>
           <ul className="mt-4 space-y-2">
-          <li>
+          {/* <li>
               <Link to="/about" className="text-sm hover:text-green-400 transition">
                 About Us
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Link to="/how-it-works" className="text-sm hover:text-green-400 transition">
                 How It Works
               </Link>
-            </li>
+            </li> */}
             {/* <li>
               <Link to="/partners" className="text-sm hover:text-green-400 transition">
                 Partners
               </Link>
             </li> */}
-            <li>
+            {/* <li>
               <Link to="/docs" className="text-sm hover:text-green-400 transition">
                 Docs
               </Link>
-            </li>
+            </li> */}
         
          
-            <li>
+            {/* <li>
               <Link to="/referral-program" className="text-sm hover:text-green-400 transition">
                 Referral Program
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/homies" className="text-sm hover:text-green-400 transition">
                 Become a Homie

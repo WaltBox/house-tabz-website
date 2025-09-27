@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import dashboard from '../assets/dashboard.png';
 
 const SolutionPage = () => {
   return (
@@ -22,41 +20,13 @@ const SolutionPage = () => {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
-        {/* Left: Text Content */}
-        <motion.div
-          className="text-section lg:w-1/2 text-center lg:text-left"
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
-            HouseTabz is available for Beta Testing!
-          </h2>
-          <p className="text-lg text-gray-600 mt-4 leading-relaxed">
-            Join the VIP list and Walt will reach out with more details on how to be one of the first users to try HouseTabz.
-          </p>
-        </motion.div>
-
-        {/* Right: Phone Image */}
-        <motion.div
-          className="phone-section lg:w-1/2 flex flex-col justify-center items-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="relative w-[300px] flex flex-col items-center"
-          >
-            <img
-              src={dashboard}
-              alt="HouseTabz dashboard preview"
-              className="w-full object-contain rounded-3xl"
-            />
-          </motion.div>
-        </motion.div>
+      <div className="max-w-4xl mx-auto text-center relative z-10">
+        <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-800">
+          HouseTabz is available for Beta Testing!
+        </h2>
+        <p className="text-lg text-gray-600 mt-4 leading-relaxed">
+          Join the VIP list and Walt will reach out with more details on how to be one of the first users to try HouseTabz.
+        </p>
       </div>
 
       <style jsx>{`

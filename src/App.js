@@ -7,6 +7,7 @@ import SolutionPage from './components/SolutionPage';
 import DawgMode from './components/DawgMode'
 // import LaunchingSection from './components/LaunchingSection';
 import Footer from './components/Footer';
+import UnfairnessSection from './components/UnfairnessSection';
 import Navbar from './components/navigation/Navbar';
 import BusinessPage from './components/BusinessPage';
 import WaitlistPage from './components/WaitlistPage';
@@ -71,11 +72,7 @@ const AppContent = () => {
          <MainLayout>
            <>
              <LandingPage />
-             <SharedPaymentSection />
-             <ProblemSection />
-             <SolutionPage />
-             <DawgMode /> 
-             {/* <LaunchingSection /> */}
+             <UnfairnessSection />
              <Footer />
            </>
          </MainLayout>

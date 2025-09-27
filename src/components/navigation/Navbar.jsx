@@ -50,10 +50,22 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         <Link
           to="/"
-          className="text-2xl md:text-3xl font-extrabold text-gray-800 tracking-tight hover:text-[#34d399] transition duration-300"
-          style={{ fontFamily: "'Montserrat', sans-serif" }}
+          className="flex items-center gap-3 hover:opacity-80 transition duration-300"
         >
-          HouseTabz
+          <img
+            src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+            alt="HouseTabz logo"
+            className="h-10 md:h-12 w-auto"
+          />
+          <span
+            className="text-2xl md:text-3xl font-extrabold tracking-tight"
+            style={{ 
+              fontFamily: "'Montserrat', sans-serif",
+              color: '#34d399'
+            }}
+          >
+            HouseTabz
+          </span>
         </Link>
         {/* "For Business" visible only on desktop */}
         <div className="hidden md:block">
@@ -66,32 +78,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Right: Desktop Buttons */}
+      {/* Right: Desktop Buttons - Removed for minimal design */}
       <div className="hidden md:flex gap-4 items-center">
-        <Link
-          to="/vip"
-          className="bg-[#34d399] text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
-        >
-          Join VIP list
-        </Link>
-        <a
-          href="https://housetabz-3e8153557d3a.herokuapp.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#34d399] text-white py-2 px-6 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
-        >
-          Current Users
-        </a>
+        {/* Buttons removed for cleaner design */}
       </div>
 
       {/* Right: Mobile Menu */}
       <div className="md:hidden flex items-center">
-        <Link
-          to="/vip"
-          className="bg-[#34d399] text-white py-2 px-4 rounded-full font-semibold mr-4 hover:bg-[#2bb583] hover:shadow-md transition duration-300"
-        >
-          Join VIP list
-        </Link>
         <button
           onClick={toggleMenu}
           className="text-gray-700 focus:outline-none hover:text-[#34d399] transition duration-300"
@@ -123,15 +116,6 @@ const Navbar = () => {
           >
             For Business
           </Link>
-          <a
-            href="https://housetabz-3e8153557d3a.herokuapp.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMenu}
-            className="bg-[#34d399] text-white py-2 px-4 rounded-full font-semibold shadow-sm hover:bg-[#2bb583] hover:shadow-md transition duration-300"
-          >
-            Current Users
-          </a>
         </div>
       )}
     </nav>

@@ -150,10 +150,24 @@ const LandingPage = () => {
 
           {/* Hashtags */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <span className="bg-[#34d399] text-white px-6 py-3 rounded-full text-lg md:text-xl font-bold shadow-lg opacity-0 translate-y-4 animate-[fadeInUp_1s_ease-out_0.5s_forwards]">
+            <span 
+              className="bg-[#34d399] text-white px-6 py-3 rounded-full text-lg md:text-xl font-bold shadow-lg"
+              style={{
+                opacity: 0,
+                transform: 'translateY(20px)',
+                animation: 'fadeInUp 1s ease-out 0.5s forwards'
+              }}
+            >
               #nomorefrontingbills
             </span>
-            <span className="bg-[#34d399] text-white px-8 py-4 rounded-full text-xl md:text-2xl font-bold shadow-xl opacity-0 translate-y-4 animate-[fadeInUp_1s_ease-out_1s_forwards]">
+            <span 
+              className="bg-[#34d399] text-white px-8 py-4 rounded-full text-xl md:text-2xl font-bold shadow-xl"
+              style={{
+                opacity: 0,
+                transform: 'translateY(20px)',
+                animation: 'fadeInUp 1s ease-out 1s forwards'
+              }}
+            >
               #nomore<span style={{ 
                 color: '#3D95CE',
                 backgroundColor: 'white',
@@ -165,7 +179,7 @@ const LandingPage = () => {
             </span>
           </div>
 
-          <style jsx>{`
+          <style>{`
             @keyframes fadeInUp {
               to {
                 opacity: 1;

@@ -62,12 +62,13 @@ const UnfairnessSection = () => {
       interval = setInterval(() => {
         const newMessage = chatMessages[currentMessageIndex];
         setDisplayedMessages(prev => [...prev, newMessage]);
-        setCurrentMessageIndex(prev => prev + 1);
         
+        // Check if this is the last message before incrementing
         if (currentMessageIndex >= chatMessages.length - 1) {
           setIsSimulationRunning(false);
         }
-      }, 1500);
+        setCurrentMessageIndex(prev => prev + 1);
+      }, 800); // Faster timing for better animation
     }
     return () => clearInterval(interval);
   }, [isSimulationRunning, currentMessageIndex, chatMessages.length]);
@@ -206,7 +207,7 @@ const UnfairnessSection = () => {
             {/* Dynamic Island */}
             <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-28 h-7 bg-black rounded-full z-10"></div>
             
-            <div className="bg-white rounded-[2.8rem] overflow-hidden h-full flex flex-col">
+            <div className="bg-white rounded-[2.8rem] overflow-hidden h-full flex flex-col relative">
               {/* Status Bar */}
               <div className="bg-white px-6 pt-8 pb-2 flex justify-between items-center text-xs font-semibold">
                 <span>9:41</span>
@@ -256,7 +257,7 @@ const UnfairnessSection = () => {
               </div>
 
               {/* Messages Container */}
-              <div className="flex-1 overflow-y-auto bg-white p-3 space-y-1">
+              <div className="flex-1 overflow-y-auto bg-white p-4 space-y-1 relative">
                 {displayedMessages.length === 0 && !isSimulationRunning ? (
                   // Empty thread state
                   <div className="flex flex-col items-center justify-center h-full text-center py-20">
@@ -335,6 +336,7 @@ const UnfairnessSection = () => {
                   })
                 )}
                 
+                
                 {/* Typing Indicator */}
                 {isSimulationRunning && currentMessageIndex < chatMessages.length && (
                   <div className="flex justify-start">
@@ -348,6 +350,7 @@ const UnfairnessSection = () => {
                   </div>
                 )}
               </div>
+              
             </div>
           </div>
         </div>
@@ -394,7 +397,7 @@ const UnfairnessSection = () => {
           </div>
 
           {/* CTA */}
-          <div className="relative max-w-md mx-auto">
+          <div className="relative max-w-4xl mx-auto px-8">
             <h4 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.02em' }}>
               Join the beta
             </h4>
@@ -406,16 +409,32 @@ const UnfairnessSection = () => {
               href="https://testflight.apple.com/join/QAMFMXVJ"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 bg-[#34d399] text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-[#10b981] transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl"
-              style={{ fontFamily: "'DM Sans', sans-serif" }}
+              className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-[#34d399] to-[#10b981] text-white px-6 py-3 rounded-2xl font-semibold text-base transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-[#34d399]/20 active:scale-98 overflow-hidden"
+              style={{ 
+                fontFamily: "'DM Sans', sans-serif",
+                boxShadow: '0 20px 40px rgba(52, 211, 153, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+              }}
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              {/* Animated background shine */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              {/* Apple logo with subtle animation */}
+              <svg className="w-7 h-7 group-hover:rotate-12 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
               </svg>
-              <span>Download on TestFlight</span>
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              
+              {/* Text with subtle animation */}
+              <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+                Download on TestFlight
+              </span>
+              
+              {/* Arrow with bounce animation */}
+              <svg className="w-5 h-5 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
+              
+              {/* Pulse effect on hover */}
+              <div className="absolute inset-0 rounded-3xl bg-white/10 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
             </a>
             
             <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">

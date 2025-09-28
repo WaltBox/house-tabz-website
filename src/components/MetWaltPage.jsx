@@ -181,7 +181,7 @@ const MetWaltPage = () => {
             Hey! You met Walt
           </h2>
           <p className="text-lg text-gray-600 font-medium mb-6">
-            Join the waitlist for shared expense payments
+            Enter your info so you can use HouseTabz!
           </p>
         </div>
 
@@ -272,15 +272,7 @@ const MetWaltPage = () => {
           />
         </div>
 
-        {/* Hashtags */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
-            #nomorefrontingbills
-          </span>
-          <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
-            #nomorevenmorequests
-          </span>
-        </div>
+
 
         {/* Bottom Link */}
         <div className="text-center">

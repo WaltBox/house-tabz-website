@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import frustratedTeddy from '../assets/frustratedteddy.png';
 import ReviewsSection from './ReviewsSection';
 
-const UnfairnessSection = () => {
+const UnfairnessSection = ({ reviews, reviewsStats, reviewsLoading }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isSimulationRunning, setIsSimulationRunning] = useState(false);
   const [displayedMessages, setDisplayedMessages] = useState([]);
@@ -351,7 +351,11 @@ const UnfairnessSection = () => {
     </section>
 
     {/* Reviews Section */}
-    <ReviewsSection />
+    <ReviewsSection 
+      reviews={reviews}
+      reviewsStats={reviewsStats}
+      reviewsLoading={reviewsLoading}
+    />
 
         {/* Call to Action */}
         <div className="relative text-center py-16 bg-gray-50 overflow-hidden rounded-3xl mx-6 my-8">

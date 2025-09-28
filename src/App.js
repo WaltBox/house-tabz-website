@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
@@ -44,12 +44,46 @@ const MainLayout = ({ children }) => (
 
 const AppContent = () => {
  const location = useLocation();
+ const [reviews, setReviews] = useState([]);
+ const [reviewsStats, setReviewsStats] = useState(null);
+ const [reviewsLoading, setReviewsLoading] = useState(true);
 
  useEffect(() => {
    if (window.gtag) {
      window.gtag('config', 'G-CYDC85KMX7', { page_path: location.pathname });
    }
  }, [location]);
+
+ // Fetch reviews when app loads
+ useEffect(() => {
+   const fetchReviews = async () => {
+     try {
+       console.log('🔍 Fetching reviews from localhost:3004...');
+       setReviewsLoading(true);
+       const response = await fetch('http://localhost:3004/api/reviews/public?limit=6');
+       
+       console.log('📡 Response status:', response.status);
+       console.log('📡 Response ok:', response.ok);
+       
+       if (response.ok) {
+         const result = await response.json();
+         console.log('📊 Reviews data received:', result);
+         setReviews(result.data || []);
+         setReviewsStats(result.statistics || null);
+         console.log('✅ Reviews set:', result.data?.length || 0, 'reviews');
+       } else {
+         console.log('❌ Response not ok:', response.status, response.statusText);
+       }
+     } catch (err) {
+       console.error('❌ Error fetching reviews:', err);
+     } finally {
+       setReviewsLoading(false);
+       console.log('🏁 Reviews loading finished');
+     }
+   };
+
+   fetchReviews();
+ }, []);
 
  return (
    <>
@@ -74,7 +108,11 @@ const AppContent = () => {
          <MainLayout>
            <>
              <LandingPage />
-             <UnfairnessSection />
+             <UnfairnessSection 
+               reviews={reviews}
+               reviewsStats={reviewsStats}
+               reviewsLoading={reviewsLoading}
+             />
              <Footer />
            </>
          </MainLayout>

@@ -1,32 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ReviewsSection = () => {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-  const fetchReviews = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('https://api.housetabz.com/api/reviews/public');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch reviews');
-      }
-      
-      const data = await response.json();
-      setReviews(data.reviews || []);
-    } catch (err) {
-      console.error('Error fetching reviews:', err);
-      setError('Failed to load reviews');
-    } finally {
-      setLoading(false);
-    }
-  };
+const ReviewsSection = ({ reviews = [], reviewsStats = null, reviewsLoading = false }) => {
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -43,7 +17,7 @@ const ReviewsSection = () => {
     ));
   };
 
-  if (loading) {
+  if (reviewsLoading) {
     return (
       <section className="py-16 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -64,18 +38,6 @@ const ReviewsSection = () => {
     );
   }
 
-  if (error) {
-    return (
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
-            What our users say
-          </h2>
-          <p className="text-gray-500">Unable to load reviews at the moment</p>
-        </div>
-      </section>
-    );
-  }
 
   if (reviews.length === 0) {
     return (
@@ -106,9 +68,24 @@ const ReviewsSection = () => {
           <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
             What our users say
           </h2>
-          <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto mb-6">
             Real feedback from real roommates who've experienced the HouseTabz difference
           </p>
+          
+          {/* Statistics */}
+          {reviewsStats && reviewsStats.totalReviews > 0 && (
+            <div className="flex items-center justify-center gap-2 text-lg">
+              <div className="flex">
+                {renderStars(Math.round(reviewsStats.averageRating))}
+              </div>
+              <span className="font-semibold text-gray-900">
+                {reviewsStats.averageRating.toFixed(1)} out of 5
+              </span>
+              <span className="text-gray-500">
+                ({reviewsStats.totalReviews} review{reviewsStats.totalReviews !== 1 ? 's' : ''})
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Reviews Grid */}
@@ -120,9 +97,9 @@ const ReviewsSection = () => {
             >
               {/* User Info */}
               <div className="flex items-center mb-4">
-                {review.profilePicture ? (
+                {review.profileImage ? (
                   <img
-                    src={review.profilePicture}
+                    src={review.profileImage}
                     alt={`${review.name}'s profile`}
                     className="w-12 h-12 rounded-full object-cover mr-4"
                   />

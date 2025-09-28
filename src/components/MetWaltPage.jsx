@@ -119,7 +119,7 @@ const MetWaltPage = () => {
               You're in, {formData.firstName}! 
             </h2>
             <p className="text-lg text-gray-600 font-medium mb-8">
-              We'll text you when it's ready
+              We'll text you how to get setup! Thank you so much!!
             </p>
           </div>
 

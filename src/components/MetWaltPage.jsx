@@ -13,13 +13,22 @@ const MetWaltPage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
-    // Load DM Sans font
-    const existingLink = document.querySelector('link[href*="DM+Sans"]');
-    if (!existingLink) {
+    // Load DM Sans and Montserrat fonts
+    const existingDMSans = document.querySelector('link[href*="DM+Sans"]');
+    if (!existingDMSans) {
       const fontLink = document.createElement('link');
       fontLink.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap';
       fontLink.rel = 'stylesheet';
       fontLink.id = 'dm-sans-font-link';
+      document.head.appendChild(fontLink);
+    }
+    
+    const existingMontserrat = document.querySelector('link[href*="Montserrat"]');
+    if (!existingMontserrat) {
+      const fontLink = document.createElement('link');
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap';
+      fontLink.rel = 'stylesheet';
+      fontLink.id = 'montserrat-font-link';
       document.head.appendChild(fontLink);
     }
   }, []);
@@ -88,23 +97,22 @@ const MetWaltPage = () => {
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <div className="min-h-screen bg-white pt-24 px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {/* Subtle background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
+          <div className="absolute top-32 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
           <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#34d399]/8 rounded-full"></div>
           <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-[#34d399]/4 rounded-full"></div>
         </div>
 
-        <div className="max-w-md w-full text-center relative z-10">
+        <div className="max-w-md w-full text-center relative z-10 mx-auto">
           <div className="mb-8">
             <div className="flex items-center justify-center gap-3 mb-6">
               <img
                 src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
                 alt="HouseTabz logo"
-                className="h-10 w-auto"
+                className="h-20 w-auto"
               />
-              <h1 className="text-2xl font-black text-[#34d399]">HouseTabz</h1>
             </div>
             
             <h2 className="text-3xl font-black text-gray-900 mb-3">
@@ -150,24 +158,23 @@ const MetWaltPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-white pt-32 px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Subtle background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
         <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#34d399]/8 rounded-full"></div>
         <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-[#34d399]/4 rounded-full"></div>
       </div>
 
-      <div className="max-w-md w-full relative z-10">
+      <div className="max-w-md w-full relative z-10 mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-6">
             <img
               src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
               alt="HouseTabz logo"
-              className="h-10 w-auto"
+              className="h-20 w-auto"
             />
-            <h1 className="text-2xl font-black text-[#34d399]">HouseTabz</h1>
           </div>
           
           <h2 className="text-3xl font-black text-gray-900 mb-3">

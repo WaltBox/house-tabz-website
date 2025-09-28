@@ -180,7 +180,11 @@ const AppContent = () => {
   </MainLayout>
 } />
 
-<Route path="/met-walt" element={<MetWaltPage />} />
+<Route path="/met-walt" element={
+  <MainLayout>
+    <MetWaltPage />
+  </MainLayout>
+} />
      </Routes>
    </>
  );

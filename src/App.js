@@ -33,6 +33,7 @@ import Terms from './components/TermsOfServicepage';
 import TermsOfServicePage from './components/TermsOfServicepage';
 import DuckedPage from './components/DuckedPage';
 import MaisonPage from './components/MaisonPage';
+import MetWaltPage from './components/MetWaltPage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -178,6 +179,8 @@ const AppContent = () => {
     <MaisonPage />
   </MainLayout>
 } />
+
+<Route path="/met-walt" element={<MetWaltPage />} />
      </Routes>
    </>
  );

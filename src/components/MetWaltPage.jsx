@@ -1,0 +1,292 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { FaLinkedin, FaInstagram } from 'react-icons/fa';
+import waltImage from '../assets/walt.png';
+
+const MetWaltPage = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    phone: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    // Load DM Sans font
+    const existingLink = document.querySelector('link[href*="DM+Sans"]');
+    if (!existingLink) {
+      const fontLink = document.createElement('link');
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap';
+      fontLink.rel = 'stylesheet';
+      fontLink.id = 'dm-sans-font-link';
+      document.head.appendChild(fontLink);
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.firstName.trim() || !formData.phone.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please fill in both fields!' });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('https://api.housetabz.com/api/waitlist2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName.trim(),
+          phone: formData.phone.trim(),
+          source: 'met-walt'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: `You're on the list, ${formData.firstName}! 🎉` 
+        });
+        setShowSuccess(true);
+      } else if (response.status === 409) {
+        setSubmitStatus({ 
+          type: 'duplicate', 
+          message: "This phone number is already on the waitlist! 📱" 
+        });
+      } else {
+        setSubmitStatus({ 
+          type: 'error', 
+          message: data.message || 'Something went wrong. Please try again!' 
+        });
+      }
+    } catch (error) {
+      console.error('Waitlist signup error:', error);
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Network error. Please try again later!' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        {/* Subtle background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
+          <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#34d399]/8 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-[#34d399]/4 rounded-full"></div>
+        </div>
+
+        <div className="max-w-md w-full text-center relative z-10">
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <img
+                src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+                alt="HouseTabz logo"
+                className="h-10 w-auto"
+              />
+              <h1 className="text-2xl font-black text-[#34d399]">HouseTabz</h1>
+            </div>
+            
+            <h2 className="text-3xl font-black text-gray-900 mb-3">
+              You're in, {formData.firstName}! 
+            </h2>
+            <p className="text-lg text-gray-600 font-medium mb-8">
+              We'll text you when it's ready
+            </p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="text-center">
+              <div className="text-2xl font-black text-[#34d399] mb-1">$25,000+</div>
+              <div className="text-sm text-gray-600 font-medium">Bills paid using HouseTabz</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-black text-[#34d399] mb-1">0</div>
+              <div className="text-sm text-gray-600 font-medium">Venmo requests needed</div>
+            </div>
+          </div>
+
+          {/* Hashtags */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
+              #nomorefrontingbills
+            </span>
+            <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
+              #nomorevenmorequests
+            </span>
+          </div>
+
+          {/* Back to site */}
+          <Link 
+            to="/" 
+            className="inline-block text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium"
+          >
+            ← Back to HouseTabz
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      {/* Subtle background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
+        <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#34d399]/8 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-[#34d399]/4 rounded-full"></div>
+      </div>
+
+      <div className="max-w-md w-full relative z-10">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <img
+              src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+              alt="HouseTabz logo"
+              className="h-10 w-auto"
+            />
+            <h1 className="text-2xl font-black text-[#34d399]">HouseTabz</h1>
+          </div>
+          
+          <h2 className="text-3xl font-black text-gray-900 mb-3">
+            Hey! You met Walt
+          </h2>
+          <p className="text-lg text-gray-600 font-medium mb-6">
+            Join the waitlist for shared expense payments
+          </p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6 mb-8">
+          <div>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="What's your first name?"
+              value={formData.firstName}
+              onChange={handleChange}
+              maxLength={50}
+              className="w-full py-4 px-4 bg-gray-50 text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all duration-300 font-medium placeholder-gray-500"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          <div>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Your phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full py-4 px-4 bg-gray-50 text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all duration-300 font-medium placeholder-gray-500"
+              disabled={isSubmitting}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-[#34d399] text-white py-4 px-6 rounded-xl font-bold hover:bg-[#10b981] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <span className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Adding you...
+              </span>
+            ) : (
+              "Join Waitlist"
+            )}
+          </button>
+        </form>
+
+        {/* Status Messages */}
+        {submitStatus && (
+          <div className={`mb-6 p-4 rounded-xl text-center font-medium ${
+            submitStatus.type === 'success' 
+              ? 'bg-[#34d399]/10 text-[#34d399]' 
+              : submitStatus.type === 'duplicate'
+              ? 'bg-blue-50 text-blue-600'
+              : 'bg-red-50 text-red-600'
+          }`}>
+            {submitStatus.message}
+          </div>
+        )}
+
+        {/* Walt's social links - icons above the photo */}
+        <div className="flex items-center justify-center gap-6 mb-6">
+          <a 
+            href="https://www.linkedin.com/in/walt-boxwell-04996919b/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[#34d399] hover:text-[#0077B5] transition-colors duration-300"
+            aria-label="Walt's LinkedIn"
+          >
+            <FaLinkedin className="text-3xl" />
+          </a>
+          <a 
+            href="https://instagram.com/walt_boxwell" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[#34d399] hover:text-[#E4405F] transition-colors duration-300"
+            aria-label="Walt's Instagram"
+          >
+            <FaInstagram className="text-3xl" />
+          </a>
+        </div>
+
+        {/* Walt's animated photo - bigger and more prominent */}
+        <div className="mb-8">
+          <img
+            src={waltImage}
+            alt="Walt waving with both hands"
+            className="w-64 h-64 mx-auto object-contain"
+          />
+        </div>
+
+        {/* Hashtags */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
+            #nomorefrontingbills
+          </span>
+          <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
+            #nomorevenmorequests
+          </span>
+        </div>
+
+        {/* Bottom Link */}
+        <div className="text-center">
+          <Link 
+            to="/" 
+            className="text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium"
+          >
+            ← Back to HouseTabz
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MetWaltPage;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import waltImage from '../assets/walt.png';
+import Footer from './Footer';
 
 const MetWaltPage = () => {
   const [formData, setFormData] = useState({
@@ -264,7 +265,7 @@ const MetWaltPage = () => {
         </div>
 
         {/* Walt's animated photo - bigger and more prominent */}
-        <div className="mb-8">
+        <div className="mb-12">
           <img
             src={waltImage}
             alt="Walt waving with both hands"
@@ -272,7 +273,26 @@ const MetWaltPage = () => {
           />
         </div>
 
-
+        {/* Walt's Personal Message */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 mb-12">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Hi! I'm Walt, the founder of HouseTabz.
+          </h3>
+          
+          <div className="space-y-5 text-gray-700 leading-relaxed text-lg">
+            <p>
+              My vision for HouseTabz is to bring shared financial responsibility to all shared household expenses.
+            </p>
+            
+            <p>
+              I believe many people choose to live alone because they crave independence. However, living alone is a net negative and leads to isolation and loneliness. With HouseTabz, my mission is to bring the same sense of personal responsibility, while making it easier and more rewarding to live together.
+            </p>
+            
+            <p className="font-semibold text-[#34d399] text-center pt-4 border-t border-gray-100">
+              Soon, sharing expenses will not contribute to a negative perception of shared living.
+            </p>
+          </div>
+        </div>
 
         {/* Bottom Link */}
         <div className="text-center">
@@ -284,6 +304,9 @@ const MetWaltPage = () => {
           </Link>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

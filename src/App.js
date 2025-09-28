@@ -34,6 +34,7 @@ import TermsOfServicePage from './components/TermsOfServicepage';
 import DuckedPage from './components/DuckedPage';
 import MaisonPage from './components/MaisonPage';
 import MetWaltPage from './components/MetWaltPage';
+import SubmitReviewPage from './components/SubmitReviewPage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -183,6 +184,12 @@ const AppContent = () => {
 <Route path="/met-walt" element={
   <MainLayout>
     <MetWaltPage />
+  </MainLayout>
+} />
+
+<Route path="/submit-review" element={
+  <MainLayout>
+    <SubmitReviewPage />
   </MainLayout>
 } />
      </Routes>

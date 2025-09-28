@@ -1,0 +1,210 @@
+import React, { useState, useEffect } from 'react';
+
+const ReviewsSection = () => {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('https://api.housetabz.com/api/reviews/public');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+      
+      const data = await response.json();
+      setReviews(data.reviews || []);
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+      setError('Failed to load reviews');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderStars = (rating) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <svg
+        key={index}
+        className={`w-5 h-5 ${
+          index < rating ? 'text-yellow-400' : 'text-gray-300'
+        }`}
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ));
+  };
+
+  if (loading) {
+    return (
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
+              What our users say
+            </h2>
+            <p className="text-xl text-gray-600 font-medium">
+              Real feedback from real roommates
+            </p>
+          </div>
+          
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#34d399]"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
+            What our users say
+          </h2>
+          <p className="text-gray-500">Unable to load reviews at the moment</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (reviews.length === 0) {
+    return (
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
+            What our users say
+          </h2>
+          <p className="text-gray-500">Be the first to leave a review!</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="relative py-16 px-6 bg-white overflow-hidden">
+      {/* Subtle Background Elements */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
+        <div className="absolute inset-0 bg-gray-50/30"></div>
+        <div className="absolute top-32 right-32 w-24 h-24 bg-green-100/20 rounded-full"></div>
+        <div className="absolute bottom-24 left-24 w-32 h-32 bg-green-50/25 rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-green-100/15 rounded-full"></div>
+      </div>
+
+      <div className="relative max-w-6xl mx-auto z-10">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
+            What our users say
+          </h2>
+          <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto">
+            Real feedback from real roommates who've experienced the HouseTabz difference
+          </p>
+        </div>
+
+        {/* Reviews Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reviews.map((review) => (
+            <div
+              key={review.id}
+              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+            >
+              {/* User Info */}
+              <div className="flex items-center mb-4">
+                {review.profilePicture ? (
+                  <img
+                    src={review.profilePicture}
+                    alt={`${review.name}'s profile`}
+                    className="w-12 h-12 rounded-full object-cover mr-4"
+                  />
+                ) : (
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#34d399] to-[#10b981] rounded-full flex items-center justify-center mr-4">
+                    <span className="text-white font-bold text-lg">
+                      {review.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                
+                <div className="flex-1">
+                  <h3 className="font-bold text-gray-900" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                    {review.name}
+                  </h3>
+                  {review.location && (
+                    <p className="text-sm text-gray-500">{review.location}</p>
+                  )}
+                  {review.occupation && (
+                    <p className="text-sm text-gray-500">{review.occupation}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Rating */}
+              <div className="flex items-center mb-3">
+                <div className="flex mr-2">
+                  {renderStars(review.rating)}
+                </div>
+                <span className="text-sm text-gray-600 font-medium">
+                  {review.rating}/5
+                </span>
+              </div>
+
+              {/* Review Title */}
+              {review.title && (
+                <h4 className="font-semibold text-gray-900 mb-2" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  "{review.title}"
+                </h4>
+              )}
+
+              {/* Review Content */}
+              <p className="text-gray-700 leading-relaxed mb-4">
+                {review.content}
+              </p>
+
+              {/* Date */}
+              <p className="text-xs text-gray-400">
+                {new Date(review.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Call to Action to Submit Review */}
+        <div className="text-center mt-16">
+          <div className="bg-gradient-to-r from-[#34d399]/10 to-[#10b981]/10 rounded-2xl p-8 border border-[#34d399]/20">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              Share your HouseTabz experience
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              Help other roommates discover the stress-free way to split bills. Your review could be the reason someone finally escapes the Teddy cycle!
+            </p>
+            <a
+              href="/submit-review"
+              className="inline-flex items-center gap-2 bg-[#34d399] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#10b981] transition-all duration-300 transform hover:scale-105"
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+              Write a Review
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ReviewsSection;

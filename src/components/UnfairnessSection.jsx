@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import frustratedTeddy from '../assets/frustratedteddy.png';
+import ReviewsSection from './ReviewsSection';
 
 const UnfairnessSection = () => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -348,6 +349,9 @@ const UnfairnessSection = () => {
         </div>
       </div>
     </section>
+
+    {/* Reviews Section */}
+    <ReviewsSection />
 
         {/* Call to Action */}
         <div className="relative text-center py-16 bg-gray-50 overflow-hidden rounded-3xl mx-6 my-8">

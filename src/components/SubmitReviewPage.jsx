@@ -98,7 +98,7 @@ const SubmitReviewPage = () => {
         submitFormData.append('profileImage', profilePicture);
       }
 
-      const response = await fetch('http://localhost:3004/api/reviews', {
+      const response = await fetch('https://api.housetabz.com/api/reviews', {
         method: 'POST',
         body: submitFormData
       });

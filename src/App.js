@@ -58,9 +58,9 @@ const AppContent = () => {
  useEffect(() => {
    const fetchReviews = async () => {
      try {
-       console.log('🔍 Fetching reviews from localhost:3004...');
+       console.log('🔍 Fetching reviews from production API...');
        setReviewsLoading(true);
-       const response = await fetch('http://localhost:3004/api/reviews/public?limit=6');
+       const response = await fetch('https://api.housetabz.com/api/reviews/public?limit=6');
        
        console.log('📡 Response status:', response.status);
        console.log('📡 Response ok:', response.ok);

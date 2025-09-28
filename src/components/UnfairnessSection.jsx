@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import frustratedTeddy from '../assets/frustratedteddy.png';
 
 const UnfairnessSection = () => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -6,7 +7,7 @@ const UnfairnessSection = () => {
   const [displayedMessages, setDisplayedMessages] = useState([]);
 
   // Chat messages with metadata - 2 weeks apart
-  const chatMessages = [
+  const chatMessages = useMemo(() => [
     { sender: 'Teddy', text: 'Can yall complete Venmo\'s soon', time: '2:14 PM', date: 'Sep 1', isGrouped: false },
     { sender: 'Teddy', text: 'Like any of them left a couple. Some of y\'all owe me a few.', time: '2:15 PM', date: 'Sep 1', isGrouped: true },
     { sender: 'Teddy', text: 'Need Venmo\'s.', time: '4:22 PM', date: 'Sep 15', isGrouped: false },
@@ -46,7 +47,7 @@ const UnfairnessSection = () => {
     { sender: 'Teddy', text: 'Can y\'all pay wifi Venmo please. After this I will just start including it into utilities so itll be one payment per month.', time: '5:30 PM', date: 'Apr 27', isGrouped: false },
     { sender: 'Teddy', text: 'Stratton also the only one who hasnt paid for utilities.', time: '8:15 PM', date: 'May 11', isGrouped: false },
     { sender: 'Teddy', text: 'Connor and Henry can y\'all pay me for internet.', time: '8:16 PM', date: 'May 11', isGrouped: true }
-  ];
+  ], []);
 
   // Start simulation
   const startSimulation = () => {
@@ -71,7 +72,7 @@ const UnfairnessSection = () => {
       }, 800); // Faster timing for better animation
     }
     return () => clearInterval(interval);
-  }, [isSimulationRunning, currentMessageIndex, chatMessages.length]);
+  }, [isSimulationRunning, currentMessageIndex, chatMessages]);
 
   const resetSimulation = () => {
     setIsSimulationRunning(false);
@@ -80,43 +81,16 @@ const UnfairnessSection = () => {
   };
 
   return (
+    <>
     <section className="relative py-12 px-6 bg-white overflow-hidden">
-      {/* Background Circles for White Space */}
-      <div className="absolute inset-0 -z-10 opacity-70">
-        {/* Scattered circles - bigger and more random */}
-        <div className="absolute top-12 left-8 w-40 h-40 bg-[#dff6f0] rounded-full opacity-60"></div>
-        <div className="absolute top-32 left-1/3 w-56 h-56 bg-[#dff6f0] rounded-full opacity-40"></div>
-        <div className="absolute top-20 right-1/4 w-48 h-48 bg-[#dff6f0] rounded-full opacity-50"></div>
-        <div className="absolute top-8 right-12 w-32 h-32 bg-[#dff6f0] rounded-full opacity-65"></div>
+      {/* Subtle Background Elements */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
+        {/* Light background tint */}
+        <div className="absolute inset-0 bg-gray-50/40"></div>
         
-        <div className="absolute top-1/5 left-16 w-44 h-44 bg-[#dff6f0] rounded-full opacity-45"></div>
-        <div className="absolute top-1/4 right-20 w-36 h-36 bg-[#dff6f0] rounded-full opacity-55"></div>
-        <div className="absolute top-1/3 left-2/3 w-52 h-52 bg-[#dff6f0] rounded-full opacity-35"></div>
-        
-        <div className="absolute top-2/5 left-4 w-60 h-60 bg-[#dff6f0] rounded-full opacity-30"></div>
-        <div className="absolute top-1/2 left-1/2 w-38 h-38 bg-[#dff6f0] rounded-full opacity-60"></div>
-        <div className="absolute top-3/5 right-8 w-46 h-46 bg-[#dff6f0] rounded-full opacity-45"></div>
-        
-        <div className="absolute bottom-1/3 left-1/5 w-50 h-50 bg-[#dff6f0] rounded-full opacity-40"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-42 h-42 bg-[#dff6f0] rounded-full opacity-55"></div>
-        <div className="absolute bottom-2/5 left-3/5 w-34 h-34 bg-[#dff6f0] rounded-full opacity-65"></div>
-        
-        <div className="absolute bottom-20 left-12 w-48 h-48 bg-[#dff6f0] rounded-full opacity-35"></div>
-        <div className="absolute bottom-16 right-16 w-40 h-40 bg-[#dff6f0] rounded-full opacity-50"></div>
-        <div className="absolute bottom-8 left-1/2 w-44 h-44 bg-[#dff6f0] rounded-full opacity-45"></div>
-        
-        {/* Additional scattered circles */}
-        <div className="absolute top-1/6 left-3/4 w-28 h-28 bg-[#dff6f0] rounded-full opacity-70"></div>
-        <div className="absolute top-3/4 left-1/8 w-54 h-54 bg-[#dff6f0] rounded-full opacity-30"></div>
-        <div className="absolute top-5/8 left-4/5 w-36 h-36 bg-[#dff6f0] rounded-full opacity-55"></div>
-        <div className="absolute bottom-1/6 right-3/4 w-32 h-32 bg-[#dff6f0] rounded-full opacity-60"></div>
-        <div className="absolute bottom-3/4 right-1/8 w-58 h-58 bg-[#dff6f0] rounded-full opacity-25"></div>
-        
-        {/* More random placement */}
-        <div className="absolute top-40 left-2/5 w-30 h-30 bg-[#dff6f0] rounded-full opacity-75"></div>
-        <div className="absolute top-60 right-2/5 w-26 h-26 bg-[#dff6f0] rounded-full opacity-80"></div>
-        <div className="absolute bottom-40 left-1/6 w-38 h-38 bg-[#dff6f0] rounded-full opacity-50"></div>
-        <div className="absolute bottom-60 right-1/6 w-42 h-42 bg-[#dff6f0] rounded-full opacity-40"></div>
+        {/* Simple geometric shapes - very subtle */}
+        <div className="absolute top-24 right-24 w-20 h-20 bg-green-100/25 rounded-full"></div>
+        <div className="absolute bottom-20 left-20 w-28 h-28 bg-green-50/20 rounded-full"></div>
       </div>
 
       <div className="relative max-w-4xl mx-auto z-10">
@@ -131,11 +105,12 @@ const UnfairnessSection = () => {
           </p>
         </div>
 
+
         {/* Controls and Note */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           {/* Controls */}
           <div className="mb-4">
-            <p className="text-lg font-semibold text-gray-800 mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '0em' }}>Watch the Simulation</p>
+            <p className="text-lg font-semibold text-gray-800 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '0em' }}>Watch the Simulation</p>
             <div className="flex justify-center gap-3">
               {!isSimulationRunning && displayedMessages.length === 0 && (
                 <button
@@ -159,7 +134,7 @@ const UnfairnessSection = () => {
                 </button>
               )}
               
-              {displayedMessages.length > 0 && (
+              {displayedMessages.length > 0 && !isSimulationRunning && (
                 <button
                   onClick={resetSimulation}
                   className="bg-gray-500 text-white p-3 rounded-full hover:bg-gray-600 transition-colors duration-200"
@@ -171,12 +146,28 @@ const UnfairnessSection = () => {
               )}
             </div>
           </div>
-          
-          
+
+          {/* Note */}
+          <div className="mb-8">
+            <p className="text-sm text-gray-500">
+              * These are real messages from Walt's junior year of college
+            </p>
+          </div>
         </div>
 
-        {/* Phone Mockup with Chat Interface */}
-        <div className="relative max-w-xs mx-auto mb-8">
+        {/* Phone Mockup with Chat Interface and Frustrated Teddy */}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 mb-8 max-w-6xl mx-auto">
+          {/* Frustrated Teddy Image */}
+          <div className="flex-shrink-0 lg:order-1">
+            <img 
+              src={frustratedTeddy} 
+              alt="Frustrated Teddy crossing his arms" 
+              className="w-80 h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] object-contain drop-shadow-lg"
+            />
+          </div>
+          
+          {/* Phone Mockup */}
+          <div className="relative max-w-xs mx-auto lg:order-2">
           {/* Wave Background */}
           <div className="absolute inset-0 -z-10 transform scale-200">
             <svg viewBox="0 0 400 400" className="w-full h-full">
@@ -354,31 +345,17 @@ const UnfairnessSection = () => {
             </div>
           </div>
         </div>
-
+        </div>
+      </div>
+    </section>
 
         {/* Call to Action */}
         <div className="relative text-center py-16 bg-gray-50 overflow-hidden rounded-3xl mx-6 my-8">
-          {/* Background Pattern - Orbs All Around */}
-          <div className="absolute inset-0 opacity-30">
-            {/* Top Row */}
-            <div className="absolute top-5 left-5 w-20 h-20 bg-[#34d399] rounded-full blur-2xl opacity-15"></div>
-            <div className="absolute top-10 left-1/4 w-32 h-32 bg-[#10b981] rounded-full blur-3xl opacity-20"></div>
-            <div className="absolute top-8 left-1/2 w-16 h-16 bg-[#059669] rounded-full blur-xl opacity-25"></div>
-            <div className="absolute top-12 right-1/4 w-28 h-28 bg-[#34d399] rounded-full blur-2xl opacity-18"></div>
-            <div className="absolute top-6 right-5 w-24 h-24 bg-[#10b981] rounded-full blur-2xl opacity-22"></div>
-            
-            {/* Middle Row */}
-            <div className="absolute top-1/3 left-2 w-36 h-36 bg-[#34d399] rounded-full blur-3xl opacity-12"></div>
-            <div className="absolute top-1/2 left-1/3 w-20 h-20 bg-[#059669] rounded-full blur-xl opacity-28"></div>
-            <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-[#10b981] rounded-full blur-2xl opacity-16"></div>
-            <div className="absolute top-1/3 right-2 w-24 h-24 bg-[#34d399] rounded-full blur-2xl opacity-24"></div>
-            
-            {/* Bottom Row */}
-            <div className="absolute bottom-5 left-5 w-28 h-28 bg-[#059669] rounded-full blur-2xl opacity-20"></div>
-            <div className="absolute bottom-12 left-1/4 w-40 h-40 bg-[#34d399] rounded-full blur-3xl opacity-14"></div>
-            <div className="absolute bottom-8 left-1/2 w-18 h-18 bg-[#10b981] rounded-full blur-xl opacity-26"></div>
-            <div className="absolute bottom-10 right-1/4 w-32 h-32 bg-[#059669] rounded-full blur-2xl opacity-19"></div>
-            <div className="absolute bottom-6 right-5 w-26 h-26 bg-[#34d399] rounded-full blur-2xl opacity-21"></div>
+          {/* Subtle Background Elements */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl">
+            {/* Very light pattern */}
+            <div className="absolute top-12 right-12 w-16 h-16 bg-green-200/15 rounded-full"></div>
+            <div className="absolute bottom-16 left-12 w-12 h-12 bg-green-100/20 rounded-full"></div>
           </div>
           {/* Stat */}
           <div className="relative mb-12">
@@ -417,26 +394,26 @@ const UnfairnessSection = () => {
             >
               {/* Animated background shine */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              
+
               {/* Apple logo with subtle animation */}
-              <svg className="w-7 h-7 group-hover:rotate-12 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              <svg className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
               </svg>
-              
+
               {/* Text with subtle animation */}
               <span className="relative z-10 group-hover:text-white transition-colors duration-300">
                 Download on TestFlight
               </span>
-              
+
               {/* Arrow with bounce animation */}
               <svg className="w-5 h-5 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
-              
+
               {/* Pulse effect on hover */}
               <div className="absolute inset-0 rounded-3xl bg-white/10 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></div>
             </a>
-            
+
             <p className="text-sm text-gray-500 mt-4 flex items-center justify-center gap-2">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
@@ -445,18 +422,17 @@ const UnfairnessSection = () => {
             </p>
           </div>
         </div>
-      </div>
 
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
-        }
-      `}</style>
-    </section>
+    <style jsx>{`
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+    `}</style>
+    </>
   );
 };
 

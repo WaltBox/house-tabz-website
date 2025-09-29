@@ -61,35 +61,26 @@ const LandingPage = () => {
             HouseTabz allows houses to pay for shared recurring expenses together.
           </p>
 
-          {/* Hashtags */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <span 
-              className="bg-[#34d399] text-white px-6 py-3 rounded-full text-lg md:text-xl font-bold shadow-lg"
+          {/* Bye Bye Message */}
+          <div className="flex justify-center mb-8">
+            <div 
+              className="bg-[#34d399] text-white px-8 py-4 rounded-full text-xl md:text-2xl font-bold shadow-xl flex items-center gap-3"
               style={{
                 opacity: 0,
                 transform: 'translateY(20px)',
                 animation: 'fadeInUp 1s ease-out 0.5s forwards'
               }}
             >
-              #nomorefrontingbills
-            </span>
-            <span 
-              className="bg-[#34d399] text-white px-8 py-4 rounded-full text-xl md:text-2xl font-bold shadow-xl"
-              style={{
-                opacity: 0,
-                transform: 'translateY(20px)',
-                animation: 'fadeInUp 1s ease-out 1s forwards'
-              }}
-            >
-              #nomore<span style={{ 
+              <span>Bye Bye Pending</span>
+              <span style={{ 
                 color: '#3D95CE',
                 backgroundColor: 'white',
-                padding: '2px 8px',
+                padding: '4px 12px',
                 borderRadius: '12px',
-                margin: '0 2px',
                 fontWeight: 'bold'
-              }}>venmo</span>requests
-            </span>
+              }}>venmo</span>
+              <span>Requests</span>
+            </div>
           </div>
 
           <style>{`

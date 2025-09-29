@@ -19,6 +19,16 @@ const LandingPage = () => {
     } else {
       setFontLoaded(true);
     }
+
+    // Load Montserrat and Oswald fonts
+    const existingMontserrat = document.querySelector('link[href*="Montserrat"]');
+    if (!existingMontserrat) {
+      const montserratLink = document.createElement('link');
+      montserratLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Oswald:wght@700&display=swap';
+      montserratLink.rel = 'stylesheet';
+      montserratLink.id = 'montserrat-font-link';
+      document.head.appendChild(montserratLink);
+    }
   }, []);
 
   return (
@@ -61,25 +71,59 @@ const LandingPage = () => {
             HouseTabz allows houses to pay for shared recurring expenses together.
           </p>
 
-          {/* Bye Bye Message */}
-          <div className="flex justify-center mb-8">
-            <div 
-              className="bg-[#34d399] text-white px-8 py-4 rounded-full text-xl md:text-2xl font-bold shadow-xl flex items-center gap-3"
+          {/* Two Line Message */}
+          <div className="text-center mb-8">
+            {/* First Line - Bye, Bye */}
+            <h2 
+              className="text-5xl md:text-6xl lg:text-7xl font-black mb-2"
               style={{
+                color: '#34d399',
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 900,
+                letterSpacing: '-0.03em',
                 opacity: 0,
                 transform: 'translateY(20px)',
                 animation: 'fadeInUp 1s ease-out 0.5s forwards'
               }}
             >
-              <span>Bye Bye Pending</span>
-              <span style={{ 
-                color: '#3D95CE',
-                backgroundColor: 'white',
-                padding: '4px 12px',
-                borderRadius: '12px',
-                fontWeight: 'bold'
-              }}>venmo</span>
-              <span>Requests</span>
+              Bye, Bye
+            </h2>
+            
+            {/* Second Line - Pending VENMO Requests */}
+            <div 
+              className="flex justify-center items-center gap-3 flex-wrap"
+              style={{
+                opacity: 0,
+                transform: 'translateY(20px)',
+                animation: 'fadeInUp 1s ease-out 0.7s forwards'
+              }}
+            >
+              <span 
+                className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800"
+                style={{ fontFamily: "'Oswald', sans-serif", letterSpacing: '0.02em' }}
+              >
+                Pending
+              </span>
+              
+              <div className="inline-flex items-center bg-[#3D95CE] px-4 py-2 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-200">
+                <span 
+                  className="text-white font-black text-2xl md:text-3xl"
+                  style={{ 
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: 900,
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  Venmo
+                </span>
+              </div>
+              
+              <span 
+                className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800"
+                style={{ fontFamily: "'Oswald', sans-serif", letterSpacing: '0.02em' }}
+              >
+                Requests
+              </span>
             </div>
           </div>
 

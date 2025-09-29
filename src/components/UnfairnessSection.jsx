@@ -431,6 +431,7 @@ const UnfairnessSection = ({ reviews, reviewsStats, reviewsLoading }) => {
           </div>
         </div>
 
+
     <style jsx>{`
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }

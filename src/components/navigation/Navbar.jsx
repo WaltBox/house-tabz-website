@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -11,6 +12,10 @@ const Navbar = () => {
   const closeMenu = () => {
     setMenuOpen(false);
   };
+
+  // Check if we're on a non-home page to turn HouseTabz black
+  const isOnHomePage = location.pathname === '/';
+  const logoColor = isOnHomePage ? '#34d399' : '#000000';
 
   // Import Montserrat font
   useEffect(() => {
@@ -58,22 +63,36 @@ const Navbar = () => {
             className="h-10 md:h-12 w-auto"
           />
           <span
-            className="text-2xl md:text-3xl font-extrabold tracking-tight"
+            className="text-2xl md:text-3xl font-extrabold tracking-tight transition-colors duration-300"
             style={{ 
               fontFamily: "'Montserrat', sans-serif",
-              color: '#34d399'
+              color: logoColor
             }}
           >
             HouseTabz
           </span>
         </Link>
-        {/* "For Business" visible only on desktop */}
-        <div className="hidden md:block">
+        {/* Navigation buttons visible only on desktop */}
+        <div className="hidden md:flex gap-3">
           <Link
             to="/business"
-            className="text-sm font-medium bg-gray-100 text-gray-700 py-1.5 px-5 rounded-full shadow-sm hover:bg-gray-200 hover:shadow-md transition duration-300"
+            className={`text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 ${
+              location.pathname === '/business'
+                ? 'bg-[#34d399] text-white shadow-lg'
+                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
+            }`}
           >
             For Business
+          </Link>
+          <Link
+            to="/landlords"
+            className={`text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 ${
+              location.pathname === '/landlords'
+                ? 'bg-[#34d399] text-white shadow-lg'
+                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
+            }`}
+          >
+            For Landlords
           </Link>
         </div>
       </div>
@@ -112,9 +131,24 @@ const Navbar = () => {
           <Link
             to="/business"
             onClick={closeMenu}
-            className="text-sm font-medium text-gray-700 hover:text-[#34d399] transition duration-300"
+            className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
+              location.pathname === '/business'
+                ? 'bg-[#34d399] text-white'
+                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
+            }`}
           >
             For Business
+          </Link>
+          <Link
+            to="/landlords"
+            onClick={closeMenu}
+            className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
+              location.pathname === '/landlords'
+                ? 'bg-[#34d399] text-white'
+                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
+            }`}
+          >
+            For Landlords
           </Link>
         </div>
       )}

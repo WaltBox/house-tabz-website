@@ -35,6 +35,7 @@ import DuckedPage from './components/DuckedPage';
 import MaisonPage from './components/MaisonPage';
 import MetWaltPage from './components/MetWaltPage';
 import SubmitReviewPage from './components/SubmitReviewPage';
+import LandlordsPage from './components/LandlordsPage';
 const MainLayout = ({ children }) => (
  <>
    <Navbar />
@@ -118,11 +119,17 @@ const AppContent = () => {
          </MainLayout>
        } />
 
-       <Route path="/business" element={
-         <MainLayout>
-           <BusinessPage />
-         </MainLayout>
-       } />
+      <Route path="/business" element={
+        <MainLayout>
+          <BusinessPage />
+        </MainLayout>
+      } />
+
+      <Route path="/landlords" element={
+        <MainLayout>
+          <LandlordsPage />
+        </MainLayout>
+      } />
 
        <Route path="/vip" element={
          <MainLayout>

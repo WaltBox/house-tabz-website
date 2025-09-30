@@ -147,12 +147,7 @@ const MetWaltPage = () => {
           </div>
 
           {/* Back to site */}
-          <Link 
-            to="/" 
-            className="inline-block text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium"
-          >
-            ← Back to HouseTabz
-          </Link>
+       
         </div>
       </div>
     );
@@ -294,15 +289,7 @@ const MetWaltPage = () => {
           </div>
         </div>
 
-        {/* Bottom Link */}
-        <div className="text-center">
-          <Link 
-            to="/" 
-            className="text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium"
-          >
-            ← Back to HouseTabz
-          </Link>
-        </div>
+    
       </div>
       
       {/* Footer */}

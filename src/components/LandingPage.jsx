@@ -75,7 +75,7 @@ const LandingPage = () => {
           <div className="text-center mb-8">
             {/* First Line - Bye, Bye */}
             <h2 
-              className="text-5xl md:text-6xl lg:text-7xl font-black mb-2"
+              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-2"
               style={{
                 color: '#34d399',
                 fontFamily: "'Montserrat', sans-serif",
@@ -127,15 +127,6 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <style>{`
-            @keyframes fadeInUp {
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-          `}</style>
-
           {/* Hero Image */}
           <div className="w-full mt-8 flex justify-center">
             <img
@@ -145,6 +136,15 @@ const LandingPage = () => {
               style={{ maxHeight: '500px' }}
             />
           </div>
+
+          <style>{`
+            @keyframes fadeInUp {
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+          `}</style>
       </div>
     </section>
   );

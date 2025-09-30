@@ -25,9 +25,7 @@ const ReviewsSection = ({ reviews = [], reviewsStats = null, reviewsLoading = fa
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
               What our users say
             </h2>
-            <p className="text-xl text-gray-600 font-medium">
-              Real feedback from real roommates
-            </p>
+          
           </div>
           
           <div className="flex justify-center">
@@ -68,9 +66,7 @@ const ReviewsSection = ({ reviews = [], reviewsStats = null, reviewsLoading = fa
           <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4" style={{ fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.03em' }}>
             What our users say
           </h2>
-          <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto mb-6">
-            Real feedback from real roommates who've experienced the HouseTabz difference
-          </p>
+    
           
           {/* Statistics */}
           {reviewsStats && reviewsStats.totalReviews > 0 && (

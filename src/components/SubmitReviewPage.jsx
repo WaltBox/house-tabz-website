@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import imageCompression from 'browser-image-compression';
 
 const SubmitReviewPage = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const SubmitReviewPage = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       // Validate file type
@@ -37,26 +38,54 @@ const SubmitReviewPage = () => {
         return;
       }
 
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
+      // Validate file size (10MB max before compression)
+      if (file.size > 10 * 1024 * 1024) {
         setSubmitStatus({
           type: 'error',
-          message: 'Image must be smaller than 5MB'
+          message: 'Image must be smaller than 10MB'
         });
         return;
       }
 
-      setProfilePicture(file);
-      
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewUrl(e.target.result);
-      };
-      reader.readAsDataURL(file);
-      
-      // Clear any previous error
-      setSubmitStatus(null);
+      try {
+        // Show compressing status
+        setSubmitStatus({
+          type: 'info',
+          message: 'Compressing image...'
+        });
+
+        // Compression options
+        const options = {
+          maxSizeMB: 0.5, // Maximum file size in MB (500KB)
+          maxWidthOrHeight: 800, // Max width/height in pixels
+          useWebWorker: true,
+          fileType: 'image/jpeg' // Convert to JPEG for better compression
+        };
+
+        // Compress the image
+        const compressedFile = await imageCompression(file, options);
+        
+        console.log('Original file size:', (file.size / 1024 / 1024).toFixed(2), 'MB');
+        console.log('Compressed file size:', (compressedFile.size / 1024 / 1024).toFixed(2), 'MB');
+
+        setProfilePicture(compressedFile);
+        
+        // Create preview URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setPreviewUrl(e.target.result);
+        };
+        reader.readAsDataURL(compressedFile);
+        
+        // Clear any previous error
+        setSubmitStatus(null);
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        setSubmitStatus({
+          type: 'error',
+          message: 'Failed to process image. Please try a different image.'
+        });
+      }
     }
   };
 
@@ -239,7 +268,7 @@ const SubmitReviewPage = () => {
               </div>
             )}
             <p className="text-sm text-gray-500 mt-2">
-              JPG, PNG, GIF, or WebP • Max 5MB
+              JPG, PNG, GIF, or WebP • Max 10MB (will be compressed)
             </p>
           </div>
 
@@ -390,6 +419,8 @@ const SubmitReviewPage = () => {
           <div className={`mt-6 p-4 rounded-xl text-center font-medium ${
             submitStatus.type === 'success' 
               ? 'bg-[#34d399]/10 text-[#34d399]' 
+              : submitStatus.type === 'info'
+              ? 'bg-blue-50 text-blue-600'
               : 'bg-red-50 text-red-600'
           }`}>
             {submitStatus.message}

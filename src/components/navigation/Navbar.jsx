@@ -16,6 +16,9 @@ const Navbar = () => {
   // Check if we're on a non-home page to turn HouseTabz black
   const isOnHomePage = location.pathname === '/';
   const logoColor = isOnHomePage ? '#34d399' : '#000000';
+  const logoSrc = isOnHomePage 
+    ? "https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+    : require("../../assets/black-logo-wink.png");
 
   // Import Montserrat font
   useEffect(() => {
@@ -59,7 +62,7 @@ const Navbar = () => {
         className="flex items-center gap-3 hover:opacity-80 transition duration-300"
       >
         <img
-          src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+          src={logoSrc}
           alt="HouseTabz logo"
           className="h-8 w-auto"
         />

@@ -50,56 +50,52 @@ const Navbar = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="navbar bg-white shadow-lg py-4 px-8 flex justify-between items-center fixed top-0 left-0 w-full z-50">
-      {/* Left: Brand Name */}
-      <div className="flex items-center gap-6">
-        <Link
-          to="/"
-          className="flex items-center gap-3 hover:opacity-80 transition duration-300"
+    <>
+      <div className="fixed top-0 left-0 w-full h-24 bg-[#34d399] z-40"></div>
+      <nav className="navbar bg-white rounded-full py-4 px-8 flex justify-between items-center fixed top-4 left-4 right-4 z-50 shadow-lg">
+      {/* Left: Brand Name with Logo - Keep original HouseTabz branding */}
+      <Link
+        to="/"
+        className="flex items-center gap-3 hover:opacity-80 transition duration-300"
+      >
+        <img
+          src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
+          alt="HouseTabz logo"
+          className="h-8 w-auto"
+        />
+        <span
+          className="text-xl font-bold tracking-tight transition-colors duration-300"
+          style={{ 
+            fontFamily: "'Montserrat', sans-serif",
+            color: logoColor
+          }}
         >
-          <img
-            src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
-            alt="HouseTabz logo"
-            className="h-10 md:h-12 w-auto"
-          />
-          <span
-            className="text-2xl md:text-3xl font-extrabold tracking-tight transition-colors duration-300"
-            style={{ 
-              fontFamily: "'Montserrat', sans-serif",
-              color: logoColor
-            }}
-          >
-            HouseTabz
-          </span>
-        </Link>
-        {/* Navigation buttons visible only on desktop */}
-        <div className="hidden md:flex gap-3">
-          <Link
-            to="/business"
-            className={`text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 ${
-              location.pathname === '/business'
-                ? 'bg-[#34d399] text-white shadow-lg'
-                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
-            }`}
-          >
-            For Business
-          </Link>
-          <Link
-            to="/landlords"
-            className={`text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 ${
-              location.pathname === '/landlords'
-                ? 'bg-[#34d399] text-white shadow-lg'
-                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
-            }`}
-          >
-            For Landlords
-          </Link>
-        </div>
-      </div>
+          HouseTabz
+        </span>
+      </Link>
 
-      {/* Right: Desktop Buttons - Removed for minimal design */}
-      <div className="hidden md:flex gap-4 items-center">
-        {/* Buttons removed for cleaner design */}
+      {/* Right: Navigation Links - Keep original navigation */}
+      <div className="hidden md:flex gap-6 items-center">
+        <Link
+          to="/business"
+          className={`text-sm font-medium transition-colors duration-300 ${
+            location.pathname === '/business'
+              ? 'text-[#34d399]'
+              : 'text-gray-700 hover:text-[#34d399]'
+          }`}
+        >
+          For Business
+        </Link>
+        <Link
+          to="/landlords"
+          className={`text-sm font-medium transition-colors duration-300 ${
+            location.pathname === '/landlords'
+              ? 'text-[#34d399]'
+              : 'text-gray-700 hover:text-[#34d399]'
+          }`}
+        >
+          For Landlords
+        </Link>
       </div>
 
       {/* Right: Mobile Menu */}
@@ -152,7 +148,8 @@ const Navbar = () => {
           </Link>
         </div>
       )}
-    </nav>
+      </nav>
+    </>
   );
 };
 

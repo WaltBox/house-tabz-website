@@ -222,7 +222,7 @@ const MetWaltPage = () => {
                 Adding you...
               </span>
             ) : (
-              "Join Waitlist"
+              "Join Walt's List"
             )}
           </button>
         </form>

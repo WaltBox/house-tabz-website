@@ -283,7 +283,7 @@ const MetWaltPage = () => {
             </p>
             
             <p>
-              I believe people choose to live alone because they crave independence. I think that living alone is not healty and leads to isolation and loneliness. With HouseTabz, my mission is to bring the same sense of independence, while making it easier and more rewarding to live together.
+              I believe people choose to live alone because they crave independence. I think that living alone is not healty and leads to isolation and loneliness.</p> <p>With HouseTabz, my mission is to bring the same sense of independence, while making it easier and more rewarding to live together.</p>
             
             <p className="font-semibold text-[#34d399] text-center pt-4 border-t border-gray-100">
               Shared expenses should not contribute to a negative perception of shared living.

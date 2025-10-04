@@ -283,9 +283,11 @@ const UnfairnessSection = ({ reviews, reviewsStats, reviewsLoading }) => {
                         message.isGrouped ? 'mb-1' : 'mb-3'
                       }`}>
                         <div className="max-w-[85%]">
-                          {/* Show sender name only for first message in group and non-Teddy messages */}
-                          {isFirstInGroup && message.sender !== 'Teddy' && (
-                            <p className="text-xs text-gray-500 mb-1 text-right">{message.sender}</p>
+                          {/* Show sender name for first message in group */}
+                          {isFirstInGroup && (
+                            <p className={`text-xs text-gray-500 mb-1 ${
+                              message.sender === 'Teddy' ? 'text-left' : 'text-right'
+                            }`}>{message.sender}</p>
                           )}
                           
                           <div className={`${

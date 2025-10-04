@@ -99,6 +99,19 @@ const Navbar = () => {
         >
           For Landlords
         </Link>
+        <Link
+          to="/met-walt"
+          className={`text-sm font-medium transition-colors duration-300 ${
+            location.pathname === '/met-walt'
+              ? 'text-[#34d399]'
+              : 'text-gray-700 hover:text-[#34d399]'
+          }`}
+        >
+          Meet Walt
+        </Link>
+        <div className="text-xs text-gray-600">
+          Text me or call me if you have any questions. (806) 316-1686
+        </div>
       </div>
 
       {/* Right: Mobile Menu */}
@@ -148,6 +161,17 @@ const Navbar = () => {
             }`}
           >
             For Landlords
+          </Link>
+          <Link
+            to="/met-walt"
+            onClick={closeMenu}
+            className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
+              location.pathname === '/met-walt'
+                ? 'bg-[#34d399] text-white'
+                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
+            }`}
+          >
+            Meet Walt
           </Link>
         </div>
       )}

@@ -174,10 +174,13 @@ const MetWaltPage = () => {
           </div>
           
           <h2 className="text-3xl font-black text-gray-900 mb-3">
-            Hey! You met Walt
+            Hey! Meet Walt
           </h2>
           <p className="text-lg text-gray-600 font-medium mb-6">
             Enter your info so you can use HouseTabz!
+          </p>
+          <p className="text-sm text-gray-500 mb-6">
+            Questions? Text or call me: (806) 316-1686
           </p>
         </div>
 

@@ -109,9 +109,6 @@ const Navbar = () => {
         >
           Meet Walt
         </Link>
-        <div className="text-xs text-gray-600">
-          Text me or call me if you have any questions. (806) 316-1686
-        </div>
       </div>
 
       {/* Right: Mobile Menu */}

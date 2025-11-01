@@ -100,14 +100,14 @@ const Navbar = () => {
           For Landlords
         </Link> */}
         <Link
-          to="/met-walt"
+          to="/about"
           className={`text-sm font-medium transition-colors duration-300 ${
-            location.pathname === '/met-walt'
+            location.pathname === '/about'
               ? 'text-[#34d399]'
               : 'text-gray-700 hover:text-[#34d399]'
           }`}
         >
-          Meet Walt
+          About
         </Link>
       </div>
 
@@ -138,37 +138,15 @@ const Navbar = () => {
       {menuOpen && (
         <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg py-4 px-6 flex flex-col gap-4 md:hidden">
           <Link
-            to="/business"
+            to="/about"
             onClick={closeMenu}
             className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-              location.pathname === '/business'
+              location.pathname === '/about'
                 ? 'bg-[#34d399] text-white'
                 : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
             }`}
           >
-            For Business
-          </Link>
-          <Link
-            to="/landlords"
-            onClick={closeMenu}
-            className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-              location.pathname === '/landlords'
-                ? 'bg-[#34d399] text-white'
-                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
-            }`}
-          >
-            For Landlords
-          </Link>
-          <Link
-            to="/met-walt"
-            onClick={closeMenu}
-            className={`text-sm font-medium py-2 px-3 rounded-lg transition-all duration-300 ${
-              location.pathname === '/met-walt'
-                ? 'bg-[#34d399] text-white'
-                : 'text-gray-700 hover:text-[#34d399] hover:bg-gray-50'
-            }`}
-          >
-            Meet Walt
+            About
           </Link>
         </div>
       )}

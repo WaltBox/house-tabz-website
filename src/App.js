@@ -137,12 +137,6 @@ const AppContent = () => {
          </MainLayout>
        } />
 
-       <Route path="/about" element={
-         <MainLayout>
-           <AboutUs />
-         </MainLayout>
-       } />
-
        <Route path="/how-it-works" element={
          <MainLayout>
            <HowItWorks />
@@ -226,7 +220,7 @@ const AppContent = () => {
   </MainLayout>
 } />
 
-<Route path="/met-walt" element={
+<Route path="/about" element={
   <MainLayout>
     <MetWaltPage />
   </MainLayout>

@@ -7,6 +7,7 @@ import Footer from './Footer';
 const MetWaltPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
+    email: '',
     phone: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,19 +35,50 @@ const MetWaltPage = () => {
     }
   }, []);
 
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digit characters
+    const phoneNumber = value.replace(/\D/g, '');
+    
+    // Format as (XXX) XXX-XXXX
+    if (phoneNumber.length <= 3) {
+      return phoneNumber;
+    } else if (phoneNumber.length <= 6) {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    } else {
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    // Apply phone formatting if it's the phone field
+    if (name === 'phone') {
+      const formattedPhone = formatPhoneNumber(value);
+      setFormData(prev => ({
+        ...prev,
+        [name]: formattedPhone
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.firstName.trim() || !formData.phone.trim()) {
-      setSubmitStatus({ type: 'error', message: 'Please fill in both fields!' });
+    if (!formData.firstName.trim() || !formData.email.trim() || !formData.phone.trim()) {
+      setSubmitStatus({ type: 'error', message: 'Please fill in all fields!' });
+      return;
+    }
+
+    // Validate phone number has 10 digits
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10) {
+      setSubmitStatus({ type: 'error', message: 'Please enter a valid 10-digit phone number!' });
       return;
     }
 
@@ -54,14 +86,15 @@ const MetWaltPage = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch('https://api.housetabz.com/api/waitlist2', {
+      const response = await fetch('http://localhost:3004/api/waitlist2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           firstName: formData.firstName.trim(),
-          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          phone: phoneDigits, // Send only digits
           source: 'met-walt'
         }),
       });
@@ -71,7 +104,7 @@ const MetWaltPage = () => {
       if (response.ok) {
         setSubmitStatus({ 
           type: 'success', 
-          message: `You're on the list, ${formData.firstName}! 🎉` 
+          message: `Check your email for your Dawg Mode Code, ${formData.firstName}! 🎉` 
         });
         setShowSuccess(true);
       } else if (response.status === 409) {
@@ -98,56 +131,50 @@ const MetWaltPage = () => {
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-white pt-24 px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-        {/* Subtle background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-32 right-20 w-32 h-32 bg-[#34d399]/6 rounded-full"></div>
-          <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#34d399]/8 rounded-full"></div>
-          <div className="absolute top-1/2 left-1/3 w-16 h-16 bg-[#34d399]/4 rounded-full"></div>
-        </div>
-
-        <div className="max-w-md w-full text-center relative z-10 mx-auto">
+      <div className="min-h-screen bg-white pt-40 px-4" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="max-w-lg w-full text-center relative z-10 mx-auto">
+          
+          {/* Simple success checkmark */}
           <div className="mb-8">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <img
-                src="https://housetabz-assets.s3.us-east-1.amazonaws.com/assets/housetabzlogo-update.png"
-                alt="HouseTabz logo"
-                className="h-20 w-auto"
-              />
+            <div className="w-20 h-20 bg-[#34d399] rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
             </div>
             
-            <h2 className="text-3xl font-black text-gray-900 mb-3">
-              You're in, {formData.firstName}! 
-            </h2>
-            <p className="text-lg text-gray-600 font-medium mb-8">
-              We'll text you how to get setup! Thank you so much!!
+            <h1 className="text-4xl font-black text-gray-900 mb-4">
+              Check Your Email! 🐶
+            </h1>
+            
+            <p className="text-lg text-gray-600 mb-2">
+              Hey {formData.firstName}, your Dawg Mode Code is on its way to:
             </p>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-6 mb-8">
-            <div className="text-center">
-              <div className="text-2xl font-black text-[#34d399] mb-1">$25,000+</div>
-              <div className="text-sm text-gray-600 font-medium">Bills paid using HouseTabz</div>
+            <p className="text-xl font-bold text-[#34d399] mb-6">
+              {formData.email}
+            </p>
+            
+            <div className="bg-gray-50 rounded-xl p-6 mb-8">
+              <p className="text-gray-700 font-medium mb-3">
+                🎉 You and all your roommates get free access to HouseTabz!
+              </p>
+              <p className="text-sm text-gray-600">
+                Download the app, enter your code, and invite your house.
+              </p>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-black text-[#34d399] mb-1">0</div>
-              <div className="text-sm text-gray-600 font-medium">Venmo requests needed</div>
-            </div>
           </div>
 
-          {/* Hashtags */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
-              #nomorefrontingbills
-            </span>
-            <span className="bg-[#34d399] text-white px-4 py-2 rounded-full text-sm font-semibold">
-              #nomorevenmorequests
-            </span>
+          {/* Simple contact section */}
+          <div className="border-t border-gray-200 pt-6">
+            <p className="text-sm text-gray-600 mb-3">
+              Questions or didn't receive your code?
+            </p>
+            <a 
+              href="tel:8063161686" 
+              className="text-[#34d399] font-semibold hover:text-[#10b981] transition-colors"
+            >
+              Text Walt: (806) 316-1686
+            </a>
           </div>
-
-          {/* Back to site */}
-       
         </div>
       </div>
     );
@@ -174,13 +201,16 @@ const MetWaltPage = () => {
           </div>
           
           <h2 className="text-3xl font-black text-gray-900 mb-3">
-            Hey! Meet Walt
+            Get Your Dawg Mode Code! 🐶
           </h2>
-          <p className="text-lg text-gray-600 font-medium mb-6">
-            Enter your info so you can use HouseTabz!
+          <p className="text-lg text-gray-600 font-medium mb-3">
+            Enter your information to receive a Dawg Mode Code
+          </p>
+          <p className="text-sm text-[#34d399] font-semibold mb-6">
+            🎉 Dawg Mode gives you and all your roommates free access to HouseTabz!
           </p>
           <p className="text-sm text-gray-500 mb-6">
-            Questions? Text or call me: (806) 316-1686
+            Questions? Text or call Walt: (806) 316-1686
           </p>
         </div>
 
@@ -201,11 +231,26 @@ const MetWaltPage = () => {
 
           <div>
             <input
+              type="email"
+              name="email"
+              placeholder="Your email address"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full py-4 px-4 bg-gray-50 text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all duration-300 font-medium placeholder-gray-500"
+              disabled={isSubmitting}
+              required
+            />
+          </div>
+
+          <div>
+            <input
               type="tel"
               name="phone"
-              placeholder="Your phone number"
+              placeholder="(555) 123-4567"
               value={formData.phone}
               onChange={handleChange}
+              maxLength={14}
+              inputMode="numeric"
               className="w-full py-4 px-4 bg-gray-50 text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#34d399] focus:border-transparent transition-all duration-300 font-medium placeholder-gray-500"
               disabled={isSubmitting}
             />
@@ -219,10 +264,10 @@ const MetWaltPage = () => {
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Adding you...
+                Sending your code...
               </span>
             ) : (
-              "Join Walt's List"
+              "Get My Dawg Mode Code 🐶"
             )}
           </button>
         </form>

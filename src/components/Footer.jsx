@@ -89,14 +89,14 @@ const Footer = () => {
             Quick Links
           </h3>
           <ul className="space-y-4 mb-8">
-            <li>
+            {/* <li>
               <Link to="/waitlist" className="text-base text-gray-700 hover:text-[#34d399] transition-colors duration-300 font-medium">
                 Become a Homie
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/met-walt" className="text-base text-gray-700 hover:text-[#34d399] transition-colors duration-300 font-medium">
-                I met Walt!
+                Meet Walt!
               </Link>
             </li>
             <li>

@@ -79,7 +79,7 @@ const Navbar = () => {
 
       {/* Right: Navigation Links - Keep original navigation */}
       <div className="hidden md:flex gap-6 items-center">
-        <Link
+        {/* <Link
           to="/business"
           className={`text-sm font-medium transition-colors duration-300 ${
             location.pathname === '/business'
@@ -88,8 +88,8 @@ const Navbar = () => {
           }`}
         >
           For Business
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           to="/landlords"
           className={`text-sm font-medium transition-colors duration-300 ${
             location.pathname === '/landlords'
@@ -98,7 +98,7 @@ const Navbar = () => {
           }`}
         >
           For Landlords
-        </Link>
+        </Link> */}
         <Link
           to="/met-walt"
           className={`text-sm font-medium transition-colors duration-300 ${

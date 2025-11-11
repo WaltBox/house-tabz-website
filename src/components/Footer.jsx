@@ -99,11 +99,11 @@ const Footer = () => {
                 Meet Walt!
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/terms" className="text-base text-gray-700 hover:text-[#34d399] transition-colors duration-300 font-medium">
                 Terms of Service
               </Link>
-            </li>
+            </li> */}
           </ul>
           
           <h3 className="text-xl font-black text-[#34d399] mb-6" style={{ letterSpacing: '-0.02em' }}>
@@ -182,9 +182,9 @@ const Footer = () => {
           © {new Date().getFullYear()} HouseTabz. All rights reserved.
         </p>
         <div className="mt-4 sm:mt-0 flex items-center gap-6">
-          <Link to="/terms" className="text-sm text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium">
+          {/* <Link to="/terms" className="text-sm text-gray-600 hover:text-[#34d399] transition-colors duration-300 font-medium">
             Terms of Service
-          </Link>
+          </Link> */}
           <a 
             href="https://testflight.apple.com/join/QAMFMXVJ" 
             target="_blank" 
